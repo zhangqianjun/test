@@ -1,0 +1,11 @@
+<div class="weui-cell">
+  <div class="weui-cell__hd">
+    <label class="weui-label">{{label}}</label>
+  </div>
+  <div class="weui-cell__bd">
+    <input class="weui-input" :placeholder="placeholder||'输入内容'"
+      :value="value" @input="$emit('input', $event.target.value)"
+      :disabled="disabled != undefined?disabled:false"
+      :type="type||'text'" @blur="blur">
+  </div>
+</div>

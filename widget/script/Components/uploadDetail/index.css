@@ -1,0 +1,39 @@
+.uploadDetail {
+  width: 100%;
+}
+
+.uploadDetail .imagelist {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.uploadDetail .imagelist img {
+  width: 6rem;
+  height: 6rem;
+  margin-top: 1rem;
+  margin-right: 1rem;
+}
+
+.uploadDetail .filelist {
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.uploadDetail .filelist .weui-cell {
+  padding: 1rem 0;
+}
+
+.uploadDetail .filelist .weui-cell:before {
+  left: 0;
+}
+
+.uploadDetail .filelist .weui-cell img {
+  width: 20px;
+  margin-right: 5px;
+  display: block;
+}
+
+.uploadDetail .filelist .weui-cell .weui-cell__bd {
+  flex: 1;
+}

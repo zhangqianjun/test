@@ -1,0 +1,19 @@
+.searchListComponent .list .li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1rem 1rem 2rem;
+  background-color: #fff;
+  border-bottom: 1px solid #eee;
+}
+
+.searchListComponent .list .li i {
+  color: #33b2d5;
+}
+
+.searchListComponent .list .noData {
+  margin-top: 2rem;
+  color: #999;
+  font-size: 1.6rem;
+  text-align: center;
+}

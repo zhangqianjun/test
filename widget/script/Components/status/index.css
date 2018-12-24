@@ -1,0 +1,25 @@
+.statusComponent {
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  background-color: #fff;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.statusComponent .status-l h3 {
+  font-size: 1.6rem;
+}
+
+.statusComponent .status-l p {
+  color: #a9a9a9;
+  font-size: 1.4rem;
+}
+
+.statusComponent .status-l p span {
+  margin-right: 1rem;
+}
+
+.statusComponent .status-r {
+  color: #888;
+  font-size: 1.4rem;
+}

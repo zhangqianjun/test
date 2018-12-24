@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,initial-scale=1.0,width=device-width" />
+  <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+  <title></title>
+  <link rel="stylesheet" type="text/css" href="../css/api.css" />
+  <link rel="stylesheet" type="text/css" href="../css/aui/aui.css" />
+  <link rel="stylesheet" type="text/css" href="../css/weui.min.css" />
+  <link rel="stylesheet" type="text/css" href="../css/common.css" />
+  <style>
+    #page {
+      padding-top: 11.4rem;
+      padding-bottom: 60px;
+    }
+    #tab{
+      position: fixed;
+      top: 7rem;
+      left: 0;
+      width: 100%;
+    } 
+  </style>
+</head>
+
+<body>
+  <div id="page">
+    <v-header title="消息"></v-header>
+    <div id="content">
+      <div class="aui-tab" id="tab">
+        <div class="aui-tab-item" :class="tabIndex == index ? 'aui-active':''"
+          v-for="(item,index) in tabs" :key="index" @click="tabClick(index)">{{item}}
+          <!-- <div class="aui-badge">11</div> -->
+        </div>
+      </div>
+      <v-list :list="todo_list" v-show="tabIndex == 0"
+        @clickli="clickTodo"></v-list>
+      <v-list :list="msg_list" v-show="tabIndex == 1"
+        @clickli="clickMsg"></v-list>
+    </div>
+  </div>
+</body>
+<script type="text/javascript" src="../script/response.js"></script>
+<script type="text/javascript" src="../script/dependence.js"></script>
+<script type="text/javascript" src="../script/entrance.js"
+  id="entry" data-path="M/home.js"></script>
+
+</html>

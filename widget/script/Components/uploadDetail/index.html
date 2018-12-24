@@ -1,0 +1,17 @@
+<div class="uploadDetail">
+  <div class="imagelist" v-if="imagelist">
+    <img :src="item.thumb_image" v-for="(item,index) in imagelist"
+      :key="index" @click="showImage(imagelist,index)" />
+  </div>
+  <div class="filelist" v-if="filelist">
+    <div class="weui-cell" v-for="(item,index) in filelist"
+      :key="index" @click="showFile(item.url)">
+      <div class="weui-cell__hd">
+        <img src="../../image/i-file.png" />
+      </div>
+      <div class="weui-cell__bd">
+        <div>{{item.name}}</div>
+      </div>
+    </div>
+  </div>
+</div>

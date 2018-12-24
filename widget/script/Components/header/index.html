@@ -1,0 +1,12 @@
+<header id="header" class="aui-bar aui-bar-nav">
+  <a class="aui-btn go-back" id="back" v-if="back !== undefined">
+    <i class="aui-iconfont aui-icon-left fz-30"></i>
+  </a>
+  <div class="fz-34">{{title}}</div>
+  <div class="changeProject" v-if="project !== undefined"
+    @click="projectchange">{{projectname}}
+    <i class="aui-iconfont aui-icon-right"></i>
+  </div>
+  <div class="btn_confirm" v-if="showconfirm !== undefined"
+    @click="confirm">确定</div>
+</header>

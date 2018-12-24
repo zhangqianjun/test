@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,initial-scale=1.0,width=device-width" />
+  <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+  <title></title>
+  <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/aui/aui.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/weui.min.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/common.css" />
+</head>
+
+<body>
+  <div id="page">
+    <v-header title="变更协商" back></v-header>
+    <div class="weui-cells">
+      <v-select label="项目名称" :options="project_list"
+        v-model="form.projectId" @change="projectChange"></v-select>
+      <v-text label="项目编号" v-model="projectNo"></v-text>
+      <v-textarea label="协商主题" v-model="form.title"></v-textarea>
+      <v-textarea label="详细内容" v-model="form.content"></v-textarea>
+      <v-select label="变更类型" :options="change_list" v-model="form.changeType"></v-select>
+    </div>
+    <v-upload :imagelist="form.image" :filelist="form.file"></v-upload>
+    <div class="btn" @click="submit">提交</div>
+  </div>
+</body>
+<script type="text/javascript" src="../../script/response.js"></script>
+<script type="text/javascript" src="../../script/dependence.js"></script>
+<script type="text/javascript" src="../../script/entrance.js"
+  id="entry" data-path="M/Process/changeConsult.js"></script>
+<style>
+  #page {
+    padding-top: 7rem;
+    padding-bottom: 60px;
+  }
+</style>
+
+</html>

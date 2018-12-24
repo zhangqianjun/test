@@ -1,0 +1,13 @@
+<div class="mylist">
+  <ul>
+    <li v-for="(item,index) in list" :key="index" @click="clickLi(index, item)">
+      <div class="li-hd">
+        <div class="li-l">{{item.name}}</div>
+        <div class="li-r">{{item.date}}</div>
+      </div>
+      <div class="li-bd">
+        <span class="status" :class="'status'+item.status" v-if="item.statusName">{{item.statusName}}</span>{{item.no}}
+      </div>
+    </li>
+  </ul>
+</div>

@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,initial-scale=1.0,width=device-width" />
+  <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+  <title></title>
+  <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/aui/aui.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/weui.min.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/common.css" />
+</head>
+
+<body>
+  <div id="page" v-cloak>
+    <div class="list">
+      <div class="li" v-for="(item,index) in list" :key="index">
+        <div class="li-hd">
+          <div class="li-l">{{item.realname}}</div>
+          <div class="li-r">{{item.createTime}}</div>
+        </div>
+        <div class="li-bd">{{item.content}}</div>
+        <upload-detail :imagelist="item.image" :filelist="item.file"></upload-detail>
+      </div>
+    </div>
+    <div class="noData" v-show="!list.length">暂无数据</div>
+  </div>
+</body>
+<script type="text/javascript" src="../../script/response.js"></script>
+<script type="text/javascript" src="../../script/dependence.js"></script>
+<script type="text/javascript" src="../../script/entrance.js"
+  id="entry" data-path="M/Frame/consult_list.js"></script>
+<style>
+  .list {
+    background-color: #fff;
+  }
+
+  .list .li {
+    padding: 1rem;
+    border-bottom: 1px solid #e5e5e5;
+  }
+
+  .li .li-hd {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .li-hd .li-l {
+    font-size: 1.6rem;
+  }
+
+  .li-hd .li-r {
+    color: #a9a9a9;
+    font-size: 1.4rem;
+  }
+
+  .li .li-bd {
+    margin-top: .5rem;
+    color: #a9a9a9;
+    font-size: 1.4rem;
+  }
+
+  .li-ft .imagelist {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .imagelist img {
+    margin-top: .5rem;
+    margin-right: .5rem;
+    width: 6rem;
+    height: 6rem;
+  }
+
+  .filelist .weui-cell {
+    padding: 0.5rem;
+  }
+
+  .filelist .weui-cell img {
+    width: 20px;
+    margin-right: 5px;
+    display: block;
+  }
+
+  .noData {
+    margin-top: 20%;
+    color: #999;
+    font-size: 1.6rem;
+    text-align: center;
+  }
+</style>
+
+</html>

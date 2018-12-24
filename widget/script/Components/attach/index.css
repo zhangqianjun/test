@@ -1,0 +1,63 @@
+.attachComponent {
+  margin-top: 1rem;
+}
+
+.attachComponent .weui-cell {
+  flex-wrap: wrap;
+}
+
+.attachComponent .weui-cell .weui-cell__bd {
+  flex: 0 0 10rem;
+  align-self: flex-start;
+}
+
+.attachComponent .weui-cell .weui-cell__ft {
+  flex: 1;
+  text-align: left;
+}
+
+.attachComponent .form-title .weui-cell__ft {
+  text-align: right;
+}
+
+.attachComponent .form-title .weui-cell__ft i {
+  color: #b2b2b2;
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+.attachComponent .form-content {
+  border-top: 1px solid #e5e5e5;
+}
+
+.attachComponent .imagelist {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.attachComponent .imagelist img {
+  width: 6rem;
+  height: 6rem;
+  margin-top: 1rem;
+  margin-right: 1rem;
+}
+
+.attachComponent .filelist {
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.attachComponent .filelist .weui-cell {
+  padding: 1rem 0;
+}
+
+.attachComponent .filelist .weui-cell:before {
+  left: 0;
+}
+
+.attachComponent .filelist .weui-cell img {
+  width: 20px;
+  margin-right: 5px;
+  display: block;
+}

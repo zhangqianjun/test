@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,initial-scale=1.0,width=device-width" />
+  <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+  <title></title>
+  <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/aui/aui.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/weui.min.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/common.css" />
+  <style>
+    #page {
+      padding-top: 7rem;
+    }
+    .form {
+      background-color: #fff;
+      border-bottom: 1px solid #e5e5e5;
+    }
+    .btn {
+      margin-top: 5rem;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="page">
+    <v-header title="修改密码"></v-header>
+    <div class="form">
+      <v-input label="旧密码" v-model="oldPwd" placeholder="请输入旧密码"></v-input>
+      <v-input label="新密码" v-model="newPwd" type="password"
+        placeholder="请输入新密码"></v-input>
+      <v-input label="确认新密码" v-model="newPwd1" type="password"
+        placeholder="请输入确认新密码"></v-input>
+    </div>
+    <div class="btn" @click="submit">完成</div>
+  </div>
+</body>
+<script type="text/javascript" src="../../script/response.js"></script>
+<script type="text/javascript" src="../../script/dependence.js"></script>
+<script type="text/javascript" src="../../script/entrance.js"
+  id="entry" data-path="M/Account/changePwd.js"></script>
+
+</html>

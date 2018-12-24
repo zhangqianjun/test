@@ -1,0 +1,36 @@
+<div class="weui-cells weui-cells_form">
+  <div class="weui-cell" id="uploader">
+    <div class="weui-cell__bd">
+      <div class="weui-uploader">
+        <div class="weui-uploader__hd">
+          <div class="weui-uploader__title">附件</div>
+        </div>
+        <div class="weui-uploader__bd">
+          <ul class="weui-uploader__files" id="uploaderFiles"></ul>
+          <div class="weui-uploader__input-box">
+            <input id="uploaderInput" class="weui-uploader__input"
+              type="file" accept="image/*" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="weui-cell">
+    <div class="weui-cell__hd fileupload_title">文件上传<input id="uploadFile" class="weui-uploader__input" type="file"  @change="uploadFile($event)" />
+    </div>
+  </div>
+  <div class="filelist">
+    <div class="weui-cell" v-for="(item,index) in filelist"
+      :key="index">
+      <div class="weui-cell__hd">
+        <img src="../../image/i-file.png" />
+      </div>
+      <div class="weui-cell__bd">
+        <div>{{item.fileName}}</div>
+      </div>
+      <div class="weui-cell__ft" @click="delFile(index)">
+        <img src="../../image/i-close.png" />
+      </div>
+    </div>
+  </div>
+</div>

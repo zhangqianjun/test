@@ -1,0 +1,23 @@
+<div class="weui-cells attachComponent">
+  <div class="weui-cell">
+    <div class="weui-cell__bd">
+      <div>{{title||'附件'}}</div>
+    </div>
+    <div class="imagelist">
+      <img :src="item.thumb_image" v-for="(item,index) in imagelist"
+        :key="index" @click="showImage(imagelist,index)" />
+    </div>
+    <div class="filelist">
+      <div class="weui-cell" v-for="(item,index) in filelist"
+        :key="index" @click="showFile(item.url)">
+        <div class="weui-cell__hd">
+          <img src="../../image/i-file.png" />
+        </div>
+        <div class="weui-cell__bd">
+          <div>{{item.name}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

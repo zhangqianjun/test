@@ -1,0 +1,13 @@
+#uploaderInput {
+  height: 100%;
+}
+
+.filelist .weui-cell img {
+  width: 20px;
+  margin-right: 5px;
+  display: block;
+}
+
+.fileupload_title {
+  color: #33b2d5;
+}

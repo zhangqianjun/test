@@ -1,0 +1,9 @@
+.infoComponent .weui-cell .weui-cell__bd {
+  flex: 0 0 10rem;
+  align-self: flex-start;
+}
+
+.infoComponent .weui-cell .weui-cell__ft {
+  color: #333;
+  flex: 1;
+}

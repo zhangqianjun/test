@@ -1,0 +1,19 @@
+<div class="weui-cells form_info">
+  <div class="weui-cell form-title">
+    <div class="weui-cell__bd">
+      <div>{{form.title}}</div>
+    </div>
+    <div class="weui-cell__ft" @click="toggle"><i class="aui-iconfont"
+        :class="showForm?'aui-icon-down':'aui-icon-top'"></i></div>
+  </div>
+
+  <div class="weui-cell" v-for="(item,index) in form.list"
+    :key="index" v-show="showForm">
+    <div class="weui-cell__bd">
+      <div>{{item.label}}</div>
+    </div>
+    <div class="weui-cell__ft">{{getValue(item)}}</div>
+    <upload-detail :imagelist="item.image" :filelist="item.file"></upload-detail>
+  </div>
+
+</div>
