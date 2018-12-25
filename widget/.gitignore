@@ -44,7 +44,6 @@ build/Release
 output/
 output.tar.gz
 
-dist/
 #appnpm
 app/
 runtime/
