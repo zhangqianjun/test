@@ -23,6 +23,7 @@ let config = {
         //配置别名，在项目中可缩减引用路径
         extensions: ['.js', '.vue'],
         alias: {
+            '@': join(__dirname, '/src'),
             assets: join(__dirname, '/src/assets'),
             components: join(__dirname, '/src/components'),
             public: join(__dirname, '/src/public'),
@@ -40,7 +41,7 @@ let config = {
                 use: 'vue-loader'
             },
             {
-                test: /\.js$/,
+                test: /\.(js)$/,
                 use: 'babel-loader',
                 exclude: /node_modules/
             },
@@ -99,8 +100,7 @@ let config = {
         //     minChunks: Infinity,
         // }),
         new ExtractTextPlugin({
-            filename: '[name].css',
-            allChunks: true
+            filename: 'css/[name].css'
         })
     ],
     devServer: {
