@@ -125,18 +125,16 @@
             }
         },
         created() {
+            var aMap = api.require('aMap');
             let nameBack = (ret) => {
-                console.log(ret)
-                alert(ret)
                 let param = {
-                            lon: ret.lon,
-                            lat: ret.lat
-                        }
-                        let nameBack = (ret) => {
-                            console.log(ret)
-                            this.addressName = ret.address
-                        }
-                        apiMap.getAdress(aMap, param, nameBack)
+                    lon: ret.lon,
+                    lat: ret.lat
+                }
+                let nameBack = (ret) => {
+                    this.addressName = ret.address
+                }
+                apiMap.getAdress(aMap, param, nameBack)
             }
             apiMap.getLocation(api, nameBack)
             // api.getLocation(function(ret, err) {

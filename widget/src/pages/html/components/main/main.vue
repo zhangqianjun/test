@@ -66,12 +66,16 @@
 
 <script>
     import listContent from '../list/listContent.vue'
+    import photoApi from 'assets/js/photo.js'
+    import apiMap from 'assets/js/map.js'
     export default {
         data() {
             return {
+                addressName: ''
             }
         },
         created() {
+            this.getAdress()
         },
         methods: {
             gotoReport() {
@@ -83,64 +87,44 @@
             gotoSet() {
                 router.push({ name: 'set' })
             },
-            gotoPhoto() {
-                api.getLocation(function(ret, err) {
-                    if (ret && ret.status) {
-                        
-                    } else {
-                        alert(JSON.stringify(err));
+            getWater() {
+                let getpicture = (ret) => {
+                    var pictureWatermark = api.require('pictureWatermark');
+                    let param = {
+                        text: '2018-10-20',
+                        x: 0,
+                        y: 0
                     }
-                });
-                api.getPicture({
-                sourceType: 'camera',
-                encodingType: 'png',
-                mediaValue: 'pic',
-                destinationType: 'url',
-                allowEdit: true,
-                quality: 100,
-                targetWidth: 500,
-                targetHeight: 500,
-                saveToPhotoAlbum: false
-                }, function(ret, err) {
-                    if (ret) {
-                        var pictureWatermark = api.require('pictureWatermark');
-                         pictureWatermark.getPictureSize({
-                            path:ret.data
-                        }, function(ret, err) {
-                            if (ret) {
-                                alert(JSON.stringify(ret));
-                            }
-                        });
-                        pictureWatermark.mark({
-                            watermark : {
-                                text:'133ygygyggyyfytf',                  //（可选项）字符串类型；文字描述(不传则不添加)    
-                                textAttribute:{          //（可选项）JSON对象；水印文字
-                                    point:{
-                                        x:0,           //（可选项）数字类型；文字水印左上角的 x 坐标（相对于所属的原始图片的位置）；默认：0
-                                        y:0            //（可选项）数字类型；文字水印左上角的 y 坐标（相对于所属的原始图片的位置）；默认：0
-                                    },
-                                    textSize:30,         //（可选项）数字类型；文字大小；默认：14
-                                    textColor:'#fff'     //(可选项）字符串类型；文字颜色；默认：'#fff'
-                                },
-                            },
-                        }, function(ret, err) {
-                            if (ret) {
-                                api.saveMediaToAlbum({
-                                    path: ret.path
-                                }, function(ret, err) {
-                                    if (ret && ret.status) {
-                                        alert('保存成功');
-                                    } else {
-                                        alert('保存失败');
-                                    }
-                                });
-                            }
-                        })
-                        } else {
-                            alert(JSON.stringify(err));
+                    let waterBack = (ret) => {
+                        // this.getAdress(callback)
+                        let param = {
+                            text: 'this.addressName',
+                            x: 0,
+                            y: 20
                         }
-                });
+                        let againBack = (ret) => {
+                            photoApi.saveAlbum(api, ret.path)
+                        }
+                        photoApi.waterMark(pictureWatermark, ret.path, param, againBack)
+                    }
+                    photoApi.waterMark(pictureWatermark, ret.data, param, waterBack)
                 }
+                photoApi.getPhoto(api, getpicture)
+            },
+            getAdress(callback) {
+                var aMap = api.require('aMap');
+                let nameBack = (ret) => {
+                    let param = {
+                        lon: ret.longitude,
+                        lat: ret.latitude
+                    }
+                    let nameBack = (res) => {
+                        this.addressName = res.address
+                    }
+                    apiMap.getAdress(aMap, param, nameBack)
+                }
+                apiMap.getLocation(api, nameBack)
+            }
         },
         components:{
             listContent
