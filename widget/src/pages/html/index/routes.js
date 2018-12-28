@@ -13,6 +13,14 @@ const entrance = (resolve) => {
 const affairReport = (resolve) => {
   require(['../components/affairReport/affairDetail.vue'], resolve)
 }
+// 搜索
+const search = (resolve) => {
+  require(['../components/main/search.vue'], resolve)
+}
+// 设置
+const set = (resolve) => {
+  require(['../components/main/set.vue'], resolve)
+}
 
 const routes = [
   // 登陆模块 normalLogin-本地开发测试登陆
@@ -22,7 +30,10 @@ const routes = [
     children:[
       { path: '/login', component: login, name: 'login', meta: { keepAlive: false }},
       { path: '/entrance', component: entrance, name: 'entrance', meta: { keepAlive: false }},
-      { path: '/affairReport', component: affairReport, name: 'affairReport', meta: { keepAlive: false }}
+      { path: '/affairReport', component: affairReport, name: 'affairReport', meta: { keepAlive: false }},
+      { path: '/search', component: search, name: 'search', meta: { keepAlive: false }},
+      { path: '/set', component: set, name: 'set', meta: { keepAlive: false }}
+
 
     ]
   }

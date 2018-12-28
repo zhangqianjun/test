@@ -8,12 +8,12 @@
                     <span class="ifInline">在线</span>
                 </p>
                 <p class="sets">
-                    <span class="search">
+                    <span class="search" @click="search()">
                         <svg class="icon" aria-hidden="true">
                             <use xlink:href="#icon-sousuo"></use>
                         </svg>
                     </span>
-                    <span class="reset">
+                    <span class="reset" @click="gotoSet()">
                         <svg class="icon" aria-hidden="true">
                             <use xlink:href="#icon-shezhi"></use>
                         </svg>
@@ -47,7 +47,7 @@
                     </p>
                 </div>
                 <div>
-                    <p>
+                    <p @click="gotoPhoto()">
                         <span>
                             <svg class="icon" aria-hidden="true">
                                 <use xlink:href="#icon-paizhao"></use>
@@ -76,7 +76,71 @@
         methods: {
             gotoReport() {
                 router.push({ name: 'affairReport'})
-            }
+            },
+            search() {
+                router.push({ name: 'search' })
+            },
+            gotoSet() {
+                router.push({ name: 'set' })
+            },
+            gotoPhoto() {
+                api.getLocation(function(ret, err) {
+                    if (ret && ret.status) {
+                        
+                    } else {
+                        alert(JSON.stringify(err));
+                    }
+                });
+                api.getPicture({
+                sourceType: 'camera',
+                encodingType: 'png',
+                mediaValue: 'pic',
+                destinationType: 'url',
+                allowEdit: true,
+                quality: 100,
+                targetWidth: 500,
+                targetHeight: 500,
+                saveToPhotoAlbum: false
+                }, function(ret, err) {
+                    if (ret) {
+                        var pictureWatermark = api.require('pictureWatermark');
+                         pictureWatermark.getPictureSize({
+                            path:ret.data
+                        }, function(ret, err) {
+                            if (ret) {
+                                alert(JSON.stringify(ret));
+                            }
+                        });
+                        pictureWatermark.mark({
+                            watermark : {
+                                text:'133ygygyggyyfytf',                  //（可选项）字符串类型；文字描述(不传则不添加)    
+                                textAttribute:{          //（可选项）JSON对象；水印文字
+                                    point:{
+                                        x:0,           //（可选项）数字类型；文字水印左上角的 x 坐标（相对于所属的原始图片的位置）；默认：0
+                                        y:0            //（可选项）数字类型；文字水印左上角的 y 坐标（相对于所属的原始图片的位置）；默认：0
+                                    },
+                                    textSize:30,         //（可选项）数字类型；文字大小；默认：14
+                                    textColor:'#fff'     //(可选项）字符串类型；文字颜色；默认：'#fff'
+                                },
+                            },
+                        }, function(ret, err) {
+                            if (ret) {
+                                api.saveMediaToAlbum({
+                                    path: ret.path
+                                }, function(ret, err) {
+                                    if (ret && ret.status) {
+                                        alert('保存成功');
+                                    } else {
+                                        alert('保存失败');
+                                    }
+                                });
+                            }
+                        })
+                        } else {
+                            alert(JSON.stringify(err));
+                        }
+                });
+                }
         },
         components:{
             listContent

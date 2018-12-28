@@ -10,10 +10,14 @@
     "dependencies": {
         "babel-preset-latest": "^6.22.0",
         "lodash": "^4.17.4",
+        "super-animation": "0.0.6",
+        "super-touch": "0.0.5",
         "v-tap": "^2.2.2",
         "vconsole": "^3.2.0",
         "vue": "^2.2.4",
-        "vue-scroller": "^2.2.4"
+        "vue-scroller": "^2.2.4",
+        "vux": "^2.9.2",
+        "vux-loader": "^1.2.9"
     },
     "devDependencies": {
         "babel-core": "^6.22.1",

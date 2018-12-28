@@ -26,15 +26,24 @@ const mapApi = {
         });
     },
     // 获取当前位置得经纬度
-    getlocation(obj, callback) {
-        obj.getLocation(function(ret, err) {
-            if (ret.status) {
-                callback(ret)
-            } else {
-                alert(JSON.stringify(err));
-            }
-        });
-    },
+    // getlocation(obj, callback) {
+    //     obj.getLocation(function(ret, err) {
+    //         if (ret.status) {
+    //             callback(ret)
+    //         } else {
+    //             alert(JSON.stringify(err));
+    //         }
+    //     });
+    // },
+    getLocation(obj, callback) {
+            obj.getLocation(function(ret, err) {
+                if (ret.status) {
+                    callback(ret)
+                } else {
+                    alert(JSON.stringify(err));
+                }
+            });
+        },
     // 获取地址名字
     getAdress(obj, param, callback) {
         obj.getNameFromCoords({
