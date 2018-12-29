@@ -22,10 +22,12 @@
             </div>
             <div class="person-address">
                 <span class="address">
-                    <svg class="icon" aria-hidden="true">
-                        <use xlink:href="#icon-dizhi"></use>
-                    </svg>
-                    <span>广州市</span>
+                    <i>
+                        <svg class="icon" aria-hidden="true">
+                            <use xlink:href="#icon-dizhi"></use>
+                        </svg>
+                    </i>
+                    <span style="padding-left:10px;"></span>
                 </span>
                 <span class="address-f5">
                     <svg class="icon" aria-hidden="true">
@@ -47,7 +49,7 @@
                     </p>
                 </div>
                 <div>
-                    <p @click="gotoPhoto()">
+                    <p @click="getWater()">
                         <span>
                             <svg class="icon" aria-hidden="true">
                                 <use xlink:href="#icon-paizhao"></use>

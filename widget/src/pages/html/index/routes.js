@@ -21,6 +21,10 @@ const search = (resolve) => {
 const set = (resolve) => {
   require(['../components/main/set.vue'], resolve)
 }
+// 事件细节
+const todoDetails = (resolve) => {
+  require(['../components/list/todoDetail.vue'], resolve)
+}
 
 const routes = [
   // 登陆模块 normalLogin-本地开发测试登陆
@@ -32,7 +36,8 @@ const routes = [
       { path: '/entrance', component: entrance, name: 'entrance', meta: { keepAlive: false }},
       { path: '/affairReport', component: affairReport, name: 'affairReport', meta: { keepAlive: false }},
       { path: '/search', component: search, name: 'search', meta: { keepAlive: false }},
-      { path: '/set', component: set, name: 'set', meta: { keepAlive: false }}
+      { path: '/set', component: set, name: 'set', meta: { keepAlive: false }},
+      { path: '/todoDetails/:id', component: todoDetails, name: 'todoDetails', meta: { keepAlive: false }}
 
 
     ]

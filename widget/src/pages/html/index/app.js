@@ -19,11 +19,11 @@ let API_HOST = ''
 window.HOST = API_HOST
 window.imgUrl = API_HOST
 window.router = router
-window.apiready = function() {
+// window.apiready = function() {
     new Vue({
         el: '#app',
         router,
         render: h => h(App)
     })
     new vconsole()   
-}
+// }
