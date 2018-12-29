@@ -27,9 +27,9 @@
                             <use xlink:href="#icon-dizhi"></use>
                         </svg>
                     </i>
-                    <span style="padding-left:10px;"></span>
+                    <p style="width:100%;">{{addressName}}</p>
                 </span>
-                <span class="address-f5">
+                <span class="address-f5" @click="getAdress()">
                     <svg class="icon" aria-hidden="true">
                         <use xlink:href="#icon-shuaxin"></use>
                     </svg>
@@ -120,10 +120,10 @@
                         lon: ret.longitude,
                         lat: ret.latitude
                     }
-                    let nameBack = (res) => {
+                    let namesBack = (res) => {
                         this.addressName = res.address
                     }
-                    apiMap.getAdress(aMap, param, nameBack)
+                    apiMap.getAdress(aMap, param, namesBack)
                 }
                 apiMap.getLocation(api, nameBack)
             }
@@ -135,7 +135,8 @@
 </script>
 <style>
 .person-detail{
-    background: rgb(102, 204, 204)
+    background: rgb(102, 204, 204);
+    padding-top:20px;
 }
 .person-detail .person-title{
     display:flex;
