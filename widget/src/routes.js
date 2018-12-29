@@ -1,29 +1,29 @@
 const Home = (resolve) => {
-  require(['../components/Home.vue'], resolve)
+  require(['./components/Home.vue'], resolve)
 }
 // Account 账户
 const login = (resolve) => {
-  require(['../components/account/login.vue'], resolve)
+  require(['./components/account/login.vue'], resolve)
 }
 // 首页
 const entrance = (resolve) => {
-  require(['../components/main/main.vue'], resolve)
+  require(['./components/main/main.vue'], resolve)
 }
 //事件上报
 const affairReport = (resolve) => {
-  require(['../components/affairReport/affairDetail.vue'], resolve)
+  require(['./components/affairReport/affairDetail.vue'], resolve)
 }
 // 搜索
 const search = (resolve) => {
-  require(['../components/main/search.vue'], resolve)
+  require(['./components/main/search.vue'], resolve)
 }
 // 设置
 const set = (resolve) => {
-  require(['../components/main/set.vue'], resolve)
+  require(['./components/main/set.vue'], resolve)
 }
 // 事件细节
 const todoDetails = (resolve) => {
-  require(['../components/list/todoDetail.vue'], resolve)
+  require(['./components/list/todoDetail.vue'], resolve)
 }
 
 const routes = [
@@ -38,8 +38,6 @@ const routes = [
       { path: '/search', component: search, name: 'search', meta: { keepAlive: false }},
       { path: '/set', component: set, name: 'set', meta: { keepAlive: false }},
       { path: '/todoDetails/:id', component: todoDetails, name: 'todoDetails', meta: { keepAlive: false }}
-
-
     ]
   }
 ]
