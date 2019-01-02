@@ -69,7 +69,7 @@
                 ]
             },
             goFlowInfo(item) {
-                router.go({ name: 'todeDetails', params: {id: item.id}})
+                router.push({ name: 'todoDetails', params: {id: '1'}})
             },
             infinite() {
 

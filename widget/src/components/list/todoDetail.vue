@@ -1,9 +1,12 @@
 <template>
 <div class="todoDetail">
-    <header class="bar bar-nav">
-        <h1 class="title">视图列表</h1>
+    <header class="bar bar-nav" style="height:60px;padding-top:20px;">
+        <button v-if="!openMap" class="button pull-left" @click="outMap()">
+            返回
+        </button>
+        <h1 v-if="!openMap" class="title">视图列表</h1>
     </header>
-    <div class="content">
+    <div class="content" style="top:60px;">
         <div class="list-block">
             <ul>
                 <li class="item-content">
@@ -65,7 +68,7 @@
                 <li class="item-content">
                     <div class="item-inner">
                     <div class="item-title">目标地址</div>
-                    <div class="item-after">导航</div>
+                    <div class="item-after" @click="getLine()">导航</div>
                     </div>
                 </li>
             </ul>
@@ -79,7 +82,7 @@ import apiMap from 'assets/js/map.js'
 export default {
     data() {
         return {
-
+            openMap: false
         }
     },
     created() {
@@ -102,6 +105,45 @@ export default {
                     apiMap.getAdress(aMap, param, nameBack)
                 }
                 apiMap.openMap(api, aMap, param,  mapBack)
+        },
+        openMap() {
+            
+        },
+        getLine(id) {
+            var aMap = api.require('aMap');
+            let param = {
+                width: 'auto',
+                height: 'auto'
+            }
+            let openCallback = (res) => {
+                this.openMap = true
+                let nameBack = (ret) => {
+                let param = {
+                    start: {
+                        lon: ret.longitude,
+                        lat: ret.latitude
+                    },
+                    end: {
+                        lon: '113.32034789',
+                        lat: '23.11588743'
+                    }
+                    
+                }
+                let LineCallback = (res) => {
+                    console.log(res)
+                }
+                apiMap.getLine(aMap, 1, param.start, param.end, LineCallback)
+            }
+            apiMap.getLocation(api, nameBack)
+            }
+            apiMap.openMap(api, aMap, param, openCallback)
+        },
+        outMap() {
+            var aMap = api.require('aMap');
+            aMap.close();
+            aMap.removeRoute({
+                ids: [1]
+            });
         }
     }
 }

@@ -5,7 +5,7 @@ const mapApi = {
         obj.open({
             rect: {
                 x: 0,
-                y: 0,
+                y: 50,
                 w: param.width,
                 h: param.height
             },
@@ -107,6 +107,39 @@ const mapApi = {
                 alert(JSON.stringify(ret));
             }
         });
+    },
+    //获取导航路线
+    getLine(obj, id, start, end, callback) {
+        obj.searchRoute({
+            id: id,
+            type: 'walk',
+            start: start,
+            end: end
+        }, function(ret, err) {
+            if (ret.status) {
+                    obj.drawRoute({
+                        id: 1,
+                        autoresizing: true,
+                        index: 0,
+                        styles: {
+                            walkLine: {
+                                width: 3,
+                                color: '#698B22',
+                                lineDash: false,
+                                strokeImg: ''
+                            },
+                            icons: {
+                                start: '',
+                                end: '',
+                                bus: '',
+                                car: '',
+                                man: ''
+                            }
+                        }
+                    });
+                api.alert({ msg: JSON.stringify(ret) });
+            }
+        });    
     }
 }
 export default mapApi;
