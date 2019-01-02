@@ -68,7 +68,6 @@
                     <div class="address-content">
                         <div class="address-title">问题描述</div>
                         <div class="address-input">
-                            <!-- <input type="text" placeholder="请输入标题" v-model="addressName"> -->
                             <textarea v-model="addressName"></textarea>
                         </div>
                     </div>
@@ -76,7 +75,7 @@
                 <li class="align-top">
                     <div class="address-content">
                         <div class="address-title">附件</div>
-                        <div class="address-input">
+                        <div class="file-upload">+
                         </div>
                     </div>
                 </li>
@@ -176,38 +175,47 @@
 .affairDetail .content{
     background:#FAFAFA;
 }
-.bar .button{
+.affairDetail .bar .button{
     border:0;
     color: #333;
 }
-.content .list-block{
+.affairDetail .content .list-block{
     margin:0.5rem 0;
 }
-.content .list-block li{
+.affairDetail .content .list-block li{
     margin: 0;
     padding: 0;
 }
-.content .list-block .item-title.label{
+.affairDetail .content .list-block .item-title.label{
     width:100px;
 }
-.list-block textarea{
+.affairDetail .list-block textarea{
     padding-top: 4px !important;
 }
-.list-block .item-input{
+.affairDetail .list-block .item-input{
     margin: 0 !important;
 }
-.list-block .item-inner{
+.affairDetail .list-block .item-inner{
     padding: 0 !important;
 }
-.address-content{
+.affairDetail .address-content{
     padding: 5px 0.75rem 25px 0.75rem;
 }
-.address-content .address-input{
+.affairDetail .address-content .address-input{
     border:1px solid #E6E6E6;
     color:#333333;
     font-size: 12px;
 }
-.address-title{
+.affairDetail .address-title{
     padding: 10px 0;
+}
+.affairDetail .file-upload{
+    border:1px solid #E6E6E6;
+    color:#333333;
+    width:100px;
+    height:100px;
+    line-height:90px;
+    text-align: center;
+    font-size:60px;
 }
 </style>

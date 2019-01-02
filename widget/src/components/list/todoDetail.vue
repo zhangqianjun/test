@@ -1,163 +1,241 @@
 <template>
-<div class="todoDetail">
-    <header class="bar bar-nav" style="height:60px;padding-top:20px;">
-        <button v-if="!openMap" class="button pull-left" @click="outMap()">
-            返回
-        </button>
-        <h1 v-if="!openMap" class="title">视图列表</h1>
+  <div class="todoDetail">
+    <header class="bar bar-nav"
+      style="height:60px;padding-top:20px;">
+      <button v-if="!openMap"
+        class="button pull-left"
+        @click="outMap()">
+        返回
+      </button>
+      <h1 v-if="!openMap"
+        class="title">视图列表</h1>
     </header>
-    <div class="content" style="top:60px;">
-        <div class="list-block">
-            <ul>
-                <li class="item-content">
-                    <div class="item-inner">
-                    <div class="item-title">发起人</div>
-                    <div class="item-after">李二</div>
-                    </div>
-                </li>
-                <li class="item-content">
-                    <div class="item-inner">
-                    <div class="item-title">时间</div>
-                    <div class="item-after">2018-12-01 12:32</div>
-                    </div>
-                </li>
-            </ul>
-        </div>
-        <div class="list-block">
-            <ul>
-                <li class="item-content">
-                    <div class="item-inner">
-                    <div class="item-title">时间</div>
-                    <div class="item-after">2018-12-01 12:32</div>
-                    </div>
-                </li>
-            </ul>
-        </div>
-        <div class="list-block">
-            <ul>
-                <li class="item-content">
-                    <div class="item-inner">
-                    <div class="item-title">状态</div>
-                    <div class="item-after">在线</div>
-                    </div>
-                </li>
-            </ul>
-        </div>
-        <div class="list-block">
-            <ul>
-                <li class="item-content">
-                    <div class="item-inner">
-                    <div class="item-title">标题</div>
-                    <div class="item-after">地聚会的</div>
-                    </div>
-                </li>
-            </ul>
-        </div>
-        <div class="list-block">
-            <ul>
-                <li class="item-content">
-                    <div class="item-inner">
-                    <div class="item-title">描述</div>
-                    <div class="item-after">地聚会的</div>
-                    </div>
-                </li>
-            </ul>
-        </div>
-         <div class="list-block">
-            <ul>
-                <li class="item-content">
-                    <div class="item-inner">
-                    <div class="item-title">目标地址</div>
-                    <div class="item-after" @click="getLine()">导航</div>
-                    </div>
-                </li>
-            </ul>
-        </div>
+    <div class="content"
+      style="top:60px;">
+      <div class="list-block">
+        <ul>
+          <li class="item-content">
+            <div class="item-inner">
+              <div class="item-title">服务事项</div>
+              <div class="item-after">李二</div>
+            </div>
+          </li>
+          <li class="item-content">
+            <div class="item-inner">
+              <div class="item-title">处理级别</div>
+              <div class="item-after">2018-12-01 12:32</div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="list-block">
+        <ul class="todo-li">
+          <li class="item-content">
+            <div class="todo-content">
+              <div class="item-title">上报地址</div>
+              <div class="item-after">2018-12-01 12:32</div>
+            </div>
+          </li>
+          <li class="item-content">
+            <div class="todo-content">
+              <div class="item-title">问题标题</div>
+              <div class="item-after">2018-12-01 12:32</div>
+            </div>
+          </li>
+          <li class="item-content">
+            <div class="todo-content">
+              <div class="item-title">问题描述</div>
+              <div class="item-after">2018-12-01 12:32</div>
+            </div>
+          </li>
+          <li class="item-content">
+            <div class="todo-content">
+              <div class="item-title">办案结果</div>
+              <div class="item-after">2018-12-01 12:32</div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="list-block">
+        <ul>
+          <li class="item-content">
+            <div class="item-inner">
+              <div class="item-title">状态</div>
+              <div class="item-after">在线</div>
+            </div>
+          </li>
+          <li class="item-content">
+            <div class="item-inner">
+              <div class="item-title">状态</div>
+              <div class="item-after">在线</div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="list-block">
+        <ul>
+          <li>
+            <div class="address-content">
+                <div class="address-title">地址信息</div>
+                <div class="address-input">
+                  <textarea v-model="addressName"></textarea>
+                </div>
+            </div>
+          </li>
+          <li>查看处理记录</li>
+          <li class="align-top">
+              <div class="address-content">
+                  <div class="address-title">附件</div>
+                  <div class="file-upload">+
+                  </div>
+              </div>
+          </li>
+        </ul>
+      </div>
+      <div class="list-block">
+        <ul>
+          <li class="item-content">
+            <div class="item-inner">
+              <div class="item-title">目标地址</div>
+              <div class="item-after"
+                @click="getLine()">导航</div>
+            </div>
+          </li>
+          <div ref="map"
+            id="container"
+            style="border: 1px solid black; height: 20rem; width: 100%;"></div>
+        </ul>
+      </div>
     </div>
-</div>
+  </div>
 </template>
 
 <script>
 import apiMap from 'assets/js/map.js'
 export default {
-    data() {
-        return {
-            openMap: false
-        }
-    },
-    created() {
-
-    },
-    mounted() {
-
-    },
-    methods: {
-        getIcon() {
-            var aMap = api.require('aMap');
-                let mapBack = (ret) => {
-                    let param = {
-                        lon: ret.longitude,
-                        lat: ret.latitude
-                    }
-                    let nameBack = (res) => {
-                        this.addressName = res.address
-                    }
-                    apiMap.getAdress(aMap, param, nameBack)
-                }
-                apiMap.openMap(api, aMap, param,  mapBack)
-        },
-        openMap() {
-            
-        },
-        getLine(id) {
-            var aMap = api.require('aMap');
-            let param = {
-                width: 'auto',
-                height: 'auto'
-            }
-            let openCallback = (res) => {
-                this.openMap = true
-                let nameBack = (ret) => {
-                let param = {
-                    start: {
-                        lon: ret.longitude,
-                        lat: ret.latitude
-                    },
-                    end: {
-                        lon: '113.32034789',
-                        lat: '23.11588743'
-                    }
-                    
-                }
-                let LineCallback = (res) => {
-                    console.log(res)
-                }
-                apiMap.getLine(aMap, 1, param.start, param.end, LineCallback)
-            }
-            apiMap.getLocation(api, nameBack)
-            }
-            apiMap.openMap(api, aMap, param, openCallback)
-        },
-        outMap() {
-            var aMap = api.require('aMap');
-            aMap.close();
-            aMap.removeRoute({
-                ids: [1]
-            });
-        }
+  data() {
+    return {
+      openMap: false
     }
+  },
+  created() {
+
+  },
+  mounted() {
+    this.showMap()
+  },
+  methods: {
+    getIcon() {
+      var aMap = api.require('aMap');
+      let mapBack = (ret) => {
+        let param = {
+          lon: ret.longitude,
+          lat: ret.latitude
+        }
+        let nameBack = (res) => {
+          this.addressName = res.address
+        }
+        apiMap.getAdress(aMap, param, nameBack)
+      }
+      apiMap.openMap(api, aMap, param, mapBack)
+    },
+    showMap() {
+      // let map = new AMap.Map(this.$refs.map)
+      // console.log(map)
+      var map = new AMap.Map('container', {
+        zoom: 11,//级别
+        center: [116.397428, 39.90923]//中心点坐标
+      });
+      var marker = new AMap.Marker({
+        position: new AMap.LngLat(116.39, 39.9),   // 经纬度对象，也可以是经纬度构成的一维数组[116.39, 39.9]
+        title: '北京'
+      });
+      map.add(marker);//添加到地图
+    },
+    getLine(id) {
+      var aMap = api.require('aMap');
+      let param = {
+        width: 'auto',
+        height: 'auto'
+      }
+      let openCallback = (res) => {
+        this.openMap = true
+        let nameBack = (ret) => {
+          let param = {
+            start: {
+              lon: ret.longitude,
+              lat: ret.latitude
+            },
+            end: {
+              lon: '113.32034789',
+              lat: '23.11588743'
+            }
+
+          }
+          let LineCallback = (res) => {
+            console.log(res)
+          }
+          apiMap.getLine(aMap, 1, param.start, param.end, LineCallback)
+        }
+        apiMap.getLocation(api, nameBack)
+      }
+      apiMap.openMap(api, aMap, param, openCallback)
+    },
+    outMap() {
+      var aMap = api.require('aMap');
+      aMap.close();
+      aMap.removeRoute({
+        ids: [1]
+      });
+    }
+  }
 }
 </script>
 
 <style>
-.list-block li{
-    margin:0;
-    padding:0;
+.list-block li {
+  margin: 0;
+  padding: 0;
 }
-.list-block ul{
-    margin-bottom:10px;
+.list-block ul {
+  margin-bottom: 10px;
 }
-.todoDetail .list-block{
-    margin:0;
+.todoDetail .list-block {
+  margin: 0;
+}
+.todoDetail .content{
+  background:#fafafa;
+}
+.todoDetail .todo-content .item-after{
+  margin-bottom:10px;
+  color: #999999;
+}
+.todoDetail .todo-content .item-title{
+  padding: 10px 0;
+}
+.todo-li li{
+  padding:0;
+  margin-left: 0.75rem;
+  border-bottom: 1px solid #E6E6E6;
+}
+.todoDetail .address-content{
+    padding: 5px 0.75rem 25px 0.75rem;
+}
+.todoDetail .address-content .address-input{
+    border:1px solid #E6E6E6;
+    color:#333333;
+    font-size: 12px;
+}
+.todoDetail .address-title{
+    padding: 10px 0;
+}
+.todoDetail .file-upload{
+    border:1px solid #E6E6E6;
+    color:#333333;
+    width:100px;
+    height:100px;
+    line-height:90px;
+    text-align: center;
+    font-size:60px;
 }
 </style>
