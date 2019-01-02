@@ -9,7 +9,7 @@
                 <span>广州市</span></p>
             <p class="item-date">
                 <svg class="icon" aria-hidden="true">
-                    <use xlink:href="#icon-rili"></use>
+                    <use xlink:href="#icon-calendar"></use>
                 </svg>
                 <span>2018-12-25</span></p>
         </div>
@@ -41,22 +41,26 @@
 <style>
 .list-item{
     /* height:60px; */
-    padding:5px 0;
+    padding:0.5rem 0;
     margin: 0 15px;
     border-bottom:1px solid #eee;
 }
 .list-item .item-title{
-    font-size:14px;
+    font-size:16px;
     display:block;
-    padding-bottom:3px;
+    padding-bottom:5px;
 }
 .list-item .item-address, .list-item .item-date{
-    font-size:12px;
-    color:#8a8a8a;
+    font-size:14px;
+    color:#999;
     display:block;
     display:flex;
     align-items: center;
     /* justify-content: center; */
+}
+.list-item .item-address{
+   font-size:14px;
+    color:#333;
 }
 .list-item .icon{
     font-size:16px !important;

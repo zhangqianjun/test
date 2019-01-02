@@ -83,13 +83,19 @@
 </script>
 <style>
 .list-content .buttons-tab{
-    background:rgb(102, 204, 204)
+    /* background:rgb(102, 204, 204) */
 }
 .list-content .buttons-tab .button{
-    color:rgb(228, 228, 228)
+    /* color:rgb(228, 228, 228) */
 }
 .list-content .buttons-tab .button.active{
-    color:#fff;
-    border-color:rgb(238, 255, 65)
+    /* color:#fff; */
+    font-weight: bold;
+    border-color:#64ABFB;
+    padding: 0;
+    margin: 0 1rem;
+}
+.buttons-tab:after{
+    height: 0 !important;
 }
 </style>

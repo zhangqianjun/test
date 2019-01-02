@@ -44,62 +44,40 @@
                         </div>
                     </div>
                 </li>
-                <!-- <li>
-                    <div class="item-content">
-                    <div class="item-inner">
-                        <div class="item-title label">服务事项</div>
-                        <div class="item-input">
-                        <select>
-                            <option>Male</option>
-                            <option>Female</option>
-                        </select>
+                </ul>
+            </div>
+            <div class="list-block">
+                <ul>
+                    <li>
+                    <div class="address-content">
+                        <div class="address-title">地址信息</div>
+                        <div class="address-input">
+                            <input type="text" placeholder="请输入标题" v-model="addressName">
                         </div>
-                    </div>
-                    </div>
-                </li> -->
-                <!-- <li>
-                    <div class="item-content">
-                    <div class="item-inner">
-                        <div class="item-title label">处理级别</div>
-                        <div class="item-input">
-                        <select>
-                            <option>日常</option>
-                            <option>日常</option>
-                            <option>日常</option>
-                            <option>日常</option>
-                        </select>
-                        </div>
-                    </div>
-                    </div>
-                </li> -->
-                <li class="align-top">
-                    <div class="item-content">
-                    <div class="item-inner">
-                        <div class="item-title label">地址信息</div>
-                        <div class="item-input">
-                        <textarea v-model="addressName"></textarea>
-                        </div>
-                    </div>
                     </div>
                 </li>
                 <li>
-                    <div class="item-content">
-                    <div class="item-inner">
-                        <div class="item-title label">问题标题</div>
-                        <div class="item-input">
-                        <input type="text" placeholder="请输入标题">
+                    <div class="address-content">
+                        <div class="address-title">问题标题</div>
+                        <div class="address-input">
+                        <textarea v-model="addressName"></textarea>
                         </div>
-                    </div>
                     </div>
                 </li>
                 <li class="align-top">
-                    <div class="item-content">
-                    <div class="item-inner">
-                        <div class="item-title label">问题描述</div>
-                        <div class="item-input">
-                        <textarea placeholder="请输入标题"></textarea>
+                    <div class="address-content">
+                        <div class="address-title">问题描述</div>
+                        <div class="address-input">
+                            <!-- <input type="text" placeholder="请输入标题" v-model="addressName"> -->
+                            <textarea v-model="addressName"></textarea>
                         </div>
                     </div>
+                </li>
+                <li class="align-top">
+                    <div class="address-content">
+                        <div class="address-title">附件</div>
+                        <div class="address-input">
+                        </div>
                     </div>
                 </li>
                 </ul>
@@ -192,16 +170,18 @@
     }
 </script>
 <style>
-.affairDetail .title{
-    background: rgb(130, 220, 194);
-    color:#fff;
+.affairDetail .bar{
+    background: #fff;
+}
+.affairDetail .content{
+    background:#FAFAFA;
 }
 .bar .button{
     border:0;
-    color:#fff;
+    color: #333;
 }
 .content .list-block{
-    margin:0;
+    margin:0.5rem 0;
 }
 .content .list-block li{
     margin: 0;
@@ -218,5 +198,16 @@
 }
 .list-block .item-inner{
     padding: 0 !important;
+}
+.address-content{
+    padding: 5px 0.75rem 25px 0.75rem;
+}
+.address-content .address-input{
+    border:1px solid #E6E6E6;
+    color:#333333;
+    font-size: 12px;
+}
+.address-title{
+    padding: 10px 0;
 }
 </style>

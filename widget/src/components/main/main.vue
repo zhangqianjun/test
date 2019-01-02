@@ -1,64 +1,70 @@
 <template>
     <div>
-        <div class="person-detail">
-            <div class="person-title">
-                <img src="" />
-                <p class="person-name">
-                    <span class="name">liukjj</span>
-                    <span class="ifInline">在线</span>
-                </p>
-                <p class="sets">
-                    <span class="search" @click="search()">
-                        <svg class="icon" aria-hidden="true">
-                            <use xlink:href="#icon-sousuo"></use>
-                        </svg>
-                    </span>
-                    <span class="reset" @click="gotoSet()">
-                        <svg class="icon" aria-hidden="true">
-                            <use xlink:href="#icon-shezhi"></use>
-                        </svg>
-                    </span>
-                </p>
-            </div>
-            <div class="person-address">
-                <span class="address">
-                    <i>
-                        <svg class="icon" aria-hidden="true">
-                            <use xlink:href="#icon-dizhi"></use>
-                        </svg>
-                    </i>
-                    <p style="width:100%;">{{addressName}}</p>
-                </span>
-                <span class="address-f5" @click="getAdress()">
-                    <svg class="icon" aria-hidden="true">
-                        <use xlink:href="#icon-shuaxin"></use>
-                    </svg>
-                </span>
-            </div>
-            <div class="handle-affair">
+        <div style="padding-top: 20px; background: #64ABFB; height:8.5rem;margin-bottom:3rem;">
+            <div class="person-detail">
                 <div>
-                    <p @click="gotoReport()">
-                        <span>
+                    <p class="sets">
+                        <span class="search" @click="search()">
                             <svg class="icon" aria-hidden="true">
-                                <use xlink:href="#icon-yunduanshangchuan"></use>
+                                <use xlink:href="#icon-sousuo"></use>
                             </svg>
                         </span>
-                        <span>
-                            上报事件
+                        <span class="reset" @click="gotoSet()">
+                            <svg class="icon" aria-hidden="true">
+                                <use xlink:href="#icon-icon-test"></use>
+                            </svg>
                         </span>
                     </p>
                 </div>
-                <div>
-                    <p @click="getWater()">
-                        <span>
-                            <svg class="icon" aria-hidden="true">
-                                <use xlink:href="#icon-paizhao"></use>
-                            </svg>
-                        </span>
-                        <span>
-                            信息采集
-                        </span>
-                    </p>
+                <div class="person-title">
+                    <img src="" />
+                    <div class="person-name">
+                        <div class="person-line">
+                            <span class="name">liukjj</span>
+                            <span class="ifInline">在线</span>
+                        </div>
+                        <div class="person-address">
+                            <span class="address">
+                                <i>
+                                    <svg class="icon" aria-hidden="true">
+                                        <use xlink:href="#icon-dizhi"></use>
+                                    </svg>
+                                </i>
+                                <p style="width:100%;">{{addressName}}</p>
+                            </span>
+                            <span class="address-f5" @click="getAdress()">
+                                <svg class="icon" aria-hidden="true">
+                                    <use xlink:href="#icon-shuaxin"></use>
+                                </svg>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="handle-affair">
+                    <div>
+                        <p @click="gotoReport()">
+                            <span>
+                                <svg class="icon" aria-hidden="true">
+                                    <use xlink:href="#icon-iconset0348"></use>
+                                </svg>
+                            </span>
+                            <span>
+                                上报事件
+                            </span>
+                        </p>
+                    </div>
+                    <div>
+                        <p @click="getWater()">
+                            <span>
+                                <svg class="icon" aria-hidden="true">
+                                    <use xlink:href="#icon-xiangji"></use>
+                                </svg>
+                            </span>
+                            <span>
+                                信息采集
+                            </span>
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -135,15 +141,20 @@
 </script>
 <style>
 .person-detail{
-    background: rgb(102, 204, 204);
-    padding-top:20px;
+    height:8.5rem;
+    background: url('../../assets/img/bac.png') no-repeat;
+    background-size:100%;
+    background-position: 0px 40px;
+    position:relative;
 }
 .person-detail .person-title{
     display:flex;
-    padding:10px 15px 0;
+    padding:15px 15px;
 }
 .person-title img{
-    width:60px; height:60px;
+    width:3.25rem; 
+    height:3.25rem;
+    border-radius:50%;
 }
 .person-name{
     display:flex;
@@ -152,28 +163,36 @@
     height:70px;
     width:150px;
 }
+.person-line {
+    /* overflow: hidden; */
+}
 .person-name .name{
-    font-size:20px;
+    font-size:1.1rem;
     color:#fff;
-    height:36px;
+    height:1.8rem;
 }
 .person-name .ifInline{
+    width:2rem;
+    padding: 4px 10px;
+    height:0.75rem;
+    border-radius: 1rem;
+    background:#000;
+    opacity: 0.4;
     height:20px;
-    color: rgb(255, 255, 51)
+    color:#fff;
+    font-size: 12px;
 }
 .sets{
-    float:right;
     flex:1;
     text-align:right;
 }
 .sets .icon{
-    font-size:26px;
+    font-size:32px;
     color:#fff;
-    margin-left:10px;
 }
 .person-address{
+    height:1.45rem;
     display:flex;
-    padding:0px 15px 20px;
     color:#fff;
 }
 .person-address .address{
@@ -182,7 +201,7 @@
     line-height:26px;
 }
 .person-address .address .icon{
-    font-size:26px;
+    font-size:1rem;
 }
 .address-f5{
     flex:1;
@@ -193,18 +212,26 @@
     color:#fff;
 }
 .handle-affair{
+    position:absolute;
+    bottom:-2.5rem;
+    left:0;
     display:flex;
     justify-content: space-around;
     padding-bottom:30px;
+    width:100%;
 }
 .handle-affair div{
-    width:120px;
-    height:40px;
+    width:7.5rem;
+    height:2.75rem;
     background:#fff;
-    line-height:40px;
+    line-height:2.75rem;
+    border-radius:20px;
     text-align:center;
+    box-shadow:0 4px 3px -4px #64ABFB;
 }
 .handle-affair div .icon{
-    font-size:26px;
+    font-size:1rem;
+    margin-right:0.2rem;
+    color:#64ABFB;
 }
 </style>
