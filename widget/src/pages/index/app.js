@@ -5,6 +5,7 @@ import routes from '../../routes';
 import VueRouter from 'vue-router';
 import vconsole from 'vconsole';
 import VueScroller from 'vue-scroller'
+import Cookies from 'js-cookie'
 import 'assets/css/common.css'
 
 
@@ -15,15 +16,16 @@ Vue.use(VueScroller)
 const router = new VueRouter({
   routes
 })
-let API_HOST = ''
+let API_HOST = 'http://ldsapi.wkuai.cc/'
 window.HOST = API_HOST
 window.imgUrl = API_HOST
 window.router = router
-// window.apiready = function() {
+window.Cookies = Cookies
+window.apiready = function() {
     new Vue({
         el: '#app',
         router,
         render: h => h(App)
     })
     new vconsole()   
-// }
+}

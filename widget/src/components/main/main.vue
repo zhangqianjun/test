@@ -85,6 +85,38 @@
         created() {
             this.getAdress()
         },
+        mounted() {
+            $(document).on('click','.ifInline', function () {
+                var buttons1 = [
+                    {
+                    text: '请选择',
+                    label: true
+                    },
+                    {
+                    text: '在线',
+                    bold: true,
+                    color: 'danger',
+                    onClick: function() {
+                        $.alert("你选择了“在线“");
+                    }
+                    },
+                    {
+                    text: '离线',
+                    onClick: function() {
+                        $.alert("你选择了“离线“");
+                    }
+                    }
+                ];
+                var buttons2 = [
+                    {
+                    text: '取消',
+                    bg: 'danger'
+                    }
+                ];
+                var groups = [buttons1, buttons2];
+                $.actions(groups);
+            });
+        },
         methods: {
             gotoReport() {
                 router.push({ name: 'affairReport'})

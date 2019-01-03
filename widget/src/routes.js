@@ -25,9 +25,11 @@ const set = (resolve) => {
 const todoDetails = (resolve) => {
   require(['./components/list/todoDetail.vue'], resolve)
 }
-
+// 事件细节
+const lookRecord = (resolve) => {
+  require(['./components/list/lookRecord.vue'], resolve)
+}
 const routes = [
-  // 登陆模块 normalLogin-本地开发测试登陆
   {
     path: '/',
     component: Home,
@@ -37,7 +39,8 @@ const routes = [
       { path: '/affairReport', component: affairReport, name: 'affairReport', meta: { keepAlive: false }},
       { path: '/search', component: search, name: 'search', meta: { keepAlive: false }},
       { path: '/set', component: set, name: 'set', meta: { keepAlive: false }},
-      { path: '/todoDetails/:id', component: todoDetails, name: 'todoDetails', meta: { keepAlive: false }}
+      { path: '/todoDetails/:id', component: todoDetails, name: 'todoDetails', meta: { keepAlive: false }},
+      { path: '/lookRecord/:id', component: lookRecord, name: 'lookRecord', meta: { keepAlive: false }}
     ]
   }
 ]

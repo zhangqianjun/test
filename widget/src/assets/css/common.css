@@ -658,6 +658,9 @@ a {
 .honray-clear_btn {
   display: inline-block !important;
 }
+.topUI {
+  background:#fff;padding-top:20px;
+}
 
 @media only screen and (min-width: 750px) {
 	html{

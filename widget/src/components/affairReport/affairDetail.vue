@@ -1,5 +1,6 @@
 <template>
     <div class="affairDetail">
+        <div style="background:#fff;padding-top:20px;"></div>
         <header class="bar bar-nav">
             <button class="button pull-left" @click="goback()">
                 返回
@@ -9,7 +10,7 @@
             </button>
             <h1 class="title">事件上报</h1>
         </header>
-        <div class="content">
+        <div class="content" style="margin-top: 20px;">
             <div class="list-block">
                 <ul>
                 <li class="item-link">
@@ -171,6 +172,7 @@
 <style>
 .affairDetail .bar{
     background: #fff;
+    top: auto;
 }
 .affairDetail .content{
     background:#FAFAFA;
@@ -207,7 +209,11 @@
     font-size: 12px;
 }
 .affairDetail .address-title{
-    padding: 10px 0;
+    margin: 10px 0;
+    padding-left: 10px;
+    font-size: 0.85rem;
+    line-height: 0.85rem;
+    border-left: 2px solid #64ABFB;
 }
 .affairDetail .file-upload{
     border:1px solid #E6E6E6;

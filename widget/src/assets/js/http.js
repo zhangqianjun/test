@@ -5,9 +5,9 @@
      * 用户管理
      *============================================*/
     // 用户登录
-    $http.login = function (data, success) {
-      this.ajax({
-        url: '/api/mobile/login',
+    $http.login = function (api, data, success) {
+      this.ajax(api, {
+        url: 'admin/base/login',
         method: 'post',
         data: {
           body: data
@@ -206,31 +206,30 @@
       });
     }
     // 封装ajax请求
-    $http.ajax = function (opts, callback, errCallback) {
-      var hideLoading = opts.hideLoading || false
-      if (!hideLoading) {
-        var loading = weui.loading('loading');
-      }
+    $http.ajax = function (api, opts, callback, errCallback) {
+      // var hideLoading = opts.hideLoading || false
+      // if (!hideLoading) {
+      //   var loading = weui.loading('loading');
+      // }
       // 拼接url
       opts.url = HOST + opts.url;
+      console.log(opts)
       opts.dataType = opts.dataType ? opts.dataType : 'json';
       // 设置header
       opts.headers = {
         'content-Type': 'application/json'
       };
-      var token = $api.getStorage('token');
-      if (token) {
-        opts.headers.token = token + '%' + window.btoa(new Date().getTime())
-      }
+      // var token = $api.getStorage('token');
+      // if (token) {
+      //   opts.headers.token = token + '%' + window.btoa(new Date().getTime())
+      // }
       console.log('\n请求参数：' + JSON.stringify(opts));
       // ajax请求
       api.ajax(opts, function (ret, err) {
-        if (!hideLoading) {
-          loading.hide();
-        }
         if (ret) {
+          console.log(ret)
           if (ret.code == 101) {
-            $api.rmStorage('token');
+            // $api.rmStorage('token');
             api.toast({
               msg: '登录过期，请重新登录',
               duration: 1500,

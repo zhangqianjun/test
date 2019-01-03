@@ -21,11 +21,13 @@
                 </span>
                 <input type="password" v-model.trim="form.password" auto-complete="off" placeholder="密码" @focus="onFocus2" @blur="onBlur1(2)" @keyup.enter="handleSubmit2" />
             </div>
-            <div class="login-button">登录</div>
+            <div class="login-button" @click="login()">登录</div>
         </div>
     </div>
 </template>
 <script>
+import base64 from 'base-64'
+import utf8 from 'utf8'
 export default {
     data() {
         return{
@@ -55,6 +57,20 @@ export default {
         },
         handleSubmit2() {
             
+        },
+        login() {
+            console.log(this.form)
+            let param = {
+                username: this.form.account,
+                password: base64.encode(utf8.encode(this.form.password))
+            }
+            let loginCallback = (res) => {
+                // if (res.code == 200) {
+                    Cookies.set('token', res.token, { expires: 7, path: '' })
+                    router.push({ name: 'entrance' })
+                // }
+            }
+            $http.login(api, param, loginCallback)
         }
     }
 }

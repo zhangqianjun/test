@@ -1,8 +1,9 @@
 <template>
   <div class="todoDetail">
-    <header class="bar bar-nav"
-      style="height:60px;padding-top:20px;">
-      <button v-if="!openMap"
+    <div style="background:#fff;padding-top:20px;"></div>
+    <header class="bar bar-nav">
+      <span v-if="!openMap" class="icon icon-left pull-left" @click="goback()" style="width:auto; height: auto;"></span>
+      <button v-if="openMap"
         class="button pull-left"
         @click="outMap()">
         返回
@@ -10,8 +11,7 @@
       <h1 v-if="!openMap"
         class="title">视图列表</h1>
     </header>
-    <div class="content"
-      style="top:60px;">
+    <div class="content" style="padding-top: 20px;">
       <div class="list-block">
         <ul>
           <li class="item-content">
@@ -82,7 +82,14 @@
                 </div>
             </div>
           </li>
-          <li>查看处理记录</li>
+          <li class="look-record" @click="pushRecordPage()">
+            <span>
+              <svg class="icon" aria-hidden="true">
+                  <use xlink:href="#icon-jilu"></use>
+              </svg>
+            </span>
+            <span>查看处理记录</span>
+          </li>
           <li class="align-top">
               <div class="address-content">
                   <div class="address-title">附件</div>
@@ -142,6 +149,7 @@ export default {
     showMap() {
       // let map = new AMap.Map(this.$refs.map)
       // console.log(map)
+      // console.log(new AMap)
       var map = new AMap.Map('container', {
         zoom: 11,//级别
         center: [116.397428, 39.90923]//中心点坐标
@@ -182,11 +190,15 @@ export default {
       apiMap.openMap(api, aMap, param, openCallback)
     },
     outMap() {
+      this.openMap = false
       var aMap = api.require('aMap');
       aMap.close();
       aMap.removeRoute({
         ids: [1]
       });
+    },
+    pushRecordPage() {
+      router.push({ name: 'lookRecord'})
     }
   }
 }
@@ -200,6 +212,10 @@ export default {
 .list-block ul {
   margin-bottom: 10px;
 }
+.todoDetail .bar{
+    background: #fff;
+    top: 20px;
+}
 .todoDetail .list-block {
   margin: 0;
 }
@@ -211,11 +227,16 @@ export default {
   color: #999999;
 }
 .todoDetail .todo-content .item-title{
-  padding: 10px 0;
+  margin: 15px 0 10px;
+  padding-left:10px;
+}
+.todo-content .item-title{
+  font-size: 0.85rem;
+  line-height: 0.85rem;
+  border-left: 2px solid #64ABFB;
 }
 .todo-li li{
   padding:0;
-  margin-left: 0.75rem;
   border-bottom: 1px solid #E6E6E6;
 }
 .todoDetail .address-content{
@@ -237,5 +258,10 @@ export default {
     line-height:90px;
     text-align: center;
     font-size:60px;
+}
+.look-record{
+  padding-left: 1rem !important;
+  font-size:0.7rem;
+  color:#64ABFB;
 }
 </style>
