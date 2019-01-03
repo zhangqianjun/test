@@ -1,6 +1,6 @@
 <template>
 <div class="search-list">
-    <div class="topUI" style="background:#fff;padding-top:20px;"></div>
+    <div class="topUI" style="background:#fff;padding-top:25px;"></div>
     <header class="bar bar-nav">
         <span class="icon icon-left pull-left" @click="goback()" style="width:auto; height: auto;"></span>
         <h1 class="title">搜索</h1>
@@ -23,6 +23,11 @@ export default {
         goback() {
             router.go(-1)
         }
+    },
+    created() {
+        api.setStatusBarStyle({
+            style: 'dark'
+        });
     }
 }
 </script>

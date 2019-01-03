@@ -39,6 +39,11 @@ export default {
             passwordFocus: false
         }
     },
+    created() {
+        api.setStatusBarStyle({
+            style: 'dark'
+        });
+    },
     methods: {
         onFocus1() {
             this.accoutFocus = true

@@ -1,17 +1,19 @@
 <template>
   <div class="todoDetail">
-    <div style="background:#fff;padding-top:20px;"></div>
+    <div style="background:#fff;height: 25px;"></div>
     <header class="bar bar-nav">
       <span v-if="!openMap" class="icon icon-left pull-left" @click="goback()" style="width:auto; height: auto;"></span>
       <button v-if="openMap"
         class="button pull-left"
+        style="border:0;"
         @click="outMap()">
-        返回
+        退出导航
       </button>
+      <!-- <span v-if="openMap" class="icon icon-left pull-left" @click="outMap()" style="width:auto; height: auto;"></span> -->
       <h1 v-if="!openMap"
         class="title">视图列表</h1>
     </header>
-    <div class="content" style="padding-top: 20px;">
+    <div class="content" style="padding-top: 25px;">
       <div class="list-block">
         <ul>
           <li class="item-content">
@@ -110,7 +112,7 @@
           </li>
           <div ref="map"
             id="container"
-            style="border: 1px solid black; height: 20rem; width: 100%;"></div>
+            style=" margin:10px 10px 20px;border: 1px solid #fafafa; height: 10rem;"></div>
         </ul>
       </div>
     </div>
@@ -126,7 +128,9 @@ export default {
     }
   },
   created() {
-
+    api.setStatusBarStyle({
+      style: 'dark'
+    });
   },
   mounted() {
     this.showMap()
@@ -199,6 +203,9 @@ export default {
     },
     pushRecordPage() {
       router.push({ name: 'lookRecord'})
+    },
+    goback() {
+      router.go(-1)
     }
   }
 }

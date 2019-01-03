@@ -47,6 +47,11 @@ export default {
             changePass: false,
         }
     },
+    created() {
+        api.setStatusBarStyle({
+            style: 'dark'
+        });
+    },
     methods: {
         goback() {
             router.go(-1)

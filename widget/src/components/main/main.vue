@@ -30,8 +30,9 @@
                                         <use xlink:href="#icon-dizhi"></use>
                                     </svg>
                                 </i>
-                                <p style="width:100%;">{{addressName}}</p>
+                                <span>{{addressName}}</span>
                             </span>
+                            <!-- <p style="width:100%;">{{addressName}}kjfhilhfuihguaueyrgaeruygferuarueiur</p> -->
                             <span class="address-f5" @click="getAdress()">
                                 <svg class="icon" aria-hidden="true">
                                     <use xlink:href="#icon-shuaxin"></use>
@@ -83,6 +84,9 @@
             }
         },
         created() {
+            api.setStatusBarStyle({
+                style: 'light'
+            });
             this.getAdress()
         },
         mounted() {
@@ -131,16 +135,16 @@
                 let getpicture = (ret) => {
                     var pictureWatermark = api.require('pictureWatermark');
                     let param = {
-                        text: '2018-10-20',
+                        text: moment(new Date()).format("YYYY-MM-DD hh:mm:ss"),
                         x: 0,
                         y: 0
                     }
                     let waterBack = (ret) => {
                         // this.getAdress(callback)
                         let param = {
-                            text: 'this.addressName',
+                            text: this.addressName,
                             x: 0,
-                            y: 20
+                            y: 30
                         }
                         let againBack = (ret) => {
                             photoApi.saveAlbum(api, ret.path)
@@ -159,7 +163,8 @@
                         lat: ret.latitude
                     }
                     let namesBack = (res) => {
-                        this.addressName = res.address
+                        console.log(res)
+                        this.addressName = res.district + res.building
                     }
                     apiMap.getAdress(aMap, param, namesBack)
                 }
@@ -193,7 +198,8 @@
     flex-direction: column;
     padding-left:10px;
     height:70px;
-    width:150px;
+    flex:1;
+    /* width:150px; */
 }
 .person-line {
     /* overflow: hidden; */
@@ -223,14 +229,22 @@
     color:#fff;
 }
 .person-address{
+    width:100%;
     height:1.45rem;
     display:flex;
     color:#fff;
+    margin-right: 10px;
 }
 .person-address .address{
     width:80%;
     display:flex;
     line-height:26px;
+}
+.person-address .address span{
+    padding-left:15px;
+    line-height:30px;
+    overflow:hidden;
+    white-space: nowrap;text-overflow: ellipsis;
 }
 .person-address .address .icon{
     font-size:1rem;

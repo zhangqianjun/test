@@ -1,7 +1,7 @@
 <template>
     <div class="affairDetail">
-        <div style="background:#fff;padding-top:20px;"></div>
-        <header class="bar bar-nav">
+        <div style="background:#fff;padding-top:25px;"></div>
+        <header ref="header" class="bar bar-nav">
             <button class="button pull-left" @click="goback()">
                 返回
             </button>
@@ -10,7 +10,7 @@
             </button>
             <h1 class="title">事件上报</h1>
         </header>
-        <div class="content" style="margin-top: 20px;">
+        <div class="content" style="margin-top: 25px;">
             <div class="list-block">
                 <ul>
                 <li class="item-link">
@@ -80,6 +80,7 @@
                         </div>
                     </div>
                 </li>
+                <upload></upload>
                 </ul>
             </div>
         </div>
@@ -89,6 +90,7 @@
 <script>
     import apiMap from 'assets/js/map.js'
     import hrSelector from '../hr-selector/index.vue'
+    import upload from 'components/form/upload.vue'
     // import popupList from '../common/popup.vue'
     export default {
         data() {
@@ -99,10 +101,17 @@
                 value: '',
                 label:'服务事项',
                 show_tips: '12',
-                is_needed:true
+                is_needed:true,
+                options: [
+                    '1',
+                    '2'
+                ]
             }
         },
         created() {
+            api.setStatusBarStyle({
+                style: 'dark'
+            });
             var aMap = api.require('aMap');
             let nameBack = (ret) => {
                 let param = {
@@ -147,6 +156,8 @@
             // apiMap.openMap(api, aMap, param, callback)
         },
         mounted() {
+            // console.log(this.$refs.header)
+            // $g.winInit(this.refs.header)
         },
         methods: {
             openpopup() {
@@ -165,7 +176,8 @@
         },
         components: {
             // popupList
-            hrSelector
+            hrSelector,
+            upload
         }
     }
 </script>

@@ -5,7 +5,7 @@ const mapApi = {
         obj.open({
             rect: {
                 x: 0,
-                y: 50,
+                y: 65,
                 w: param.width,
                 h: param.height
             },

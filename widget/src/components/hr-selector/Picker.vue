@@ -151,7 +151,6 @@
 
         this.$container.style.webkitTransform = 'rotateX(' + distinct + 'deg)'
         this.showCal()
-        // console.log(distinct)
         return distinct
       },
       showCal () {

@@ -1,11 +1,11 @@
 <template>
     <div class="lookRecord">
-        <div class="topUI" style="background:#fff;padding-top:20px;"></div>
+        <div class="topUI" style="background:#fff;padding-top:25px;"></div>
         <header class="bar bar-nav">
             <span class="icon icon-left pull-left" @click="goback()" style="width:auto; height: auto;"></span>
             <h1 class="title">处理记录</h1>
         </header>
-        <div class="content" style="padding-top: 20px;">
+        <div class="content" style="padding-top: 25px;">
             <ul>
                 <li>
                     <img src=""/>
@@ -26,6 +26,9 @@
             }
         },
         created() {
+            api.setStatusBarStyle({
+                style: 'dark'
+            });
         },
         mounted() {
         },

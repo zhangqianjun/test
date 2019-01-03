@@ -5,7 +5,9 @@ import routes from '../../routes';
 import VueRouter from 'vue-router';
 import vconsole from 'vconsole';
 import VueScroller from 'vue-scroller'
+import moment from 'moment'
 import Cookies from 'js-cookie'
+import $g from 'assets/js/global.js'
 import 'assets/css/common.css'
 
 
@@ -21,6 +23,8 @@ window.HOST = API_HOST
 window.imgUrl = API_HOST
 window.router = router
 window.Cookies = Cookies
+window.moment = moment
+window.$g = $g
 window.apiready = function() {
     new Vue({
         el: '#app',
