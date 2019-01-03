@@ -168,10 +168,12 @@ export default {
       var aMap = api.require('aMap');
       let param = {
         width: 'auto',
-        height: 'auto'
+        height: 'auto',
+        lon: '113.32034789',
+        lat: '23.11588743'
       }
-      let openCallback = (res) => {
-        this.openMap = true
+      // let openCallback = (res) => {
+        // this.openMap = true
         let nameBack = (ret) => {
           let param = {
             start: {
@@ -185,13 +187,43 @@ export default {
 
           }
           let LineCallback = (res) => {
+            let openCallback = (res) => {
+              this.openMap = true
+              aMap.drawRoute({
+                id: 1,
+                autoresizing: true,
+                index: 0,
+                styles: {
+                    walkLine: {
+                        width: 3,
+                        color: '#698B22',
+                        lineDash: false,
+                        strokeImg: ''
+                    },
+                    icons: {
+                        start: '',
+                        end: '',
+                        bus: '',
+                        car: '',
+                        man: ''
+                    }
+                }
+            });
+            }
             console.log(res)
+            let param = {
+              width: 'auto',
+              height: 'auto',
+              lon: '113.32034789',
+              lat: '23.11588743'
+            }
+            apiMap.openMap(api, aMap, param, openCallback)
           }
           apiMap.getLine(aMap, 1, param.start, param.end, LineCallback)
         }
         apiMap.getLocation(api, nameBack)
-      }
-      apiMap.openMap(api, aMap, param, openCallback)
+      // }
+      // apiMap.openMap(api, aMap, param, openCallback)
     },
     outMap() {
       this.openMap = false

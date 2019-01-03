@@ -2,7 +2,7 @@
     <div style="width:100%; height: 100%;">
         <!-- <div style="margin-top: 5rem;" @click="getapp()">首页111</div> -->
         <!-- <transition name="fade" mode="in-out"> -->
-            <transition name="bounce">
+            <transition name="bounce" mode="out-in">
             <router-view></router-view>
             </transition>
         <!-- </transition> -->
@@ -49,7 +49,7 @@
       transform: scale(0);
     }
     50% {
-      transform: scale(1.05);
+      transform: scale(12.05);
     }
     100% {
       transform: scale(1);
@@ -61,7 +61,7 @@
       transform: scale(1);
     }
     50% {
-      transform: scale(0.95);
+      transform: scale(2.95);
     }
     100% {
       transform: scale(0);

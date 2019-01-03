@@ -117,27 +117,28 @@ const mapApi = {
             end: end
         }, function(ret, err) {
             if (ret.status) {
-                    obj.drawRoute({
-                        id: 1,
-                        autoresizing: true,
-                        index: 0,
-                        styles: {
-                            walkLine: {
-                                width: 3,
-                                color: '#698B22',
-                                lineDash: false,
-                                strokeImg: ''
-                            },
-                            icons: {
-                                start: '',
-                                end: '',
-                                bus: '',
-                                car: '',
-                                man: ''
-                            }
-                        }
-                    });
-                api.alert({ msg: JSON.stringify(ret) });
+                callback(ret.status)
+                    // obj.drawRoute({
+                    //     id: 1,
+                    //     autoresizing: true,
+                    //     index: 0,
+                    //     styles: {
+                    //         walkLine: {
+                    //             width: 3,
+                    //             color: '#698B22',
+                    //             lineDash: false,
+                    //             strokeImg: ''
+                    //         },
+                    //         icons: {
+                    //             start: '',
+                    //             end: '',
+                    //             bus: '',
+                    //             car: '',
+                    //             man: ''
+                    //         }
+                    //     }
+                    // });
+                // api.alert({ msg: JSON.stringify(ret) });
             }
         });    
     }
