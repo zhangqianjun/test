@@ -17,7 +17,7 @@ let config = {
         path: resolve(__dirname, './dist'),
         filename: '[name].js',
         // filename: 'script/[id].js',
-        publicPath: process.env.NODE_ENV === 'production' ? '../' : '/'
+        publicPath: process.env.NODE_ENV === 'production' ? './' : '/'
     },
     resolve: {
         //配置别名，在项目中可缩减引用路径
