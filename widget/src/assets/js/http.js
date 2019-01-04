@@ -154,9 +154,9 @@
     }
   
     // 待办类型列表
-    $http.getTypeList = function (success) {
-      this.ajax({
-        url: '/mission/category/?data_type=1',
+    $http.getTypeList = function (api, success) {
+      this.ajax(api, {
+        url: '/api/app/getEventType',
         method: 'get',
         data: {
           body: {}
@@ -180,16 +180,27 @@
     }
   
     // 通知列表
-    $http.getNoticeList = function (data, success) {
-      this.ajax({
-        url: '/api/mobile/notice',
-        method: 'get',
+    $http.getNoticeList = function (api, data, success) {
+      this.ajax(api, {
+        url: '/api/app/reportEvent',
+        method: 'post',
         data: {
           body: data
         }
       }, function (res) {
         success(res);
       });
+    }
+    $http.getEventDetail = function (api, data, success) {
+      this.ajax(api, {
+        url: '',
+        method: 'get',
+        data: {
+          body: data
+        }
+      }, function (res) {
+        success(res)
+      })
     }
 
   
@@ -219,10 +230,10 @@
       opts.headers = {
         'content-Type': 'application/json'
       };
-      // var token = $api.getStorage('token');
-      // if (token) {
-      //   opts.headers.token = token + '%' + window.btoa(new Date().getTime())
-      // }
+      var token = Cookies.get('token');
+      if (token) {
+        opts.headers.token = token + '%' + window.btoa(new Date().getTime())
+      }
       console.log('\n请求参数：' + JSON.stringify(opts));
       // ajax请求
       api.ajax(opts, function (ret, err) {
@@ -244,7 +255,7 @@
             if (opts.url.indexOf('/missions') == -1 && opts.url.indexOf('/bpm/cases/') == -1) {
               console.log('\n返回数据：' + JSON.stringify(ret.data));
             }
-            callback(ret.data);
+            callback(ret);
           } else {
             console.log('\n报错400：' + ret.error);
             api.toast({

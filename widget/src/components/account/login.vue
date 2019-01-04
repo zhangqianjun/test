@@ -70,10 +70,10 @@ export default {
                 password: base64.encode(utf8.encode(this.form.password))
             }
             let loginCallback = (res) => {
-                // if (res.code == 200) {
-                    Cookies.set('token', res.token, { expires: 7, path: '' })
+                if (res.code == 200) {
+                    Cookies.set('token', res.data.token, { expires: 7, path: '' })
                     router.push({ name: 'entrance' })
-                // }
+                }
             }
             $http.login(api, param, loginCallback)
         }

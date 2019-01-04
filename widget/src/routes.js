@@ -29,6 +29,14 @@ const todoDetails = (resolve) => {
 const lookRecord = (resolve) => {
   require(['./components/list/lookRecord.vue'], resolve)
 }
+// 查看事件
+const lookEvent = (resolve) => {
+  require(['./components/list/lookEvent.vue'], resolve)
+}
+// 查看事件
+const checkEvent = (resolve) => {
+  require(['./components/list/checkEvent.vue'], resolve)
+}
 const routes = [
   {
     path: '/',
@@ -40,7 +48,9 @@ const routes = [
       { path: '/search', component: search, name: 'search', meta: { keepAlive: false }},
       { path: '/set', component: set, name: 'set', meta: { keepAlive: false }},
       { path: '/todoDetails/:id', component: todoDetails, name: 'todoDetails', meta: { keepAlive: false }},
-      { path: '/lookRecord/:id', component: lookRecord, name: 'lookRecord', meta: { keepAlive: false }}
+      { path: '/lookRecord/:id', component: lookRecord, name: 'lookRecord', meta: { keepAlive: false }},
+      { path: '/lookEvent/:id', component: lookEvent, name: 'lookEvent', meta: { keepAlive: false }},
+      { path: '/checkEvent/:id', component: checkEvent, name: 'checkEvent', meta: { keepAlive: false }}
     ]
   }
 ]

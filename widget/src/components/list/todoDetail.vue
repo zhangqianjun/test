@@ -18,13 +18,25 @@
         <ul>
           <li class="item-content">
             <div class="item-inner">
-              <div class="item-title">服务事项</div>
+              <div class="item-title">发起人</div>
               <div class="item-after">李二</div>
             </div>
           </li>
           <li class="item-content">
             <div class="item-inner">
-              <div class="item-title">处理级别</div>
+              <div class="item-title">时间</div>
+              <div class="item-after">2018-12-01 12:32</div>
+            </div>
+          </li>
+          <li class="item-content">
+            <div class="item-inner">
+              <div class="item-title">时效性</div>
+              <div class="item-after">2018-12-01 12:32</div>
+            </div>
+          </li>
+          <li class="item-content">
+            <div class="item-inner">
+              <div class="item-title">状态</div>
               <div class="item-after">2018-12-01 12:32</div>
             </div>
           </li>
@@ -34,13 +46,7 @@
         <ul class="todo-li">
           <li class="item-content">
             <div class="todo-content">
-              <div class="item-title">上报地址</div>
-              <div class="item-after">2018-12-01 12:32</div>
-            </div>
-          </li>
-          <li class="item-content">
-            <div class="todo-content">
-              <div class="item-title">问题标题</div>
+              <div class="item-title">标题</div>
               <div class="item-after">2018-12-01 12:32</div>
             </div>
           </li>
@@ -49,55 +55,6 @@
               <div class="item-title">问题描述</div>
               <div class="item-after">2018-12-01 12:32</div>
             </div>
-          </li>
-          <li class="item-content">
-            <div class="todo-content">
-              <div class="item-title">办案结果</div>
-              <div class="item-after">2018-12-01 12:32</div>
-            </div>
-          </li>
-        </ul>
-      </div>
-      <div class="list-block">
-        <ul>
-          <li class="item-content">
-            <div class="item-inner">
-              <div class="item-title">状态</div>
-              <div class="item-after">在线</div>
-            </div>
-          </li>
-          <li class="item-content">
-            <div class="item-inner">
-              <div class="item-title">状态</div>
-              <div class="item-after">在线</div>
-            </div>
-          </li>
-        </ul>
-      </div>
-      <div class="list-block">
-        <ul>
-          <li>
-            <div class="address-content">
-                <div class="address-title">地址信息</div>
-                <div class="address-input">
-                  <textarea v-model="addressName"></textarea>
-                </div>
-            </div>
-          </li>
-          <li class="look-record" @click="pushRecordPage()">
-            <span>
-              <svg class="icon" aria-hidden="true">
-                  <use xlink:href="#icon-jilu"></use>
-              </svg>
-            </span>
-            <span>查看处理记录</span>
-          </li>
-          <li class="align-top">
-              <div class="address-content">
-                  <div class="address-title">附件</div>
-                  <div class="file-upload">+
-                  </div>
-              </div>
           </li>
         </ul>
       </div>

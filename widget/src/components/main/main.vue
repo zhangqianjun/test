@@ -21,7 +21,7 @@
                     <div class="person-name">
                         <div class="person-line">
                             <span class="name">liukjj</span>
-                            <span class="ifInline">在线</span>
+                            <span class="ifInline" @click="selectInline()">在线</span>
                         </div>
                         <div class="person-address">
                             <span class="address">
@@ -70,6 +70,7 @@
             </div>
         </div>
         <list-content></list-content>
+        <popup v-if="selectLine" @ifopen="ifopen()"></popup>
     </div>
 </template>
 
@@ -77,10 +78,12 @@
     import listContent from '../list/listContent.vue'
     import photoApi from 'assets/js/photo.js'
     import apiMap from 'assets/js/map.js'
+    import popup from '../common/popup.vue'
     export default {
         data() {
             return {
-                addressName: ''
+                addressName: '',
+                selectLine: false
             }
         },
         created() {
@@ -90,38 +93,14 @@
             this.getAdress()
         },
         mounted() {
-            $(document).on('click','.ifInline', function () {
-                var buttons1 = [
-                    {
-                    text: '请选择',
-                    label: true
-                    },
-                    {
-                    text: '在线',
-                    bold: true,
-                    color: 'danger',
-                    onClick: function() {
-                        $.alert("你选择了“在线“");
-                    }
-                    },
-                    {
-                    text: '离线',
-                    onClick: function() {
-                        $.alert("你选择了“离线“");
-                    }
-                    }
-                ];
-                var buttons2 = [
-                    {
-                    text: '取消',
-                    bg: 'danger'
-                    }
-                ];
-                var groups = [buttons1, buttons2];
-                $.actions(groups);
-            });
         },
         methods: {
+            selectInline() {
+                this.selectLine = true
+            },
+            ifopen() {
+                this.selectLine = false
+            },
             gotoReport() {
                 router.push({ name: 'affairReport'})
             },
@@ -172,7 +151,8 @@
             }
         },
         components:{
-            listContent
+            listContent,
+            popup
         }
     }
 </script>

@@ -8,6 +8,7 @@ import VueScroller from 'vue-scroller'
 import moment from 'moment'
 import Cookies from 'js-cookie'
 import $g from 'assets/js/global.js'
+import _ from 'lodash'
 import 'assets/js/http.js'
 import 'assets/js/iconfont.js'
 import 'assets/css/common.css'
@@ -27,11 +28,12 @@ window.router = router
 window.Cookies = Cookies
 window.moment = moment
 window.$g = $g
-window.apiready = function() {
+window._ = _
+// window.apiready = function() {
     new Vue({
         el: '#app',
         router,
         render: h => h(App)
     })
     new vconsole()   
-}
+// }

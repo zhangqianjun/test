@@ -175,9 +175,6 @@ export default {
 }
 .right-content {
   color:#ccc;
-  display: flex;
-  align-items: center;
-  justify-content: right;
   flex-grow: 1;
   text-align:right;
 }
