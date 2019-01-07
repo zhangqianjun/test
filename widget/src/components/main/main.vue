@@ -17,11 +17,11 @@
                     </p>
                 </div>
                 <div class="person-title">
-                    <img src="" />
+                    <img :src="`${HOST}${userInfo.photo}`" />
                     <div class="person-name">
                         <div class="person-line">
-                            <span class="name">liukjj</span>
-                            <span class="ifInline" @click="selectInline()">在线</span>
+                            <span class="name">{{userInfo.name}}</span>
+                            <span class="ifInline" @click="selectInline()">{{userInfo.status == 1 ? '在线' : '离线'}}</span>
                         </div>
                         <div class="person-address">
                             <span class="address">
@@ -83,7 +83,8 @@
         data() {
             return {
                 addressName: '',
-                selectLine: false
+                selectLine: false,
+                userInfo: {},
             }
         },
         created() {
@@ -95,6 +96,12 @@
         mounted() {
         },
         methods: {
+            getUserInfo() {
+                let callback = (res) => {
+                    this.userInfo = res.data
+                }
+                $http.getUserInfo(api, callback)
+            },
             selectInline() {
                 this.selectLine = true
             },

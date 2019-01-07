@@ -18,9 +18,9 @@
     }
   
     // 用户基本信息
-    $http.getUserInfo = function (success) {
-      this.ajax({
-        url: '/api/mobile/user-info',
+    $http.getUserInfo = function (api, success) {
+      this.ajax(api, {
+        url: '/api/app/getUserInfo',
         method: 'get',
         data: {
           body: {}

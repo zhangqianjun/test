@@ -33,6 +33,16 @@
         mounted() {
         },
         methods: {
+            getlist() {
+                // let id = this.$route.query.id
+                // let callback =(res) => {
+                //     console.log(res)
+                // }
+                // let param = {
+                //     eventId: id
+                // }
+                // $http.getRecordList = (api, param, callback)
+            },
             goback() {
                 router.go(-1)
             }

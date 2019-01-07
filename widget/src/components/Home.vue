@@ -2,9 +2,9 @@
     <div style="width:100%; height: 100%;">
         <!-- <div style="margin-top: 5rem;" @click="getapp()">首页111</div> -->
         <!-- <transition name="fade" mode="in-out"> -->
-            <transition name="bounce" mode="out-in">
+            <!-- <transition name="right-slide"> -->
             <router-view></router-view>
-            </transition>
+            <!-- </transition> -->
         <!-- </transition> -->
     </div>
 </template>
@@ -36,13 +36,26 @@
     }
 </script>
 <style>
+.right-slide-enter-active{
+transition: all 0.5s;
+}
+.right-slide-enter{
+transform: translateX(130px);
+}
 .bounce-enter-active {
-    animation: bounce-in .5s;
+    /* animation: bounce-in .5s; */
+    transition: all 0.5s linear;
+    transform: translate3d(0, 0, 0);
   }
 
   .bounce-leave-active {
-    animation: bounce-out .2s;
+    /* animation: bounce-out .2s; */
+    transition: all 0.5s linear;
+    transform: translate3d(-100%, 0, 0);
   }
+  .bounce-enter, .bounce-leave {
+      transform: translate3d(100%, 0, 0);
+  } 
 
   @keyframes bounce-in {
     0% {
