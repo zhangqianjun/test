@@ -1,17 +1,17 @@
 <template>
     <div style="background:#fff;">
         <div class="list-item">
-            <p class="item-title">发现发现</p>
+            <p class="item-title">{{item.title}}</p>
             <p class="item-address">
                 <svg class="icon" aria-hidden="true">
                     <use xlink:href="#icon-dizhi"></use>
                 </svg>
-                <span>广州市</span></p>
+                <span>{{item.address}}</span></p>
             <p class="item-date">
                 <svg class="icon" aria-hidden="true">
                     <use xlink:href="#icon-calendar"></use>
                 </svg>
-                <span>2018-12-25</span></p>
+                <span>{{times}}</span></p>
         </div>
     </div>
 </template>
@@ -30,9 +30,13 @@
         },
         data() {
             return {
+                times: ''
             }
         },
         created() {
+            if (this.item.time) {
+                this.times = moment.unix(this.item.time).format('YYYY-MM-DD HH:mm')
+            }
         },
         methods: {
         }

@@ -1,5 +1,5 @@
 <template>
-  <div class="todoDetail">
+  <div class="checkEvent">
     <div style="background:#fff;height: 25px;"></div>
     <header class="bar bar-nav">
       <span class="icon icon-left pull-left" @click="goback()" style="width:auto; height: auto;"></span>
@@ -20,7 +20,7 @@
           <li class="item-content">
             <div class="item-inner">
               <div class="item-title">处理级别</div>
-              <div class="item-after">2018-12-01 12:32</div>
+              <div class="item-after">{{dataDetail.level == 1 ? '日常' : '紧急'}}</div>
             </div>
           </li>
         </ul>
@@ -30,19 +30,19 @@
           <li class="item-content">
             <div class="todo-content">
               <div class="item-title">上报地址</div>
-              <div class="item-after">2018-12-01 12:32</div>
+              <div class="item-after">{{dataDetail.address}}</div>
             </div>
           </li>
           <li class="item-content">
             <div class="todo-content">
               <div class="item-title">问题标题</div>
-              <div class="item-after">2018-12-01 12:32</div>
+              <div class="item-after">{{dataDetail.title}}</div>
             </div>
           </li>
           <li class="item-content">
             <div class="todo-content">
               <div class="item-title">问题描述</div>
-              <div class="item-after">2018-12-01 12:32</div>
+              <div class="item-after">{{dataDetail.description}}</div>
             </div>
           </li>
           <li class="item-content">
@@ -57,14 +57,25 @@
         <ul>
           <li class="item-content">
             <div class="item-inner">
-              <!-- <div class="item-title">群众满意度</div> -->
-              <!-- <div class="item-after">满意</div> -->
-              <div class="item-title label">群众满意度</div>
-                    <div class="item-input">
-                        <select>
-                            <option>满意</option>
-                            <option>不满意</option>
+              <div class="item-title label">核查结果</div>
+                    <div class="item-input selectItem">
+                        <select v-model="results">
+                            <option value="1">结案</option>
+                            <option value="2">未解决</option>
                         </select>
+                        <span class="icon icon-right"></span>
+                    </div>
+                </div>
+          </li>
+          <li class="item-content">
+            <div class="item-inner">
+              <div class="item-title label">群众满意度</div>
+                    <div class="item-input selectItem">
+                        <select v-model="mass">
+                            <option value="1">满意</option>
+                            <option value="2">不满意</option>
+                        </select>
+                        <span class="icon icon-right"></span>
                     </div>
                 </div>
           </li>
@@ -73,11 +84,12 @@
               <!-- <div class="item-title">结果评价</div> -->
               <!-- <div class="item-after">合格</div> -->
               <div class="item-title label">结果评价</div>
-                    <div class="item-input">
-                        <select>
-                            <option>合格</option>
-                            <option>不合格</option>
+                    <div class="item-input selectItem">
+                        <select dir="rtl" v-model="evaluation">
+                            <option value="1">合格</option>
+                            <option value="2">不合格</option>
                         </select>
+                        <span class="icon icon-right"></span>
                     </div>
             </div>
           </li>
@@ -89,7 +101,7 @@
             <div class="address-content">
                 <div class="address-title">结案意见</div>
                 <div class="address-input">
-                  <textarea v-model="addressName"></textarea>
+                  <textarea v-model="opinion"></textarea>
                 </div>
             </div>
           </li>
@@ -104,7 +116,8 @@
           <li class="align-top">
               <div class="address-content">
                   <div class="address-title">附件</div>
-                  <div class="file-upload">+
+                  <div>
+                    <img v-for="(item, index) in dataDetail.files" :key="index" :src="`${HOST}${item}`"/>
                   </div>
               </div>
           </li>
@@ -119,26 +132,53 @@ import apiMap from 'assets/js/map.js'
 export default {
   data() {
     return {
-      dataDetail: []
+      dataDetail: [],
+      results: '',
+      mass: '',
+      evaluation: '',
+      opinion: '',
     }
   },
   created() {
     api.setStatusBarStyle({
       style: 'dark'
     });
+    this.getEventDetail()
   },
   mounted() {
   },
   methods: {
     getEventDetail() {
       let id = this.$route.query.id
+      let param = {
+        eventId: id
+      }
       let callback = (res) => {
         this.dataDetail = res.data
+        console.log(res)
       }
-      $http.getEventDetail(api, id, callback)
+      console.log(param)
+      $http.getEventInfo(api, param, callback)
     },
     postEvent() {
-
+      let param = {
+        info: {
+          eventId: this.$route.query.id,
+          results: this.results,
+          mass: this.mass,
+          evaluation: this.evaluation,
+          opinion: this.opinion
+        }
+      }
+      let callback = (res) => {
+        api.toast({
+            msg: '提交成功',
+            duration: 2000,
+            location: 'bottom'
+        })
+        router.push({ name: 'entrance' })
+      }
+      $http.checkEvent(api, param, callback)
     },
     pushRecordPage() {
       router.push({ name: 'lookRecord'})
@@ -158,21 +198,21 @@ export default {
 .list-block ul {
   margin-bottom: 10px;
 }
-.todoDetail .bar{
+.checkEvent .bar{
     background: #fff;
     top: 20px;
 }
-.todoDetail .list-block {
+.checkEvent .list-block {
   margin: 0;
 }
-.todoDetail .content{
+.checkEvent .content{
   background:#fafafa;
 }
-.todoDetail .todo-content .item-after{
+.checkEvent .todo-content .item-after{
   margin-bottom:10px;
   color: #999999;
 }
-.todoDetail .todo-content .item-title{
+.checkEvent .todo-content .item-title{
   margin: 15px 0 10px;
   padding-left:10px;
 }
@@ -185,18 +225,18 @@ export default {
   padding:0;
   border-bottom: 1px solid #E6E6E6;
 }
-.todoDetail .address-content{
+.checkEvent .address-content{
     padding: 5px 0.75rem 25px 0.75rem;
 }
-.todoDetail .address-content .address-input{
+.checkEvent .address-content .address-input{
     border:1px solid #E6E6E6;
     color:#333333;
     font-size: 12px;
 }
-.todoDetail .address-title{
+.checkEvent .address-title{
     padding: 10px 0;
 }
-.todoDetail .file-upload{
+.checkEvent .file-upload{
     border:1px solid #E6E6E6;
     color:#333333;
     width:100px;
@@ -205,9 +245,27 @@ export default {
     text-align: center;
     font-size:60px;
 }
-.look-record{
+.checkEvent .look-record{
   padding-left: 1rem !important;
   font-size:0.7rem;
   color:#64ABFB;
+}
+.checkEvent .list-block select {
+  direction: rtl;
+}
+.checkEvent .list-block select option {
+    direction: ltr;
+}
+.selectItem{
+  position:relative;
+  padding-right:1rem;
+}
+.selectItem span {
+  width: 1rem;
+  height: 1rem;
+  color: #999;
+  position: absolute;
+  right: 0;
+  top: 0.5rem;
 }
 </style>

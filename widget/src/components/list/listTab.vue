@@ -3,7 +3,8 @@
     <scroller
       ref="scroller"
       :height="height"
-      :on-infinite="infinite">
+      >
+      <!-- :on-infinite="infinite" -->
       <slot name="listItem"></slot>
     </scroller>
     <empty :tips="tips" v-show="dataCount == 0"></empty>
@@ -22,10 +23,6 @@
         type: String,
         default: '100%'
       },
-      cssClass: {
-        // type: String,
-        default: ''
-      },
       dataCount: {
         type: Number,
         default: 1
@@ -35,20 +32,23 @@
         default: '没有数据'
       }
     },
+    created() {
+      console.log(this.dataCount)
+    },
     methods: {
-      infinite(done) {
-        if (this.finish) {
-          done()
-          return
-        }
-        this.$emit('infinite')
-      },
-      finishRefresh() {
-        this.$refs.scroller.finishPullToRefresh()
-      },
-      finishLoadmore(finish) {
-        this.$refs.scroller.finishInfinite(finish)
-      }
+      // infinite(done) {
+      //   if (this.finish) {
+      //     done()
+      //     return
+      //   }
+      //   this.$emit('infinite')
+      // },
+      // finishRefresh() {
+      //   this.$refs.scroller.finishPullToRefresh()
+      // },
+      // finishLoadmore(finish) {
+      //   this.$refs.scroller.finishInfinite(finish)
+      // }
     },
     components: {
       empty

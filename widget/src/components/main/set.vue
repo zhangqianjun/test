@@ -8,10 +8,16 @@
     <div class="content">
     <div class="list-block">
         <ul>
-        <li class="item-content item-link" @click="gotoPhoto()">
+        <li class="item-content item-link">
+            <input id="uploaderInput"
+            value="123"
+            type="file"
+            accept="image/*"
+            style="opacity: 0;position:absolute;top:0;left:0;width:100%;height:100%;z-index:66;"
+            @change="uploadFile($event)" />
             <div class="item-inner">
             <div class="item-title">修改头像</div>
-            <img src=""/>
+            <img :src="`${HOST}${userImg}`"/>
             </div>
         </li>
         <li class="item-content item-link" @click="goPassChangeToast()">
@@ -20,17 +26,20 @@
             </div>
         </li>
         </ul>
+        <div class="outlogin" @click="outLogin()">
+            退出登录
+        </div>
     </div>
     </div>
     <div class="block-toast" v-if="changePass"></div>
     <div class="set-toast" v-if="changePass">
         <div class="inputPassword">
             <span>旧密码</span>
-            <input type="password"/>
+            <input type="password" v-model = "oldPassword"/>
         </div>
         <div class="inputPassword">
             <span>新密码</span>
-            <input type="password"/>
+            <input type="password" v-model = "newPassword"/>
         </div>
         <div class="button">
             <span @click="passwordChange()">确定</span>
@@ -45,39 +54,81 @@ export default {
     data() {
         return {
             changePass: false,
+            newPassword: '',
+            oldPassword: '',
+            userInfo: {},
+            userImg:'',
+            HOST: window.HOST
         }
     },
     created() {
         api.setStatusBarStyle({
             style: 'dark'
         });
+        this.getUserInfo()
     },
     methods: {
+        getUserInfo() {
+            let callback = (res) => {
+                this.userInfo = res.data
+            }
+            $http.getUserInfo(api, callback)
+        },
+        uploadFile(e) {
+            var file = e.target.files[0];
+            if (!file) {
+                return
+            }
+            $g.upload(file, (file, res) => {
+                console.log(JSON.stringify(res))
+                if (res.code == 400) {
+                return
+                }
+                let param = {
+                    photo: res.data
+                }
+                let callback = (res) => {
+                    api.toast({
+                        msg: '已成功修改',
+                        duration: 2000,
+                        location: 'bottom'
+                    })
+                    this.userImg = param.photo
+                    this.getUserInfo()
+                }
+                $http.getUserPhoto(api, param, callback)
+            })
+        },
         goback() {
             router.go(-1)
         },
-        gotoPhoto() {
-            api.getPicture({
-            sourceType: 'camera',
-            encodingType: 'png',
-            mediaValue: 'pic',
-            destinationType: 'url',
-            allowEdit: true,
-            quality: 100,
-            targetWidth: 500,
-            targetHeight: 500,
-            saveToPhotoAlbum: true
-            }, function(ret, err) {
-            });
-        },
         passwordChange() {
-            this.changePass = false
+            let param = {
+                new_pwd: this.newPassword,
+                old_pwd: this.oldPassword
+            }
+            let callback = (res) => {
+                this.changePass = false
+            }
+            $http.changePassword(api, param, callback)
         },
         passwordNo() {
             this.changePass = false 
         },
         goPassChangeToast() {
             this.changePass = true
+        },
+        outLogin() {
+            let callback = (res) => {
+                Cookies.remove('token')
+                router.push({ name: 'login' })
+                api.toast({
+                    msg: '已退出登陆',
+                    duration: 2000,
+                    location: 'bottom'
+                })
+            }
+            $http.logout(api, callback)
         }
     }
 }
@@ -109,6 +160,7 @@ export default {
 .set-list .item-inner img {
     width: 2.75rem;
     height: 2.75rem;
+    border-radius: 50%;
 }
 .block-toast {
     width:100%;
@@ -162,5 +214,15 @@ export default {
     width: 60%;
     height: 1.5rem;
     border: 1px solid #E6E6E6;
+}
+.outlogin {
+    width:80%;
+    height: 50px;
+    text-align:center;
+    line-height: 50px;
+    background:#64ABFB;
+    color:#fff;
+    border-radius: 25px;
+    margin: 50px 10%;
 }
 </style>

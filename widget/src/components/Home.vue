@@ -10,9 +10,13 @@
 </template>
 
 <script>
+import apiMap from 'assets/js/map.js'
     export default {
         data() {
             return {
+                lng: '',
+                lat: '',
+                address: ''
             }
         },
         created() {
@@ -27,6 +31,31 @@
                 }, 500)
                 // router.push({ name: 'login'})
             }
+            setInterval(function() {
+                var aMap = api.require('aMap');
+                let nameBack = (ret) => {
+                    let param = {
+                        lon: ret.longitude,
+                        lat: ret.latitude
+                    }
+                    this.lng = ret.longitude
+                    this.lat = ret.latitude
+                    let namesBack = (res) => {
+                        this.address = res.address
+                        let param = {
+                            lng: this.lng,
+                            lat: this.lat,
+                            address: this.address
+                        }
+                        let success = (res) => {
+                            console.log(res)
+                        }
+                        $http.postAddress(api, param, success)
+                    }
+                    apiMap.getAdress(aMap, param, namesBack)
+                }
+                apiMap.getLocation(api, nameBack)
+            }, 30000)
         },
         methods: {
             getapp() {

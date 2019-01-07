@@ -85,6 +85,7 @@ export default {
     }
   },
   created() {
+    this.getEventDetail()
     api.setStatusBarStyle({
       style: 'dark'
     });
@@ -93,6 +94,16 @@ export default {
     this.showMap()
   },
   methods: {
+    getEventDetail() {
+      let id = this.$route.query.id
+      let param = {
+        eventId: '4'
+      }
+      let callback = (res) => {
+        console.log(res)
+      }
+      $http.getEventInfo(api, param, callback)
+    },
     getIcon() {
       var aMap = api.require('aMap');
       let mapBack = (ret) => {

@@ -29,11 +29,24 @@
         success(res);
       });
     }
+
+    // 修改头像
+    $http.getUserPhoto = function (api, data, success) {
+      this.ajax(api, {
+        url: 'api/app/uploadPhoto',
+        method: 'post',
+        data: {
+          body: data
+        }
+      }, function (res) {
+        success(res)
+      })
+    }
   
     // 修改密码
-    $http.resetPwd = function (data, success) {
-      this.ajax({
-        url: '/api/mobile/reset-pwd',
+    $http.changePassword = function (api, data, success) {
+      this.ajax(api, {
+        url: '/admin/users/setInfo',
         method: 'post',
         data: {
           body: data
@@ -44,10 +57,10 @@
     }
   
     // 退出登录
-    $http.logout = function (success) {
-      this.ajax({
-        url: '/api/mobile/logout',
-        method: 'post',
+    $http.logout = function (api, success) {
+      this.ajax(api, {
+        url: '/admin/users/logout',
+        method: 'get',
         data: {
           body: {}
         }
@@ -55,105 +68,51 @@
         success(res);
       });
     }
-  
-  
-    // 上传签名图片
-    $http.uploadSign = function (imageUrl, success) {
-      this.ajax({
-        url: '/api/mobile/upload-sign',
-        method: 'post',
-        data: {
-          body: {
-            imageUrl: imageUrl
-          }
-        }
-      }, function (res) {
-        success(res);
-      });
-    }
-  
-    /*============================================
-     * 列表
-     *============================================*/
-    // 项目列表
-    $http.getProjectList = function (data, success) {
-      this.ajax({
-        url: '/api/mobile/project',
+    //获取详情
+    $http.getEventInfo = function (api, data, success) {
+      console.log('data'+data.eventId)
+      this.ajax(api, {
+        url: '/api/app/getEventInfo',
         method: 'get',
         data: {
           body: data
         }
-      }, function (res) {
-        success(res);
-      });
+      },function (res) {
+        success(res)
+      })
     }
-  
-    // 待办列表和全部列表
-    $http.getTaskList = function (data, success) {
-      this.ajax({
-        url: '/missions',
+
+    //搜索
+    $http.getSearch = function (api, data, success) {
+      this.ajax(api, {
+        url: '/api/app/queryNeed',
         method: 'get',
         data: {
-          body: {
-            mission_type: data.mission_type || '',
-            title: data.title || '',
-            status: data.status || 1
-          }
+          body: data
+        }
+      },function (res) {
+        success(res)
+      })
+    }
+    /*============================================
+     * 列表
+     *============================================*/
+    // 项目列表
+    $http.getProjectList = function (api, success) {
+      this.ajax(api, {
+        url: '/api/app/getUserNeed',
+        method: 'get',
+        data: {
+          body: {}
         }
       }, function (res) {
         success(res);
       });
     }
+
+
   
-    // 获取case_id
-    $http.getCaseId = function (id, success, error) {
-      this.ajax({
-        url: '/missions/' + id,
-        method: 'get',
-        data: {
-          body: {}
-        },
-        hideLoading: true
-      }, function (res) {
-        success(res);
-      }, function () {
-        error()
-      });
-    }
-  
-    // 获取待办流程id
-    $http.getFlowId = function (case_id, case_node_id, success, error) {
-      this.ajax({
-        url: '/bpm/cases/' + case_id + '/nodes/' + case_node_id,
-        method: 'get',
-        data: {
-          body: {}
-        },
-        hideLoading: true
-      }, function (res) {
-        success(res);
-      }, function () {
-        error()
-      });
-    }
-  
-    // 获取已办流程id
-    $http.getDoneFlowId = function (case_id, success, error) {
-      this.ajax({
-        url: '/bpm/flowCases/' + case_id + '/catch',
-        method: 'get',
-        data: {
-          body: {}
-        },
-        hideLoading: true
-      }, function (res) {
-        success(res);
-      }, function () {
-        error()
-      });
-    }
-  
-    // 待办类型列表
+    // 类型列表
     $http.getTypeList = function (api, success) {
       this.ajax(api, {
         url: '/api/app/getEventType',
@@ -166,20 +125,7 @@
       });
     }
   
-    // 流程列表
-    $http.getFlowList = function (success) {
-      this.ajax({
-        url: '/api/mobile/mission-flow',
-        method: 'get',
-        data: {
-          body: {}
-        }
-      }, function (res) {
-        success(res);
-      });
-    }
-  
-    // 通知列表
+    // 事件上传
     $http.getNoticeList = function (api, data, success) {
       this.ajax(api, {
         url: '/api/app/reportEvent',
@@ -191,6 +137,7 @@
         success(res);
       });
     }
+    //获取事件详情
     $http.getEventDetail = function (api, data, success) {
       this.ajax(api, {
         url: '',
@@ -202,20 +149,33 @@
         success(res)
       })
     }
+    //实时上传位置
+
+    $http.postAddress = function (api, data, success) {
+      this.ajax(api, {
+        url: '/api/app/updateGps',
+        method: 'post',
+        data: {
+          body: data
+        }
+      },function (res) {
+        success(res)
+      })
+    }
+    //核查问题
+    $http.checkEvent = function (api, data, success) {
+      this.ajax(api, {
+        url: '/api/app/checkEvent',
+        method: 'post',
+        data: {
+          body: data
+        }
+      },function (res) {
+        success(res)
+      })
+    }
 
   
-    // 消息列表
-    $http.getMsgList = function (success) {
-      this.ajax({
-        url: '/msg/center?date_range[]=&keywords=&status=0',
-        method: 'get',
-        data: {
-          body: {}
-        }
-      }, function (res) {
-        success(res);
-      });
-    }
     // 封装ajax请求
     $http.ajax = function (api, opts, callback, errCallback) {
       // var hideLoading = opts.hideLoading || false
@@ -224,7 +184,6 @@
       // }
       // 拼接url
       opts.url = HOST + opts.url;
-      console.log(opts)
       opts.dataType = opts.dataType ? opts.dataType : 'json';
       // 设置header
       opts.headers = {
@@ -238,7 +197,6 @@
       // ajax请求
       api.ajax(opts, function (ret, err) {
         if (ret) {
-          console.log(ret)
           if (ret.code == 101) {
             // $api.rmStorage('token');
             api.toast({

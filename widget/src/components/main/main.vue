@@ -70,6 +70,7 @@
             </div>
         </div>
         <list-content></list-content>
+        <div @click="goto()">123</div>
         <popup v-if="selectLine" @ifopen="ifopen()"></popup>
     </div>
 </template>
@@ -96,6 +97,9 @@
         mounted() {
         },
         methods: {
+            goto() {
+                router.push({ name: 'todoDetails', params: {id: '1'}})
+            },
             getUserInfo() {
                 let callback = (res) => {
                     this.userInfo = res.data

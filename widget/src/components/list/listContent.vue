@@ -16,35 +16,25 @@
             @click="getHistoryList()">历史记录</a>
         </div>
             <div class="tabs">
-            <div v-if="myTodo" class="tab active">
+            <div class="tab active">
                  <!-- <div class="content-block"> -->
                 <list-tab
                 ref="honrayScroller"
                 :finish="false"
-                :dataCount="todoList.length"
+                :dataCount="showList.length"
                 height="85%"
                 @infinite="infinite">
                     <template slot="listItem">
-                        <div v-for="(item, index) in todoList" :key="index">
+                        <div v-for="(item, index) in showList" :key="index">
                         <list-item
                             :item="item"
                             @click.native="goFlowInfo(item, index)"
-                            :lastChild="index == todoList.length - 1">
+                            :lastChild="index == showList.length - 1">
                         </list-item>
                         </div>
                     </template>
                 </list-tab>
-                 <!-- </div> -->
             </div>
-            <div v-if="todayDo" class="tab">
-                <div class="content-block">
-                </div>
-            </div>
-            <div v-if="historyRecord" id="tab3" class="tab">
-                <div class="content-block">
-                </div>
-            </div>
-            <!-- </div> -->
         </div>
     </div>
     </div>
@@ -56,22 +46,27 @@
     export default {
         data() {
             return {
-                todoList: [
-                    {name: '1'},
-                    {name: '1'},
-                    {name: '1'},
-                    {name: '1'}
-                ],
-                hasDoList: [],
-                historyList: [],
                 myTodo: true,
                 todayDo: false,
-                historyRecord: false
+                historyRecord: false,
+                needList: [],
+                doneList: [],
+                historyList: [],
+                showList: []
             }
         },
         created() {
+            this.getproList()
         },
         methods: {
+            getproList() {
+                let callback = (res) => {
+                    this.needList = res.data.needList
+                    this.doneList = res.data.doneList
+                    this.historyList = res.data.historyList
+                }
+                $http.getProjectList(api, callback)
+            },
             refresh() {
                 this.todoList = [
                     {name: '1'},
@@ -81,12 +76,12 @@
                 ]
             },
             goFlowInfo(item, index) {
-                if (index == 1) {
-                    router.push({ name: 'lookEvent', params: {id: '1'}})
-                } else if (index == 2) {
-                    router.push({ name: 'checkEvent', params: {id: '1'}})
-                } else {
-                    router.push({ name: 'todoDetails', params: {id: '1'}})
+                if (item.eventType == 1) {
+                    router.push({ name: 'lookEvent', params: {id: item.id} ,query: {id: item.id}})
+                } else if (item.eventType == 2) {
+                    router.push({ name: 'todoDetails', params: {id: item.id}, query: {id: item.id}})
+                } else if (item.eventType == 3) {
+                    router.push({ name: 'checkEvent', params: {id: item.id} ,query: {id: item.id}})
                 }
                 
             },
@@ -96,16 +91,19 @@
                 this.myTodo = true
                 this.todayDo = false
                 this.historyRecord = false
+                this.showList = this.needList
             },
             getTodayList() {
                 this.myTodo = false
                 this.todayDo = true
                 this.historyRecord = false
+                this.showList = this.doneList
             },
             getHistoryList() {
                 this.myTodo = false
                 this.todayDo = false
                 this.historyRecord = true
+                this.showList = this.historyList
             }
         },
         components: {
