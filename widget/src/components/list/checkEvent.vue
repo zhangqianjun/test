@@ -48,7 +48,7 @@
           <li class="item-content" v-if="alldone">
             <div class="todo-content">
               <div class="item-title">办案结果</div>
-              <div class="item-after">{{dataDetail.result}}</div>
+              <div class="item-after">{{dataDetail.handle}}</div>
             </div>
           </li>
         </ul>
