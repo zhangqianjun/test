@@ -11,7 +11,7 @@
           <li class="item-content">
             <div class="item-inner">
               <div class="item-title">服务事项</div>
-              <div class="item-after">李二</div>
+              <div class="item-after">{{dataDetail.type}}</div>
             </div>
           </li>
           <li class="item-content">
@@ -122,6 +122,7 @@ export default {
     api.setStatusBarStyle({
       style: 'dark'
     });
+    this.getEventDetail()
   },
   mounted() {
   },
@@ -132,8 +133,9 @@ export default {
         eventId: id
       }
       let callback = (res) => {
+        console.log(res)
         this.dataDetail = res.data
-        let status = this.dataDetail.status
+        let status = this.dataDetail.state
         if (status == 1) {
           this.undone = true
           this.hasDone = false
@@ -148,13 +150,13 @@ export default {
           this.hasDone = true
         }
       }
-      $http.getEventDetail(api, param, callback)
+      $http.getEventInfo(api, param, callback)
     },
     postEvent() {
 
     },
     pushRecordPage() {
-      router.push({ name: 'lookRecord'})
+      router.push({ name: 'lookRecord', query: {id: this.$route.query.id}})
     },
     goback() {
       router.go(-1)

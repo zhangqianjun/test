@@ -9,7 +9,9 @@
         @click="outMap()">
         退出导航
       </button>
-      <span v-if="!openMap" class="icon icon-left pull-right" @click="getArrive()" style="width:auto; height: auto;"></span>
+      <button v-if="!openMap" class="button pull-right" @click="getArrive()">
+          签到
+      </button>
       <!-- <span v-if="openMap" class="icon icon-left pull-left" @click="outMap()" style="width:auto; height: auto;"></span> -->
       <h1 v-if="!openMap"
         class="title">视图列表</h1>
@@ -82,7 +84,9 @@ import apiMap from 'assets/js/map.js'
 export default {
   data() {
     return {
-      openMap: false
+      openMap: false,
+      dispatchDetail: {},
+      hasdown: false
     }
   },
   created() {
@@ -93,6 +97,11 @@ export default {
   },
   mounted() {
     this.showMap()
+  },
+  watch: {
+    'hasdown'() {
+      this.showMap()
+    }
   },
   methods: {
     getArrive() {
@@ -110,19 +119,21 @@ export default {
               location: 'bottom'
             })
           }
-          $http.getDispatchDetail(api, param, callback)
+          $http.postDispatch(api, param, callback)
         }
         apiMap.getLocation(api, nameBack)
     },
     getEventDetail() {
       let id = this.$route.query.id
       let param = {
-        id: '4'
+        id: id
       }
       let callback = (res) => {
         this.dispatchDetail = res.data
-        let status = this.dispatchDetail.status
+        this.hasdown = true
+        let status = this.dispatchDetail.state
         this.dispatchDetail.time = moment.unix(this.dispatchDetail.time).format('YYYY-MM-DD HH:mm')
+        this.dispatchDetail.timeliness = moment.unix(this.dispatchDetail.timeliness).format('YYYY-MM-DD HH:mm')
         this.dispatchDetail.statusContent = this.getStatus(status)
       }
       $http.getDispatchDetail(api, param, callback)
@@ -140,22 +151,11 @@ export default {
           return '已取消'
         }
     },
-    getIcon() {
-      var aMap = api.require('aMap');
-      let mapBack = (ret) => {
-        let param = {
-          lon: ret.longitude,
-          lat: ret.latitude
-        }
-        let nameBack = (res) => {
-          this.addressName = res.address
-        }
-        apiMap.getAdress(aMap, param, nameBack)
-      }
-      apiMap.openMap(api, aMap, param, mapBack)
-    },
     showMap() {
-      var lon = this.dispatchDetail.lon
+      if (!this.dispatchDetail.lng) {
+        return
+      }
+      var lon = this.dispatchDetail.lng
       var lat = this.dispatchDetail.lat
       // let map = new AMap.Map(this.$refs.map)
       // console.log(map)
@@ -163,11 +163,11 @@ export default {
       var map = new AMap.Map('container', {
         zoom: 11,//级别
         center: [lon, lat]//中心点坐标
-      });
+      })
       var marker = new AMap.Marker({
         position: new AMap.LngLat(lon, lat),   // 经纬度对象，也可以是经纬度构成的一维数组[116.39, 39.9]
         title: '北京'
-      });
+      })
       map.add(marker);//添加到地图
     },
     getLine(id) {
@@ -175,8 +175,8 @@ export default {
       let param = {
         width: 'auto',
         height: 'auto',
-        lon: '113.32034789',
-        lat: '23.11588743'
+        lon: this.dispatchDetail.lng,
+        lat: this.dispatchDetail.lat
       }
       let nowlon = ''
       let nowlat = ''
@@ -189,7 +189,7 @@ export default {
               lat: ret.latitude
             },
             end: {
-              lon: this.dispatchDetail.lon,
+              lon: this.dispatchDetail.lng,
               lat: this.dispatchDetail.lat
             }
           }

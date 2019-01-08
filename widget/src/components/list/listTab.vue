@@ -1,12 +1,12 @@
 <template>
   <div>
-    <scroller
+    <div
       ref="scroller"
-      :height="height"
+      :on-infinite="infinite"
       >
       <!-- :on-infinite="infinite" -->
       <slot name="listItem"></slot>
-    </scroller>
+    </div>
     <empty :tips="tips" v-show="dataCount == 0"></empty>
   </div>
 </template>
@@ -19,10 +19,6 @@
         type: Boolean,
         default: false
       },
-      height: {
-        type: String,
-        default: '100%'
-      },
       dataCount: {
         type: Number,
         default: 1
@@ -33,22 +29,21 @@
       }
     },
     created() {
-      console.log(this.dataCount)
     },
     methods: {
-      // infinite(done) {
-      //   if (this.finish) {
-      //     done()
-      //     return
-      //   }
-      //   this.$emit('infinite')
-      // },
-      // finishRefresh() {
-      //   this.$refs.scroller.finishPullToRefresh()
-      // },
-      // finishLoadmore(finish) {
-      //   this.$refs.scroller.finishInfinite(finish)
-      // }
+      infinite(done) {
+        if (this.finish) {
+          done()
+          return
+        }
+        this.$emit('infinite')
+      },
+      finishRefresh() {
+        this.$refs.scroller.finishPullToRefresh()
+      },
+      finishLoadmore(finish) {
+        this.$refs.scroller.finishInfinite(finish)
+      }
     },
     components: {
       empty

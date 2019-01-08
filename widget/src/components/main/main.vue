@@ -70,7 +70,6 @@
             </div>
         </div>
         <list-content></list-content>
-        <div @click="goto()">123</div>
         <popup v-if="selectLine" @ifopen="ifopen()"></popup>
     </div>
 </template>
@@ -86,12 +85,14 @@
                 addressName: '',
                 selectLine: false,
                 userInfo: {},
+                HOST: window.HOST
             }
         },
         created() {
             api.setStatusBarStyle({
                 style: 'light'
             });
+            this.getUserInfo()
             this.getAdress()
         },
         mounted() {
@@ -103,6 +104,11 @@
             getUserInfo() {
                 let callback = (res) => {
                     this.userInfo = res.data
+                    var ajpush = api.require('ajpush');
+                    var param = {alias:this.userInfo.id,tags:[]};
+                    ajpush.bindAliasAndTags(param,function(ret) {
+                            var statusCode = ret.statusCode;
+                    });
                 }
                 $http.getUserInfo(api, callback)
             },

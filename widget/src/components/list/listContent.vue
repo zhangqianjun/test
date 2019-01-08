@@ -22,7 +22,6 @@
                 ref="honrayScroller"
                 :finish="false"
                 :dataCount="showList.length"
-                height="85%"
                 @infinite="infinite">
                     <template slot="listItem">
                         <div v-for="(item, index) in showList" :key="index">
@@ -64,6 +63,7 @@
                     this.needList = res.data.needList
                     this.doneList = res.data.doneList
                     this.historyList = res.data.historyList
+                    this.showList = this.needList 
                 }
                 $http.getProjectList(api, callback)
             },

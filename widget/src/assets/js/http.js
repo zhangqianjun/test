@@ -70,7 +70,6 @@
     }
     //获取详情
     $http.getEventInfo = function (api, data, success) {
-      console.log('data'+data.eventId)
       this.ajax(api, {
         url: '/api/app/getEventInfo',
         method: 'get',
@@ -141,7 +140,7 @@
     //获取调度详情
     $http.getDispatchDetail = function (api, data, success) {
       this.ajax(api, {
-        url: '/api/app/updateUserDispatch',
+        url: '/api/app/getUserDispatchInfo',
         method: 'get',
         data: {
           body: data
@@ -150,10 +149,23 @@
         success(res)
       })
     }
-    //获取事件详情
-    $http.getEventDetail = function (api, data, success) {
+
+    //签到
+    $http.postDispatch = function (api, data, success) {
       this.ajax(api, {
-        url: '',
+        url: '/api/app/updateUserDispatch',
+        method: 'post',
+        data: {
+          body: data
+        }
+      }, function (res) {
+        success(res)
+      })
+    }
+    //获取事件详情
+    $http.getRecordList = function (api, data, success) {
+      this.ajax(api, {
+        url: '/api/app/eventHandle',
         method: 'get',
         data: {
           body: data

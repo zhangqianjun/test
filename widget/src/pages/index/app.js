@@ -35,7 +35,8 @@ window.apiready = function() {
         router,
         render: h => h(App)
     })
-    new vconsole()   
+    new vconsole()
+    api.resize
     var ajpush = api.require('ajpush');
     ajpush.init(function(ret, err){
         if(ret && ret.status){
@@ -44,10 +45,22 @@ window.apiready = function() {
             alert('操作失败!');
         }
     });
+    api.addEventListener({name:'appintent'}, function(ret,err) {
+        alert('通知被点击，收到数据：\n' + JSON.stringify(ret));//监听通知被点击后收到的数据
+        if(ret && ret.appParam.ajpush){
+            // var ajpush = ret.appParam.ajpush;
+            // alert(ajpush);
+            // var id = ajpush.id;
+            // alert(id);
+            // var title = ajpush.title;
+            // var content = ajpush.content;
+            // var extra = ajpush.extra;
+            // alert(extra.aaaaa);
+        }
+       })
     ajpush.setListener(
         function(ret) {
-            alert(23)
-            console.log(ret)
+            alert(123456)
             var id = ret.id;
             var title = ret.title;
             var content = ret.content;

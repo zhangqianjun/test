@@ -7,7 +7,7 @@
         </header>
         <div class="content" style="padding-top: 25px;">
             <ul>
-                <li>
+                <li v-for="(item, index) in recordDetail" :key="index">
                     <img src=""/>
                     <div class="record-right">
                         <p class="record-top"><span>liuxing</span><span class="time">12:30</span></p>
@@ -29,19 +29,21 @@
             api.setStatusBarStyle({
                 style: 'dark'
             });
+            this.getlist()
         },
         mounted() {
         },
         methods: {
             getlist() {
-                // let id = this.$route.query.id
-                // let callback =(res) => {
-                //     console.log(res)
-                // }
-                // let param = {
-                //     eventId: id
-                // }
-                // $http.getRecordList = (api, param, callback)
+                let id = this.$route.query.id
+                let callback =(res) => {
+                    console.log(res)
+                    this.recordDetail = res.data
+                }
+                let param = {
+                    eventId: id
+                }
+                $http.getRecordList(api, param, callback)
             },
             goback() {
                 router.go(-1)
