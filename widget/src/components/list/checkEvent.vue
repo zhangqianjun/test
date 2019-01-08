@@ -14,7 +14,7 @@
           <li class="item-content">
             <div class="item-inner">
               <div class="item-title">服务事项</div>
-              <div class="item-after">李二</div>
+              <div class="item-after">{{dataDetail.type}}</div>
             </div>
           </li>
           <li class="item-content">
@@ -48,7 +48,7 @@
           <li class="item-content" v-if="alldone">
             <div class="todo-content">
               <div class="item-title">办案结果</div>
-              <div class="item-after">2018-12-01 12:32</div>
+              <div class="item-after">{{dataDetail.result}}</div>
             </div>
           </li>
         </ul>
@@ -190,7 +190,7 @@ export default {
           api.toast({
               msg: '提交成功',
               duration: 2000,
-              location: 'bottom'
+              location: 'middle'
             })
             router.push({ name: 'entrance' })
         }
@@ -209,7 +209,7 @@ export default {
           api.toast({
               msg: '提交成功',
               duration: 2000,
-              location: 'bottom'
+              location: 'middle'
           })
           router.push({ name: 'entrance' })
         }

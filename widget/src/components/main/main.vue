@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div style="height:100%;">
         <div style="padding-top: 20px; background: #64ABFB; height:8.5rem;margin-bottom:3rem;">
             <div class="person-detail">
                 <div>
@@ -69,23 +69,27 @@
                 </div>
             </div>
         </div>
-        <list-content></list-content>
+        <list-content v-if="!isLoading">
+        </list-content>
         <popup v-if="selectLine" @ifopen="ifopen()"></popup>
+        <loading v-if="isLoading"></loading>
     </div>
 </template>
 
 <script>
     import listContent from '../list/listContent.vue'
+    import loading from '../common/loading.vue'
     import photoApi from 'assets/js/photo.js'
     import apiMap from 'assets/js/map.js'
     import popup from '../common/popup.vue'
     export default {
         data() {
             return {
-                addressName: '',
+                addressName: '定位中...',
                 selectLine: false,
                 userInfo: {},
-                HOST: window.HOST
+                HOST: window.HOST,
+                isLoading: false
             }
         },
         created() {
@@ -102,7 +106,9 @@
                 router.push({ name: 'todoDetails', params: {id: '1'}})
             },
             getUserInfo() {
+                this.isLoading = true
                 let callback = (res) => {
+                    this.isLoading = false
                     this.userInfo = res.data
                     var ajpush = api.require('ajpush');
                     var param = {alias:this.userInfo.id,tags:[]};
@@ -169,7 +175,9 @@
         },
         components:{
             listContent,
-            popup
+            popup,
+            loading
+            
         }
     }
 </script>

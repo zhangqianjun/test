@@ -53,7 +53,7 @@ export default {
         api.toast({
           msg: '上传成功',
           duration: 2000,
-          location: 'bottom'
+          location: 'middle'
         })
       })
     },

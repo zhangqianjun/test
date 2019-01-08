@@ -1,6 +1,7 @@
 <template>
   <div>
     <div
+      style="position:absolute;top: 13.5rem;left:0;bottom:0;right:0;overflow: auto;"
       ref="scroller"
       :on-infinite="infinite"
       >

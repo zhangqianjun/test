@@ -55,7 +55,7 @@ import apiMap from 'assets/js/map.js'
                     apiMap.getAdress(aMap, param, namesBack)
                 }
                 apiMap.getLocation(api, nameBack)
-            }, 30000)
+            }, 60000)
         },
         methods: {
             getapp() {

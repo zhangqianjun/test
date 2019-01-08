@@ -8,10 +8,10 @@
         <div class="content" style="padding-top: 25px;">
             <ul>
                 <li v-for="(item, index) in recordDetail" :key="index">
-                    <img src=""/>
+                    <img :src="`${HOST}${item.photo}`"/>
                     <div class="record-right">
-                        <p class="record-top"><span>liuxing</span><span class="time">12:30</span></p>
-                        <p class="record-bottom">已经处理完毕，群众满意，后期事项由李可…已经处理完毕，群众满意，后期事项由李可…已经处理完毕，群众满意，后期事项由李可…</p>
+                        <p class="record-top"><span>{{item.realname}}</span><span class="time">{{item.time}}</span></p>
+                        <p class="record-bottom">{{item.title}} ({{item.type}})</p>
                     </div>
                 </li>
             </ul>
@@ -23,6 +23,8 @@
     export default {
         data() {
             return {
+                HOST: window.HOST,
+                recordDetail: []
             }
         },
         created() {
@@ -37,8 +39,10 @@
             getlist() {
                 let id = this.$route.query.id
                 let callback =(res) => {
-                    console.log(res)
                     this.recordDetail = res.data
+                    for (var i=0; i<this.recordDetail.length; i++) {
+                        this.recordDetail[i].time = moment.unix(this.recordDetail[i].time).format('YYYY-MM-DD HH:mm')
+                    }
                 }
                 let param = {
                     eventId: id

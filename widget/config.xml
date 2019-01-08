@@ -40,7 +40,7 @@
 
 	<preference name="debug" value="true"/>
 
-	<preference name="statusBarAppearance" value="false"/>
+	<preference name="statusBarAppearance" value="true"/>
 
 	<preference name="softInputMode" value="resize"/>
 

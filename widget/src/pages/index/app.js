@@ -36,7 +36,6 @@ window.apiready = function() {
         render: h => h(App)
     })
     new vconsole()
-    api.resize
     var ajpush = api.require('ajpush');
     ajpush.init(function(ret, err){
         if(ret && ret.status){

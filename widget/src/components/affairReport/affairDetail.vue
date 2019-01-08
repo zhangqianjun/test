@@ -114,7 +114,7 @@
     export default {
         data() {
             return {
-                addressName: '',
+                addressName: '定位中...',
                 popupVisible: false,
                 selectData: [],
                 value1: '1',

@@ -71,6 +71,7 @@ export default {
         getUserInfo() {
             let callback = (res) => {
                 this.userInfo = res.data
+                this.userImg = this.userInfo.photo
             }
             $http.getUserInfo(api, callback)
         },
@@ -91,7 +92,7 @@ export default {
                     api.toast({
                         msg: '已成功修改',
                         duration: 2000,
-                        location: 'bottom'
+                        location: 'middle'
                     })
                     this.userImg = param.photo
                     this.getUserInfo()
@@ -125,7 +126,7 @@ export default {
                 api.toast({
                     msg: '已退出登陆',
                     duration: 2000,
-                    location: 'bottom'
+                    location: 'middle'
                 })
             }
             $http.logout(api, callback)

@@ -15,28 +15,23 @@
             :class="historyRecord ? 'active' : ''"
             @click="getHistoryList()">历史记录</a>
         </div>
-            <div class="tabs">
-            <div class="tab active">
-                 <!-- <div class="content-block"> -->
-                <list-tab
-                ref="honrayScroller"
-                :finish="false"
-                :dataCount="showList.length"
-                @infinite="infinite">
-                    <template slot="listItem">
-                        <div v-for="(item, index) in showList" :key="index">
-                        <list-item
-                            :item="item"
-                            @click.native="goFlowInfo(item, index)"
-                            :lastChild="index == showList.length - 1">
-                        </list-item>
-                        </div>
-                    </template>
-                </list-tab>
-            </div>
-        </div>
+        <list-tab
+        ref="honrayScroller"
+        :finish="false"
+        :dataCount="showList.length"
+        @infinite="infinite">
+            <template slot="listItem">
+                <div v-for="(item, index) in showList" :key="index">
+                <list-item
+                    :item="item"
+                    @click.native="goFlowInfo(item, index)"
+                    :lastChild="index == showList.length - 1">
+                </list-item>
+                </div>
+            </template>
+        </list-tab>
     </div>
-    </div>
+</div>
 </template>
 
 <script>
@@ -66,14 +61,6 @@
                     this.showList = this.needList 
                 }
                 $http.getProjectList(api, callback)
-            },
-            refresh() {
-                this.todoList = [
-                    {name: '1'},
-                    {name: '1'},
-                    {name: '1'},
-                    {name: '1'}
-                ]
             },
             goFlowInfo(item, index) {
                 if (this.myTodo) {

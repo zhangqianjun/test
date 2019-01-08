@@ -67,7 +67,7 @@
             <div class="item-inner">
               <div class="item-title">目标地址</div>
               <div class="item-after"
-                @click="getLine()">导航</div>
+                @click="getLine(dispatchDetail.id)">导航</div>
             </div>
           </li>
           <div ref="map"
@@ -76,17 +76,20 @@
         </ul>
       </div>
     </div>
+    <div v-if="isLoading" style="position:fixed;top:0;left:0;width:100%;height:100%;background:#000;opacity:0.2;z-index:999;padding-top:100px;"><loading></loading></div>
   </div>
 </template>
 
 <script>
 import apiMap from 'assets/js/map.js'
+import loading from '../common/loading.vue'
 export default {
   data() {
     return {
       openMap: false,
       dispatchDetail: {},
-      hasdown: false
+      hasdown: false,
+      isLoading: false
     }
   },
   created() {
@@ -105,6 +108,7 @@ export default {
   },
   methods: {
     getArrive() {
+      this.isLoading = true
       let nameBack = (ret) => {
           let param = {
             id: this.$route.query.id,
@@ -112,23 +116,35 @@ export default {
             lat: ret.latitude
           }
           let callback = (res) => {
-            console.log(res)
-            api.toast({
-              msg: '签到成功',
-              duration: 2000,
-              location: 'bottom'
-            })
+            this.isLoading = false
+            if (res.data == 1) {
+              api.toast({
+                msg: '签到成功',
+                duration: 2000,
+                location: 'middle'
+              })
+              router.push({ name: 'entrance'})
+            } else {
+              api.toast({
+                msg: '签到失败',
+                duration: 2000,
+                location: 'middle'
+              })
+            }
+            
           }
           $http.postDispatch(api, param, callback)
         }
         apiMap.getLocation(api, nameBack)
     },
     getEventDetail() {
+      this.isLoading = true
       let id = this.$route.query.id
       let param = {
         id: id
       }
       let callback = (res) => {
+        this.isLoading = false
         this.dispatchDetail = res.data
         this.hasdown = true
         let status = this.dispatchDetail.state
@@ -171,6 +187,7 @@ export default {
       map.add(marker);//添加到地图
     },
     getLine(id) {
+      this.isLoading = true
       var aMap = api.require('aMap');
       let param = {
         width: 'auto',
@@ -196,8 +213,9 @@ export default {
           let LineCallback = (res) => {
             let openCallback = (res) => {
               this.openMap = true
+              this.isLoading = false
               aMap.drawRoute({
-                id: 1,
+                id: id,
                 autoresizing: true,
                 index: 0,
                 styles: {
@@ -225,16 +243,17 @@ export default {
             }
             apiMap.openMap(api, aMap, param, openCallback)
           }
-          apiMap.getLine(aMap, 1, param.start, param.end, LineCallback)
+          apiMap.getLine(aMap, id, param.start, param.end, LineCallback)
         }
         apiMap.getLocation(api, nameBack)
     },
     outMap() {
+      let id = this.$route.query.id
       this.openMap = false
       var aMap = api.require('aMap');
       aMap.close();
       aMap.removeRoute({
-        ids: [1]
+        ids: [id]
       });
     },
     pushRecordPage() {
@@ -243,6 +262,9 @@ export default {
     goback() {
       router.go(-1)
     }
+  },
+  components: {
+    loading
   }
 }
 </script>
