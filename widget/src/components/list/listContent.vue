@@ -76,14 +76,17 @@
                 ]
             },
             goFlowInfo(item, index) {
-                if (item.eventType == 1) {
+                if (this.myTodo) {
+                    if (item.eventType == 1) {
+                        router.push({ name: 'todoDetails', params: {id: item.id} ,query: {id: item.id}})
+                    } else if (item.eventType == 2) {
+                        router.push({ name: 'checkEvent', params: {id: item.id}, query: {id: item.id, type: 1}})
+                    } else if (item.eventType == 3) {
+                        router.push({ name: 'checkEvent', params: {id: item.id} ,query: {id: item.id, type: 2}})
+                    }
+                } else {
                     router.push({ name: 'lookEvent', params: {id: item.id} ,query: {id: item.id}})
-                } else if (item.eventType == 2) {
-                    router.push({ name: 'todoDetails', params: {id: item.id}, query: {id: item.id}})
-                } else if (item.eventType == 3) {
-                    router.push({ name: 'checkEvent', params: {id: item.id} ,query: {id: item.id}})
-                }
-                
+                }  
             },
             infinite() {
             },

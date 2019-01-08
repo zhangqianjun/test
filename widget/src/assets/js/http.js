@@ -137,6 +137,19 @@
         success(res);
       });
     }
+
+    //获取调度详情
+    $http.getDispatchDetail = function (api, data, success) {
+      this.ajax(api, {
+        url: '/api/app/updateUserDispatch',
+        method: 'get',
+        data: {
+          body: data
+        }
+      }, function (res) {
+        success(res)
+      })
+    }
     //获取事件详情
     $http.getEventDetail = function (api, data, success) {
       this.ajax(api, {

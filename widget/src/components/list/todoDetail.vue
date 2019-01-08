@@ -9,6 +9,7 @@
         @click="outMap()">
         退出导航
       </button>
+      <span v-if="!openMap" class="icon icon-left pull-right" @click="getArrive()" style="width:auto; height: auto;"></span>
       <!-- <span v-if="openMap" class="icon icon-left pull-left" @click="outMap()" style="width:auto; height: auto;"></span> -->
       <h1 v-if="!openMap"
         class="title">视图列表</h1>
@@ -19,25 +20,25 @@
           <li class="item-content">
             <div class="item-inner">
               <div class="item-title">发起人</div>
-              <div class="item-after">李二</div>
+              <div class="item-after">{{dispatchDetail.userName}}</div>
             </div>
           </li>
           <li class="item-content">
             <div class="item-inner">
               <div class="item-title">时间</div>
-              <div class="item-after">2018-12-01 12:32</div>
+              <div class="item-after">{{dispatchDetail.time}}</div>
             </div>
           </li>
           <li class="item-content">
             <div class="item-inner">
               <div class="item-title">时效性</div>
-              <div class="item-after">2018-12-01 12:32</div>
+              <div class="item-after">{{dispatchDetail.timeliness}}</div>
             </div>
           </li>
           <li class="item-content">
             <div class="item-inner">
               <div class="item-title">状态</div>
-              <div class="item-after">2018-12-01 12:32</div>
+              <div class="item-after">{{dispatchDetail.statusContent}}</div>
             </div>
           </li>
         </ul>
@@ -47,13 +48,13 @@
           <li class="item-content">
             <div class="todo-content">
               <div class="item-title">标题</div>
-              <div class="item-after">2018-12-01 12:32</div>
+              <div class="item-after">{{dispatchDetail.title}}</div>
             </div>
           </li>
           <li class="item-content">
             <div class="todo-content">
               <div class="item-title">问题描述</div>
-              <div class="item-after">2018-12-01 12:32</div>
+              <div class="item-after">{{dispatchDetail.explain}}</div>
             </div>
           </li>
         </ul>
@@ -94,15 +95,50 @@ export default {
     this.showMap()
   },
   methods: {
+    getArrive() {
+      let nameBack = (ret) => {
+          let param = {
+            id: this.$route.query.id,
+            lng: ret.longitude,
+            lat: ret.latitude
+          }
+          let callback = (res) => {
+            console.log(res)
+            api.toast({
+              msg: '签到成功',
+              duration: 2000,
+              location: 'bottom'
+            })
+          }
+          $http.getDispatchDetail(api, param, callback)
+        }
+        apiMap.getLocation(api, nameBack)
+    },
     getEventDetail() {
       let id = this.$route.query.id
       let param = {
-        eventId: '4'
+        id: '4'
       }
       let callback = (res) => {
-        console.log(res)
+        this.dispatchDetail = res.data
+        let status = this.dispatchDetail.status
+        this.dispatchDetail.time = moment.unix(this.dispatchDetail.time).format('YYYY-MM-DD HH:mm')
+        this.dispatchDetail.statusContent = this.getStatus(status)
       }
-      $http.getEventInfo(api, param, callback)
+      $http.getDispatchDetail(api, param, callback)
+    },
+    getStatus(status) {
+      if (status == 1) {
+          return '未确认'
+        } else if (status == 2) {
+          return '已确认'
+        } else if (status == 3) {
+          return '准时抵达'
+        } else if (status == 4) {
+          return '超时抵达'
+        } else if (status == 5) {
+          return '已取消'
+        }
     },
     getIcon() {
       var aMap = api.require('aMap');
@@ -119,15 +155,17 @@ export default {
       apiMap.openMap(api, aMap, param, mapBack)
     },
     showMap() {
+      var lon = this.dispatchDetail.lon
+      var lat = this.dispatchDetail.lat
       // let map = new AMap.Map(this.$refs.map)
       // console.log(map)
       // console.log(new AMap)
       var map = new AMap.Map('container', {
         zoom: 11,//级别
-        center: [116.397428, 39.90923]//中心点坐标
+        center: [lon, lat]//中心点坐标
       });
       var marker = new AMap.Marker({
-        position: new AMap.LngLat(116.39, 39.9),   // 经纬度对象，也可以是经纬度构成的一维数组[116.39, 39.9]
+        position: new AMap.LngLat(lon, lat),   // 经纬度对象，也可以是经纬度构成的一维数组[116.39, 39.9]
         title: '北京'
       });
       map.add(marker);//添加到地图
@@ -140,19 +178,20 @@ export default {
         lon: '113.32034789',
         lat: '23.11588743'
       }
-      // let openCallback = (res) => {
-        // this.openMap = true
+      let nowlon = ''
+      let nowlat = ''
         let nameBack = (ret) => {
+          nowlon = ret.longitude
+          nowlat = ret.latitude
           let param = {
             start: {
               lon: ret.longitude,
               lat: ret.latitude
             },
             end: {
-              lon: '113.32034789',
-              lat: '23.11588743'
+              lon: this.dispatchDetail.lon,
+              lat: this.dispatchDetail.lat
             }
-
           }
           let LineCallback = (res) => {
             let openCallback = (res) => {
@@ -178,20 +217,17 @@ export default {
                 }
             });
             }
-            console.log(res)
             let param = {
               width: 'auto',
               height: 'auto',
-              lon: '113.32034789',
-              lat: '23.11588743'
+              lon: nowlon,
+              lat: nowlat
             }
             apiMap.openMap(api, aMap, param, openCallback)
           }
           apiMap.getLine(aMap, 1, param.start, param.end, LineCallback)
         }
         apiMap.getLocation(api, nameBack)
-      // }
-      // apiMap.openMap(api, aMap, param, openCallback)
     },
     outMap() {
       this.openMap = false

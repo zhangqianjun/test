@@ -29,11 +29,22 @@ window.Cookies = Cookies
 window.moment = moment
 window.$g = $g
 window._ = _
-// window.apiready = function() {
+window.apiready = function() {
     new Vue({
         el: '#app',
         router,
         render: h => h(App)
     })
     new vconsole()   
-// }
+    var ajpush = api.require('ajpush');
+    ajpush.setListener(
+        function(ret) {
+            alert(23)
+            console.log(ret)
+            var id = ret.id;
+            var title = ret.title;
+            var content = ret.content;
+            var extra = ret.extra;
+        }
+    );
+}

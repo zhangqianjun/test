@@ -62,6 +62,10 @@
 		<param name="android_api_key" value="124a2932174c5457c95d9a08275fca6b" />
 		<param name="ios_api_key" value="84bc7aba01dffae22ba64243adf92c69" />
 	</feature>
+	<feature name="ajpush">
+        <param name="app_key" value="03587baf08f10aab2924611f" />
+        <param name="channel" value="leide-apicloud" />
+    </feature>
 	<!-- <feature name="aMapLocation">
 		<param name="android_api_key" value="383e8c20365140496c6e07eb9597e3d5"></param>
 		<param name="ios_api_key" value="2a4a80fbce302d7aaf077810698bbe4d" ></param>

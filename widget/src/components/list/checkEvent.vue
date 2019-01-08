@@ -45,7 +45,7 @@
               <div class="item-after">{{dataDetail.description}}</div>
             </div>
           </li>
-          <li class="item-content">
+          <li class="item-content" v-if="alldone">
             <div class="todo-content">
               <div class="item-title">办案结果</div>
               <div class="item-after">2018-12-01 12:32</div>
@@ -53,7 +53,7 @@
           </li>
         </ul>
       </div>
-      <div class="list-block">
+      <div class="list-block" v-if="alldone">
         <ul>
           <li class="item-content">
             <div class="item-inner">
@@ -97,11 +97,19 @@
       </div>
       <div class="list-block">
         <ul>
-          <li>
+          <li v-if="alldone">
             <div class="address-content">
                 <div class="address-title">结案意见</div>
                 <div class="address-input">
                   <textarea v-model="opinion"></textarea>
+                </div>
+            </div>
+          </li>
+          <li v-if="isdeal">
+            <div class="address-content">
+                <div class="address-title">处理结果说明</div>
+                <div class="address-input">
+                  <textarea v-model="result"></textarea>
                 </div>
             </div>
           </li>
@@ -137,6 +145,8 @@ export default {
       mass: '',
       evaluation: '',
       opinion: '',
+      alldone: false,
+      isdeal: false
     }
   },
   created() {
@@ -155,30 +165,57 @@ export default {
       }
       let callback = (res) => {
         this.dataDetail = res.data
-        console.log(res)
+        let status = this.dataDetail.status
+        if (status == 1) {
+
+        } else if (status == 2) {
+          this.isdeal = true
+          this.alldone = false
+        } else if (status == 3) {
+          this.alldone = true
+          this.isdeal = false
+        } else if (status == 4) {
+
+        }
       }
-      console.log(param)
       $http.getEventInfo(api, param, callback)
     },
     postEvent() {
-      let param = {
-        info: {
+      if (this.isdeal) {
+        let param = {
           eventId: this.$route.query.id,
-          results: this.results,
-          mass: this.mass,
-          evaluation: this.evaluation,
-          opinion: this.opinion
+          result: this.result
         }
+        let callback = (res) => {
+          api.toast({
+              msg: '提交成功',
+              duration: 2000,
+              location: 'bottom'
+            })
+            router.push({ name: 'entrance' })
+        }
+        $http.dealEvent(api, param, callback)
+      } else if (this.alldone) {
+        let param = {
+          info: {
+            eventId: this.$route.query.id,
+            results: this.results,
+            mass: this.mass,
+            evaluation: this.evaluation,
+            opinion: this.opinion
+          }
+        }
+        let callback = (res) => {
+          api.toast({
+              msg: '提交成功',
+              duration: 2000,
+              location: 'bottom'
+          })
+          router.push({ name: 'entrance' })
+        }
+        $http.checkEvent(api, param, callback)
       }
-      let callback = (res) => {
-        api.toast({
-            msg: '提交成功',
-            duration: 2000,
-            location: 'bottom'
-        })
-        router.push({ name: 'entrance' })
-      }
-      $http.checkEvent(api, param, callback)
+      
     },
     pushRecordPage() {
       router.push({ name: 'lookRecord'})

@@ -3,7 +3,7 @@
     <div style="background:#fff;height: 25px;"></div>
     <header class="bar bar-nav">
       <span class="icon icon-left pull-left" @click="goback()" style="width:auto; height: auto;"></span>
-      <h1 class="title">视图列表</h1>
+      <h1 class="title">查看事件</h1>
     </header>
     <div class="content" style="padding-top: 25px;">
       <div class="list-block">
@@ -17,7 +17,7 @@
           <li class="item-content">
             <div class="item-inner">
               <div class="item-title">处理级别</div>
-              <div class="item-after">2018-12-01 12:32</div>
+              <div class="item-after">{{dataDetail.level == 1 ? '日常' : '紧急'}}</div>
             </div>
           </li>
         </ul>
@@ -27,22 +27,22 @@
           <li class="item-content">
             <div class="todo-content">
               <div class="item-title">上报地址</div>
-              <div class="item-after">2018-12-01 12:32</div>
+              <div class="item-after">{{dataDetail.address}}</div>
             </div>
           </li>
           <li class="item-content">
             <div class="todo-content">
               <div class="item-title">问题标题</div>
-              <div class="item-after">2018-12-01 12:32</div>
+              <div class="item-after">{{dataDetail.title}}</div>
             </div>
           </li>
           <li class="item-content">
             <div class="todo-content">
               <div class="item-title">问题描述</div>
-              <div class="item-after">2018-12-01 12:32</div>
+              <div class="item-after">{{dataDetail.description}}</div>
             </div>
           </li>
-          <li class="item-content">
+          <li class="item-content" v-if="!undone">
             <div class="todo-content">
               <div class="item-title">办案结果</div>
               <div class="item-after">2018-12-01 12:32</div>
@@ -50,29 +50,35 @@
           </li>
         </ul>
       </div>
-      <div class="list-block">
+      <div class="list-block" v-if="hasDone">
         <ul>
           <li class="item-content">
             <div class="item-inner">
+              <div class="item-title">核查结果</div>
+              <div class="item-after">{{dataDetail.results == 1 ? '结案' : '未解决'}}</div>
+            </div>
+          </li>
+          <li class="item-content">
+            <div class="item-inner">
               <div class="item-title">群众满意度</div>
-              <div class="item-after">满意</div>
+              <div class="item-after">{{dataDetail.mass == 1 ? '满意' : '不满意'}}</div>
             </div>
           </li>
           <li class="item-content">
             <div class="item-inner">
               <div class="item-title">结果评价</div>
-              <div class="item-after">合格</div>
+              <div class="item-after">{{dataDetail.evaluation == 1 ? '合格' : '不合格'}}</div>
             </div>
           </li>
         </ul>
       </div>
       <div class="list-block">
         <ul>
-          <li>
+          <li v-if="hasDone">
             <div class="address-content">
                 <div class="address-title">结案意见</div>
                 <div class="address-input" style="border: 0;font-size:16px;">
-                  你号你还和胡叔叔粗大成都成都成都
+                  {{dataDetail.opinion}}
                   <!-- <textarea v-model="addressName"></textarea> -->
                 </div>
             </div>
@@ -88,8 +94,11 @@
           <li class="align-top">
               <div class="address-content">
                   <div class="address-title">附件</div>
-                  <div class="file-upload">+
+                  <div>
+                    <img v-for="(item, index) in dataDetail.files" :key="index" :src="`${HOST}${item}`"/>
                   </div>
+                  <!-- <div class="file-upload">+
+                  </div> -->
               </div>
           </li>
         </ul>
@@ -103,7 +112,10 @@ import apiMap from 'assets/js/map.js'
 export default {
   data() {
     return {
-      dataDetail: []
+      dataDetail: [],
+      undone: true,
+      hasDone: false,
+      HOST: window.HOST
     }
   },
   created() {
@@ -116,10 +128,27 @@ export default {
   methods: {
     getEventDetail() {
       let id = this.$route.query.id
+      let param = {
+        eventId: id
+      }
       let callback = (res) => {
         this.dataDetail = res.data
+        let status = this.dataDetail.status
+        if (status == 1) {
+          this.undone = true
+          this.hasDone = false
+        } else if (status == 2) {
+          this.undone = true
+          this.hasDone = false
+        } else if (status == 3) {
+          this.undone = false
+          this.hasDone = false
+        } else if (status == 4) {
+          this.undone = false
+          this.hasDone = true
+        }
       }
-      $http.getEventDetail(api, id, callback)
+      $http.getEventDetail(api, param, callback)
     },
     postEvent() {
 
