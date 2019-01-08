@@ -158,6 +158,7 @@
                 photoApi.getPhoto(api, getpicture)
             },
             getAdress(callback) {
+                this.addressName = '定位中...'
                 var aMap = api.require('aMap');
                 let nameBack = (ret) => {
                     let param = {
