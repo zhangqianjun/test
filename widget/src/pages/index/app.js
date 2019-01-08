@@ -37,6 +37,13 @@ window.apiready = function() {
     })
     new vconsole()   
     var ajpush = api.require('ajpush');
+    ajpush.init(function(ret, err){
+        if(ret && ret.status){
+            alert('操作成功!');
+        }else{
+            alert('操作失败!');
+        }
+    });
     ajpush.setListener(
         function(ret) {
             alert(23)
