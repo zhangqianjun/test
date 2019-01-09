@@ -338,11 +338,9 @@ export default {
   opacity:0.4;
 }
 .right-content .icon{
-  font-weight: bold;
   color:#ccc;
   width:auto;
   height:auto;
-  margin-right:10px;
-  font-size:12px;
+  font-size:14px;
 }
 </style>

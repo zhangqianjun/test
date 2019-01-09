@@ -3,8 +3,8 @@
         <div class="popup-bac" @click="ifopen()"></div>
         <div class="popup-content popup-in">
             <div class="popup-group">
-                <span style="color: red;" @click="inline()">在线</span>
-                <span @click="outline()">离线</span>
+                <span style="color: red;" @click="inline(1)">在线</span>
+                <span @click="inline(2)">离线</span>
             </div>
             <div class="noselect" @click="ifopen()">取消</div>
         </div>
@@ -48,6 +48,17 @@ export default {
     methods: {
         ifopen() {
             this.$emit('ifopen')
+        },
+        inline(type) {
+            let param = {
+                state: type
+            }
+            let callback = (res) => {
+                if(res.code == 200) {
+                    this.$emit('changeState')
+                }
+            }
+            $http.changeInlineState(api, param, callback)
         }
     }
 }

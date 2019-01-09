@@ -13,9 +13,8 @@
             </div>
         </div>
         <list-tab
-            :finish="false"
-            :dataCount="showList.length"
-            height="85%">
+            :types="search"
+            :dataCount="showList.length">
                 <template slot="listItem">
                     <div v-for="(item, index) in showList" :key="index">
                     <list-item
@@ -37,7 +36,8 @@ export default {
     data() {
         return {
             searchData: '',
-            showList: []
+            showList: [],
+            search: 'search'
         }
     },
     methods: {
@@ -52,7 +52,18 @@ export default {
                 this.showList = res.data
             }
             $http.getSearch(api, param, callback)
-        }
+        },
+        goFlowInfo(item, index) {
+            if (item.eventType == 1) {
+                router.push({ name: 'todoDetails', params: {id: item.id} ,query: {id: item.id}})
+            } else if (item.eventType == 2) {
+                router.push({ name: 'checkEvent', params: {id: item.id}, query: {id: item.id, type: 1}})
+            } else if (item.eventType == 3) {
+                router.push({ name: 'checkEvent', params: {id: item.id} ,query: {id: item.id, type: 2}})
+            } else {
+                router.push({ name: 'lookEvent', params: {id: item.id} ,query: {id: item.id}})
+            } 
+        },
     },
     created() {
         api.setStatusBarStyle({
@@ -74,7 +85,7 @@ export default {
 </script>
 
 <style>
-.search-list .icon{
+.search-list .search-width .icon{
     width:auto;
     height:auto;
 }

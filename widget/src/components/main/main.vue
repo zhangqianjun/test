@@ -71,7 +71,7 @@
         </div>
         <list-content v-if="!isLoading">
         </list-content>
-        <popup v-if="selectLine" @ifopen="ifopen()"></popup>
+        <popup v-if="selectLine" @ifopen="ifopen()" @changeState="changeState()"></popup>
         <loading v-if="isLoading"></loading>
     </div>
 </template>
@@ -102,6 +102,9 @@
         mounted() {
         },
         methods: {
+            changeState() {
+                this.getUserInfo()
+            },
             goto() {
                 router.push({ name: 'todoDetails', params: {id: '1'}})
             },
@@ -141,19 +144,22 @@
                         x: 0,
                         y: 0
                     }
-                    let waterBack = (ret) => {
-                        // this.getAdress(callback)
-                        let param = {
-                            text: this.addressName,
-                            x: 0,
-                            y: 30
+                    let addressCallback = (res) => {
+                        let waterBack = (ret) => {
+                            let param = {
+                                text: res,
+                                x: 0,
+                                y: 30
+                            }
+                            let againBack = (ret) => {
+                                photoApi.saveAlbum(api, ret.path)
+                            }
+                            photoApi.waterMark(pictureWatermark, ret.path, param, againBack)
                         }
-                        let againBack = (ret) => {
-                            photoApi.saveAlbum(api, ret.path)
-                        }
-                        photoApi.waterMark(pictureWatermark, ret.path, param, againBack)
+                        photoApi.waterMark(pictureWatermark, ret.data, param, waterBack)
                     }
-                    photoApi.waterMark(pictureWatermark, ret.data, param, waterBack)
+                    this.getAdress(addressCallback)
+                    
                 }
                 photoApi.getPhoto(api, getpicture)
             },
@@ -166,8 +172,11 @@
                         lat: ret.latitude
                     }
                     let namesBack = (res) => {
-                        console.log(res)
                         this.addressName = res.district + res.building
+                        if (callback) {
+                            callback(res.district + res.building)
+                        }
+                        
                     }
                     apiMap.getAdress(aMap, param, namesBack)
                 }

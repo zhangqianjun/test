@@ -58,14 +58,14 @@
           <li class="item-content">
             <div class="item-inner">
               <div class="item-title label">核查结果</div>
-                    <div class="item-input selectItem">
-                        <select v-model="results">
-                            <option value="1">结案</option>
-                            <option value="2">未解决</option>
-                        </select>
-                        <span class="icon icon-right"></span>
-                    </div>
-                </div>
+              <div class="item-input selectItem">
+                  <select v-model="results">
+                      <option value="1">结案</option>
+                      <option value="2">未解决</option>
+                  </select>
+                  <span class="icon icon-right"></span>
+              </div>
+            </div>
           </li>
           <li class="item-content">
             <div class="item-inner">
@@ -116,7 +116,7 @@
           <li class="look-record" @click="pushRecordPage()">
             <span>
               <svg class="icon" aria-hidden="true">
-                  <use xlink:href="#icon-jilu"></use>
+                  <use xlink:href="#icon-wenjian"></use>
               </svg>
             </span>
             <span>查看处理记录</span>
@@ -146,7 +146,8 @@ export default {
       evaluation: '',
       opinion: '',
       alldone: false,
-      isdeal: false
+      isdeal: false,
+      HOST: window.HOST
     }
   },
   created() {

@@ -45,7 +45,7 @@
           <li class="item-content" v-if="!undone">
             <div class="todo-content">
               <div class="item-title">办案结果</div>
-              <div class="item-after">2018-12-01 12:32</div>
+              <div class="item-after">{{dataDetail.handle}}</div>
             </div>
           </li>
         </ul>
@@ -86,7 +86,7 @@
           <li class="look-record" @click="pushRecordPage()">
             <span>
               <svg class="icon" aria-hidden="true">
-                  <use xlink:href="#icon-jilu"></use>
+                  <use xlink:href="#icon-wenjian"></use>
               </svg>
             </span>
             <span>查看处理记录</span>

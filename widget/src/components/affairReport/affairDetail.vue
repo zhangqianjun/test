@@ -11,44 +11,46 @@
         <div class="content" style="margin-top: 25px;">
             <div class="list-block">
                 <ul>
-                <li class="item-link">
+                <li>
                     <div class="item-content">
                         <div class="item-inner">
-                            <hr-selector
-                            v-model="value1"
-                            :label="label1"
-                            :placeholder="show_tips"
-                            :required="is_needed"
-                            :list="options1"
-                            @input="change1">
-                            </hr-selector>
+                            <span style="color: red;padding-right:5px;">* </span>
+                            <div class="item-title label" style="width:150px;">是否需要调度</div>
+                            <div class="item-input selectItem">
+                                <select v-model="eventLevel">
+                                    <option value="1">是</option>
+                                    <option value="2">否</option>
+                                </select>
+                                <span class="icon icon-right"></span>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <span style="color: red;padding-right:5px;">* </span>
+                            <div class="item-title label" style="width:150px;">事件级别</div>
+                            <div class="item-input selectItem">
+                                <select v-model="eventIf">
+                                    <option value="1">日常</option>
+                                    <option value="2">紧急</option>
+                                </select>
+                                <span class="icon icon-right"></span>
+                            </div>
                         </div>
                     </div>
                 </li>
                 <li class="item-link">
                     <div class="item-content">
                         <div class="item-inner">
-                            <hr-selector
-                            v-model="value2"
-                            :label="label2"
-                            :placeholder="show_tips"
-                            :required="is_needed"
-                            :list="options2"
-                            @input="change2">
-                            </hr-selector>
-                        </div>
-                    </div>
-                </li>
-                <li class="item-link">
-                    <div class="item-content">
-                        <div class="item-inner">
+                            <span style="color: red;padding-right:5px;">* </span>
                             <div class="right-selector" @click="openlist()">
-                                <span style="color: red;padding-right:5px;">* </span>
-                                <div class="label">服务事项
+                                <div class="item-title label">服务事项
                                 </div>
-                                <div class="right-content">
-                                    <span style="color:#888;">{{casValue ? casValue : '请选择'}}</span>
-                                    <span class="icon icon-right"></span>
+                                <div class="right-content" style="position:relative;">
+                                    <span style="color:#000;text-align:right;margin-right:20px;">{{casValue ? casValue : '请选择'}}</span>
+                                    <span class="icon icon-right" style="position:absolute;right:0;top:0.2rem;text-align:center;"></span>
                                 </div>
                             </div>
                         </div>
@@ -60,7 +62,14 @@
                 <ul>
                     <li>
                     <div class="address-content">
-                        <div class="address-title">地址信息</div>
+                        <div class="address-title dingwei">
+                            <span>地址信息</span>
+                            <span style="color: #64ABFB;" @click="getAdress()">
+                                <svg class="icon" aria-hidden="true">
+                                    <use xlink:href="#icon-Location"></use>
+                                </svg>
+                            </span>
+                        </div>
                         <div class="address-input">
                             <textarea v-model="addressName"></textarea>
                             <!-- <input type="text" placeholder="请输入标题" v-model="addressName"> -->
@@ -117,21 +126,9 @@
                 addressName: '定位中...',
                 popupVisible: false,
                 selectData: [],
-                value1: '1',
-                value2: '1',
-                label1:'是否需要调度',
-                label2:'处理级别',
                 show_tips: '12',
-                is_needed:true,
-                options1: [
-                    '是',
-                    '否'
-                ],
-                options2: [
-                    '日常',
-                    '紧急'
-                ],
                 pickerData:[],
+                contentList: [],
                 valueKey: 'id',
                 title: 'jil',
                 name: 'name',
@@ -144,7 +141,8 @@
                     lon: '',
                     lat: ''
                 },
-                eventfile:[]
+                eventfile:[],
+                doublePic: false
             }
         },
         created() {
@@ -152,29 +150,33 @@
             api.setStatusBarStyle({
                 style: 'dark'
             });
-            var aMap = api.require('aMap');
-            let nameBack = (ret) => {
-                let param = {
-                    lon: ret.longitude,
-                    lat: ret.latitude
-                }
-                this.lonAndLat = {
-                    lon: ret.longitude,
-                    lat: ret.latitude
-                }
-                let nameBack = (ret) => {
-                    console.log('ret'+ret)
-                    this.addressName = ret.address
-                }
-                apiMap.getAdress(aMap, param, nameBack)
-            }
-            apiMap.getLocation(api, nameBack)
+            this.getAdress()
         },
         mounted() {
             // console.log(this.$refs.header)
             // $g.winInit(this.refs.header)
         },
         methods: {
+            getAdress() {
+                this.addressName = '定位中'
+                var aMap = api.require('aMap');
+                let nameBack = (ret) => {
+                    let param = {
+                        lon: ret.longitude,
+                        lat: ret.latitude
+                    }
+                    this.lonAndLat = {
+                        lon: ret.longitude,
+                        lat: ret.latitude
+                    }
+                    let nameBack = (ret) => {
+                        console.log('ret'+ret)
+                        this.addressName = ret.address
+                    }
+                    apiMap.getAdress(aMap, param, nameBack)
+                }
+                apiMap.getLocation(api, nameBack)
+            },
             openlist() {
                 this.openCas = true
             },
@@ -193,24 +195,11 @@
                 this.change(this.childValue)
                 this.popupVisible = false
             },
-            change1(value) {
-                console.log('val'+value)
-                if( value == '是' ) {
-                    this.eventIf = 1
-                } else {
-                    this.eventIf = 2
-                }
-            },
-            change2(value) {
-                console.log('val'+value)
-                if (value == '日常') {
-                    this.eventLevel = 1
-                } else {
-                    this.eventLevel = 2
-                }
-            },
             goback() {
-                if (this.openCas) {
+                if (this.doublePic) {
+                    this.doublePic = false
+                    this.pickerData = this.contentList
+                } else if (this.openCas) {
                     this.openCas = false
                 } else {
                     router.go(-1) 
@@ -219,14 +208,14 @@
             },
             getTypeList() {
                 let callback = (res) => {
-                    // this.initPicker(res)
+                    this.contentList = res.data
                     this.pickerData = res.data
                 }
                 $http.getTypeList(api, callback)
             },
             changeList(data) {
-                console.log(data)
                 this.pickerData = data
+                this.doublePic = true
             },
             changeok(data) {
                 this.casValue = data.name
@@ -327,13 +316,14 @@
     text-align: center;
     font-size:60px;
 }
-.right-content .icon{
-  font-weight: bold;
-  color:#ccc;
+.affairDetail .right-content .icon{
+  /* font-weight: bold; */
   width:auto;
   height:auto;
-  margin-right:10px;
-  font-size:12px;
+  font-size:14px;
+  width: 0.8rem;
+  height: 1rem;
+  color: #999;
 }
 .right-content {
   color:#ccc;
@@ -350,4 +340,33 @@
   justify-content: space-between;
   width:100%;
 }
+.affairDetail .list-block select {
+  direction: rtl;
+}
+.affairDetail .list-block select option {
+    direction: ltr;
+}
+.affairDetail .selectItem{
+  position:relative;
+  padding-right:1rem;
+}
+.affairDetail .selectItem span {
+  font-size:14px;
+  width: 0.8rem;
+  height: 1rem;
+  color: #999;
+  position: absolute;
+  right: 0;
+  top: 0.65rem;
+  bottom:0;
+}
+.affairDetail .list-block .item-content{
+    margin-right: 0.5rem;
+}
+.affairDetail .dingwei{
+    padding-right:10px;
+    display:flex;
+    justify-content: space-between;
+}
+
 </style>

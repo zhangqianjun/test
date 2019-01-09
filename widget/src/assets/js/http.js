@@ -199,6 +199,18 @@
         success(res)
       })
     }
+    //状态切换
+    $http.changeInlineState = function (api, data, success) {
+      this.ajax(api, {
+        url: '/api/app/userStateCheck',
+        method: 'post',
+        data: {
+          body: data
+        }
+      },function (res) {
+        success(res)
+      })
+    }
 
   
     // 封装ajax请求

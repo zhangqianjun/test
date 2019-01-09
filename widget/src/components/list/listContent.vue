@@ -19,7 +19,8 @@
         ref="honrayScroller"
         :finish="false"
         :dataCount="showList.length"
-        @infinite="infinite">
+        @infinite="infinite"
+        @load="load">
             <template slot="listItem">
                 <div v-for="(item, index) in showList" :key="index">
                 <list-item
@@ -37,6 +38,7 @@
 <script>
     import listTab from './listTab'
     import listItem from './listItem'
+import { setTimeout } from 'timers';
     export default {
         data() {
             return {
@@ -53,12 +55,21 @@
             this.getproList()
         },
         methods: {
-            getproList() {
+            load(data) {
+                let callback = (res) => {
+                    data.ifLoading = 'yes'
+                }
+                this.getproList(callback)
+            },
+            getproList(hasCallback) {
                 let callback = (res) => {
                     this.needList = res.data.needList
                     this.doneList = res.data.doneList
                     this.historyList = res.data.historyList
                     this.showList = this.needList 
+                    if (hasCallback) {
+                        hasCallback('yes')
+                    }
                 }
                 $http.getProjectList(api, callback)
             },
