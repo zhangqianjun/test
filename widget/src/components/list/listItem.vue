@@ -1,6 +1,6 @@
 <template>
     <div style="background:#fff;">
-        <!-- <div class="list-item">
+        <div class="list-item">
             <p class="item-title">{{item.title}}</p>
             <p class="item-address">
                 <svg class="icon" aria-hidden="true">
@@ -12,123 +12,6 @@
                     <use xlink:href="#icon-calendar"></use>
                 </svg>
                 <span>{{times}}</span></p>
-        </div> -->
-        <div class="list-item">
-            <p class="item-title">item.title</p>
-            <p class="item-address">
-                <svg class="icon" aria-hidden="true">
-                    <use xlink:href="#icon-dizhi"></use>
-                </svg>
-                <span>item.address</span></p>
-            <p class="item-date">
-                <svg class="icon" aria-hidden="true">
-                    <use xlink:href="#icon-calendar"></use>
-                </svg>
-                <span>times</span></p>
-        </div>
-         <div class="list-item">
-            <p class="item-title">item.title</p>
-            <p class="item-address">
-                <svg class="icon" aria-hidden="true">
-                    <use xlink:href="#icon-dizhi"></use>
-                </svg>
-                <span>item.address</span></p>
-            <p class="item-date">
-                <svg class="icon" aria-hidden="true">
-                    <use xlink:href="#icon-calendar"></use>
-                </svg>
-                <span>times</span></p>
-        </div>
-         <div class="list-item">
-            <p class="item-title">item.title</p>
-            <p class="item-address">
-                <svg class="icon" aria-hidden="true">
-                    <use xlink:href="#icon-dizhi"></use>
-                </svg>
-                <span>item.address</span></p>
-            <p class="item-date">
-                <svg class="icon" aria-hidden="true">
-                    <use xlink:href="#icon-calendar"></use>
-                </svg>
-                <span>times</span></p>
-        </div>
-         <div class="list-item">
-            <p class="item-title">item.title</p>
-            <p class="item-address">
-                <svg class="icon" aria-hidden="true">
-                    <use xlink:href="#icon-dizhi"></use>
-                </svg>
-                <span>item.address</span></p>
-            <p class="item-date">
-                <svg class="icon" aria-hidden="true">
-                    <use xlink:href="#icon-calendar"></use>
-                </svg>
-                <span>times</span></p>
-        </div>
-         <div class="list-item">
-            <p class="item-title">item.title</p>
-            <p class="item-address">
-                <svg class="icon" aria-hidden="true">
-                    <use xlink:href="#icon-dizhi"></use>
-                </svg>
-                <span>item.address</span></p>
-            <p class="item-date">
-                <svg class="icon" aria-hidden="true">
-                    <use xlink:href="#icon-calendar"></use>
-                </svg>
-                <span>times</span></p>
-        </div>
-         <div class="list-item">
-            <p class="item-title">item.title</p>
-            <p class="item-address">
-                <svg class="icon" aria-hidden="true">
-                    <use xlink:href="#icon-dizhi"></use>
-                </svg>
-                <span>item.address</span></p>
-            <p class="item-date">
-                <svg class="icon" aria-hidden="true">
-                    <use xlink:href="#icon-calendar"></use>
-                </svg>
-                <span>times</span></p>
-        </div>
-         <div class="list-item">
-            <p class="item-title">item.title</p>
-            <p class="item-address">
-                <svg class="icon" aria-hidden="true">
-                    <use xlink:href="#icon-dizhi"></use>
-                </svg>
-                <span>item.address</span></p>
-            <p class="item-date">
-                <svg class="icon" aria-hidden="true">
-                    <use xlink:href="#icon-calendar"></use>
-                </svg>
-                <span>times</span></p>
-        </div>
-         <div class="list-item">
-            <p class="item-title">item.title</p>
-            <p class="item-address">
-                <svg class="icon" aria-hidden="true">
-                    <use xlink:href="#icon-dizhi"></use>
-                </svg>
-                <span>item.address</span></p>
-            <p class="item-date">
-                <svg class="icon" aria-hidden="true">
-                    <use xlink:href="#icon-calendar"></use>
-                </svg>
-                <span>times</span></p>
-        </div>
-         <div class="list-item">
-            <p class="item-title">item.title</p>
-            <p class="item-address">
-                <svg class="icon" aria-hidden="true">
-                    <use xlink:href="#icon-dizhi"></use>
-                </svg>
-                <span>item.address</span></p>
-            <p class="item-date">
-                <svg class="icon" aria-hidden="true">
-                    <use xlink:href="#icon-calendar"></use>
-                </svg>
-                <span>times</span></p>
         </div>
     </div>
 </template>
