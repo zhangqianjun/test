@@ -104,18 +104,21 @@
         </ul>
       </div>
     </div>
+    <div v-if="isLoading" style="position:fixed;top:0;left:0;width:100%;height:100%;background:#000;opacity:0.2;z-index:999;padding-top:100px;"><loading></loading></div>
   </div>
 </template>
 
 <script>
 import apiMap from 'assets/js/map.js'
+import loading from '../common/loading.vue'
 export default {
   data() {
     return {
       dataDetail: [],
       undone: true,
       hasDone: false,
-      HOST: window.HOST
+      HOST: window.HOST,
+      isLoading: false
     }
   },
   created() {
@@ -128,12 +131,14 @@ export default {
   },
   methods: {
     getEventDetail() {
+      this.isLoading = true
       let id = this.$route.query.id
       let param = {
         eventId: id
       }
       let callback = (res) => {
         console.log(res)
+        this.isLoading = false
         this.dataDetail = res.data
         let status = this.dataDetail.state
         if (status == 1) {
@@ -161,6 +166,9 @@ export default {
     goback() {
       router.go(-1)
     }
+  },
+  components: {
+    loading
   }
 }
 </script>

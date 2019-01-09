@@ -3,14 +3,14 @@
     <div
       :class="types == 'search' ? 'topLittle' : 'topMain'"
       >
-      <div class="content-box" ref="contentBox">
+      <!-- <div class="content-box" ref="contentBox">
         <div class="refreshing-box">
           <div>{{tipText}}</div>
         </div>
-        <div>
+        <div> -->
           <slot name="listItem"></slot>
-        </div>
-      </div>
+        <!-- </div>
+      </div> -->
     </div>
     <empty :tips="tips" v-show="dataCount == 0"></empty>
   </div>
@@ -140,8 +140,8 @@
       empty
     },
     mounted() {
-      this.el = this.$refs.contentBox
-      this.bindTouchEvent()
+      // this.el = this.$refs.contentBox
+      // this.bindTouchEvent()
     }
   }
 </script>

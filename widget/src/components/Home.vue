@@ -3,7 +3,11 @@
         <!-- <div style="margin-top: 5rem;" @click="getapp()">首页111</div> -->
         <!-- <transition name="fade" mode="in-out"> -->
             <!-- <transition name="right-slide"> -->
-            <router-view></router-view>
+            <!-- <router-view></router-view> -->
+            <keep-alive>
+                <router-view v-if="$route.meta.keepAlive"></router-view>
+            </keep-alive>
+            <router-view v-if="!$route.meta.keepAlive"></router-view>
             <!-- </transition> -->
         <!-- </transition> -->
     </div>

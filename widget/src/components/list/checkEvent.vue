@@ -28,27 +28,27 @@
       <div class="list-block">
         <ul class="todo-li">
           <li class="item-content">
-            <div class="todo-content">
+            <div class="todo-content" style="width: 100%;">
               <div class="item-title">上报地址</div>
-              <div class="item-after">{{dataDetail.address}}</div>
+              <p class="item-content-line">{{dataDetail.address}}</p>
             </div>
           </li>
           <li class="item-content">
             <div class="todo-content">
               <div class="item-title">问题标题</div>
-              <div class="item-after">{{dataDetail.title}}</div>
+              <div class="item-content-line">{{dataDetail.title}}</div>
             </div>
           </li>
           <li class="item-content">
             <div class="todo-content">
               <div class="item-title">问题描述</div>
-              <div class="item-after">{{dataDetail.description}}</div>
+              <div class="item-content-line">{{dataDetail.description}}</div>
             </div>
           </li>
           <li class="item-content" v-if="alldone">
             <div class="todo-content">
               <div class="item-title">办案结果</div>
-              <div class="item-after">{{dataDetail.handle}}</div>
+              <div class="item-content-line">{{dataDetail.handle}}</div>
             </div>
           </li>
         </ul>
@@ -124,19 +124,26 @@
           <li class="align-top">
               <div class="address-content">
                   <div class="address-title">附件</div>
-                  <div>
-                    <img v-for="(item, index) in dataDetail.files" :key="index" :src="`${HOST}${item}`"/>
+                  <div class="imgBorder">
+                    <div v-for="(item, index) in dataDetail.files" :key="index" @click="getBigImg(item)">
+                      <img class="imgSize" :src="`${HOST}${item}`"/>
+                    </div>
                   </div>
               </div>
           </li>
         </ul>
       </div>
     </div>
+    <div v-if="bigImg" @click="closeBigImg()" class="bigImgb">
+      <img :src="`${HOST}${bigImgSrc}`"/>
+      </div>
+    <div v-if="isLoading" class="loadingStyle"><loading></loading></div>
   </div>
 </template>
 
 <script>
 import apiMap from 'assets/js/map.js'
+import loading from '../common/loading.vue'
 export default {
   data() {
     return {
@@ -147,7 +154,10 @@ export default {
       opinion: '',
       alldone: false,
       isdeal: false,
-      HOST: window.HOST
+      HOST: window.HOST,
+      isLoading: false,
+      bigImg: false,
+      bigImgSrc: ''
     }
   },
   created() {
@@ -159,12 +169,21 @@ export default {
   mounted() {
   },
   methods: {
+    closeBigImg() {
+      this.bigImg = false
+    },
+    getBigImg(url) {
+      this.bigImg = true
+      this.bigImgSrc = url
+    },
     getEventDetail() {
+      this.isLoading = true
       let id = this.$route.query.id
       let param = {
         eventId: id
       }
       let callback = (res) => {
+        this.isLoading = false
         this.dataDetail = res.data
         let status = this.dataDetail.status
         if (status == 1) {
@@ -219,11 +238,14 @@ export default {
       
     },
     pushRecordPage() {
-      router.push({ name: 'lookRecord'})
+      router.push({ name: 'lookRecord', query: {id: this.$route.query.id}})
     },
     goback() {
       router.go(-1)
     }
+  },
+  components: {
+    loading
   }
 }
 </script>
@@ -305,5 +327,41 @@ export default {
   position: absolute;
   right: 0;
   top: 0.5rem;
+}
+.checkEvent .imgBorder{
+  display: flex;
+}
+.imgSize{
+  width:100%;
+}
+.checkEvent .imgBorder div{
+  width:100px;
+  height: 100px;
+  padding: 5px;
+  overflow:hidden;
+}
+.bigImgb{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:#000;
+  z-index:999;
+}
+.bigImgb img{
+  width:100%;
+  position:absolute;
+  top:0;
+  left:0;
+  bottom:0;
+  right:0;
+  margin: auto;
+}
+.loadingStyle{
+  position:fixed;top:0;left:0;width:100%;height:100%;background:#000;opacity:0.2;z-index:999;padding-top:100px;
+}
+.checkEvent .item-content-line{
+  padding-right:0.75rem;display:block;margin-bottom: 10px;color: #999999;
 }
 </style>

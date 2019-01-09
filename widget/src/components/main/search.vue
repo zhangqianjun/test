@@ -26,18 +26,21 @@
                 </template>
             </list-tab>
     </div>
+    <div v-if="isLoading" style="position:fixed;top:0;left:0;width:100%;height:100%;background:#000;opacity:0.2;z-index:999;padding-top:100px;"><loading></loading></div>
 </div>
 </template>
 
 <script>
 import listTab from '../list/listTab'
 import listItem from '../list/listItem'
+import loading from '../common/loading.vue'
 export default {
     data() {
         return {
             searchData: '',
             showList: [],
-            search: 'search'
+            search: 'search',
+            isLoading: false
         }
     },
     methods: {
@@ -45,11 +48,13 @@ export default {
             router.go(-1)
         },
         getSearchList() {
+            this.isLoading = true
             let param = {
                 title: this.searchData
             }
             let callback = (res) => {
                 this.showList = res.data
+                this.isLoading = false
             }
             $http.getSearch(api, param, callback)
         },
@@ -70,6 +75,12 @@ export default {
             style: 'dark'
         });
     },
+    activated() {
+        if (this.$route.meta.change) {
+            this.showList = []
+            this.searchData = ''
+        }
+    },
     mounted() {
         document.getElementById('search').onKeydown = function(e){
         　　　　if(e.keyCode == 13){
@@ -77,9 +88,12 @@ export default {
         　　　　}
         　　}
     },
+    watch: {
+    },
     components: {
         listTab,
-        listItem
+        listItem,
+        loading
     }
 }
 </script>

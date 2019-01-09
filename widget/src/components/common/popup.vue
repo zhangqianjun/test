@@ -55,7 +55,23 @@ export default {
             }
             let callback = (res) => {
                 if(res.code == 200) {
-                    this.$emit('changeState')
+                    if(res.data == 0) {
+                        api.toast({
+                            msg: '更新失败',
+                            duration: 2000,
+                            location: 'middle'
+                        })
+                        this.$emit('ifopen')
+                    } else {
+                        api.toast({
+                            msg: '更新成功',
+                            duration: 2000,
+                            location: 'middle'
+                        })
+                        this.$emit('changeState')
+                        this.$emit('ifopen')
+                    }
+                    
                 }
             }
             $http.changeInlineState(api, param, callback)

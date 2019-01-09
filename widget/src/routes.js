@@ -45,7 +45,7 @@ const routes = [
       { path: '/login', component: login, name: 'login', meta: { keepAlive: false }},
       { path: '/entrance', component: entrance, name: 'entrance', meta: { keepAlive: false }},
       { path: '/affairReport', component: affairReport, name: 'affairReport', meta: { keepAlive: false }},
-      { path: '/search', component: search, name: 'search', meta: { keepAlive: false }},
+      { path: '/search', component: search, name: 'search', meta: { keepAlive: true, change: false }},
       { path: '/set', component: set, name: 'set', meta: { keepAlive: false }},
       { path: '/todoDetails/:id', component: todoDetails, name: 'todoDetails', meta: { keepAlive: false }},
       { path: '/lookRecord/:id', component: lookRecord, name: 'lookRecord', meta: { keepAlive: false }},
