@@ -68,4 +68,7 @@ window.apiready = function() {
     //     }
     // );
     // api.notification();
+    // api.notification({
+    //     sound:'widget://res/music.mp3'
+    // });
 }
