@@ -35,7 +35,7 @@ import apiMap from 'assets/js/map.js'
                 }, 500)
                 // router.push({ name: 'login'})
             }
-            setInterval(function() {
+            window.timer = setInterval(function() {
                 var aMap = api.require('aMap');
                 let nameBack = (ret) => {
                     let param = {

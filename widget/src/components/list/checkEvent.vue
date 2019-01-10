@@ -148,6 +148,7 @@ export default {
   data() {
     return {
       dataDetail: [],
+      result:'',
       results: '',
       mass: '',
       evaluation: '',
@@ -183,9 +184,10 @@ export default {
         eventId: id
       }
       let callback = (res) => {
+        console.log(res.data)
         this.isLoading = false
         this.dataDetail = res.data
-        let status = this.dataDetail.status
+        let status = this.dataDetail.state
         if (status == 1) {
 
         } else if (status == 2) {

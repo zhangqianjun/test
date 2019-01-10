@@ -1,3 +1,5 @@
+import routes from "../../routes";
+
 (function (window) {
 
     var $http = {};
@@ -212,6 +214,19 @@
       })
     }
 
+    //状态切换
+    $http.dealEvent = function (api, data, success) {
+      this.ajax(api, {
+        url: '/api/app/handleEvent',
+        method: 'post',
+        data: {
+          body: data
+        }
+      },function (res) {
+        success(res)
+      })
+    }
+
   
     // 封装ajax请求
     $http.ajax = function (api, opts, callback, errCallback) {
@@ -241,11 +256,12 @@
               duration: 1500,
               location: 'middle'
             });
-            setTimeout(function () {
-              api.closeToWin({
-                name: 'login'
-              })
-            }, 1e3);
+            router.push({name: 'login'})
+            // setTimeout(function () {
+            //   api.closeToWin({
+            //     name: 'login'
+            //   })
+            // }, 1e3);
           } else if (ret.code == 200) {
             if (opts.url.indexOf('/missions') == -1 && opts.url.indexOf('/bpm/cases/') == -1) {
               console.log('\n返回数据：' + JSON.stringify(ret.data));

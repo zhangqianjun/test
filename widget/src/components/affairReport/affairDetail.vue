@@ -246,6 +246,7 @@
                         duration: 1500,
                         location: 'middle'
                     });
+                    router.go(-1) 
                 }
                 console.log(param)
                 $http.getNoticeList(api, param, callback)

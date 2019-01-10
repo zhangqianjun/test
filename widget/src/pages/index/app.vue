@@ -15,11 +15,11 @@
             <li>子窗口宽度: {{frameWidth}}</li>
             <li>子窗口高度: {{frameHeight}}</li>
         </ul> -->
-    <div class="content">
+    <!-- <div class="content">
       <div>123</div>
-      <div>{{test}}</div>
+      <div>{{test}}</div> -->
       <router-view></router-view>
-    </div>
+    <!-- </div> -->
   </div>
 </template>
 <script>
@@ -32,23 +32,23 @@ export default {
   },
   created() {
     var ajpush = api.require('ajpush');
-    ajpush.init(function (ret, err) {
-      if (ret && ret.status) {
-        // alert('操作成功!');
-      } else {
-        alert('操作失败!');
-      }
-    });
+    // ajpush.init(function (ret, err) {
+    //   if (ret && ret.status) {
+    //     // alert('操作成功!');
+    //   } else {
+    //     alert('操作失败!');
+    //   }
+    // });
     // api.addEventListener({name:'appintent'}, function(ret,err) {
     //     alert('通知被点击，收到数据：\n' + JSON.stringify(ret));//监听通知被点击后收到的数据
     //     if(ret && ret.appParam.ajpush){
     //     }
     //    })
     ajpush.setListener((ret) => {
-      //   alert(123456)
+      var isif = Cookies.get('ifFront')
       var sw = api.require('screenWake');
+      var notificationId = null
       sw.addScreenWake();
-      console.log(JSON.stringify(ret))
       api.notification({
         vibrate: [100, 500, 100, 500, 100, 500, 100, 500, 100, 500, 100, 500, 100, 500],
         // light: true,
@@ -59,12 +59,35 @@ export default {
           extra: 'fdsfds',
           updateCurrent: true
         }
+      }, function(ret, err) {
+          notificationId = ret.id;
       })
       var id = ret.id;
       var title = ret.title;
       var content = ret.content;
       var extra = ret.extra;
       this.test = content;
+        api.confirm({
+          title: '提示',
+          msg: '收到一条待办通知',
+          buttons: ['确定', '取消']
+      }, function(ret, err) {
+          var index = ret.buttonIndex;
+          api.cancelNotification({
+              id: notificationId
+          });
+          if (index == 1) {
+            if (extra.type == 1) {
+                router.push({ name: 'todoDetails', params: {id: extra.id} ,query: {id: extra.id}})
+            } else if (extra.type == 2) {
+                router.push({ name: 'checkEvent', params: {id: extra.id}, query: {id: extra.id, type: 1}})
+            } else if (extra.type == 3) {
+                router.push({ name: 'checkEvent', params: {id: extra.id} ,query: {id: extra.id, type: 2}})
+            }
+          }
+          // alert(index)
+      });
+      
     });
   }
 }

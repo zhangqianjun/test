@@ -69,7 +69,21 @@
                 </div>
             </div>
         </div>
-        <list-content v-if="!isLoading">
+        <div class="buttons-tab">
+            <a 
+            class="tab-link button" 
+            :class="myTodo ? 'active' : ''"
+            @click="getTodoList()">我的待办</a>
+            <a 
+            class="tab-link button" 
+            :class="todayDo ? 'active' : ''"
+            @click="getTodayList()">今日已办</a>
+            <a 
+            class="tab-link button" 
+            :class="historyRecord ? 'active' : ''"
+            @click="getHistoryList()">历史记录</a>
+        </div>
+        <list-content v-if="!isLoading" :showList="showList">
         </list-content>
         <popup v-if="selectLine" @ifopen="ifopen()" @changeState="changeState()"></popup>
         <loading v-if="isLoading"></loading>
@@ -89,7 +103,14 @@
                 selectLine: false,
                 userInfo: {},
                 HOST: window.HOST,
-                isLoading: false
+                isLoading: false,
+                myTodo: true,
+                todayDo: false,
+                historyRecord: false,
+                needList: [],
+                doneList: [],
+                historyList: [],
+                showList: []
             }
         },
         created() {
@@ -98,6 +119,31 @@
             });
             this.getUserInfo()
             this.getAdress()
+            this.getproList()
+            var ajpush = api.require('ajpush');
+            let that = this
+            // ajpush.setListener(
+            //     function(ret) {
+            //         api.confirm({
+            //             title: '提示',
+            //             msg: '收到一条待办通知',
+            //             buttons: ['确定', '取消']
+            //         }, function(ret, err) {
+            //             var index = ret.buttonIndex;
+            //             alert(index)
+            //         });
+            //         // alert(JSON.stringify(ret))
+            //         // alert(ret.extra.id)
+            //         // alert(ret.extra.type)
+            //         // api.alert({
+            //         //     title: '提示',
+            //         //     msg: '收到一条待办通知',
+            //         // }, function(ret, err) {
+
+            //         // });
+            //         that.getproList()
+            //     }
+            // );
         },
         mounted() {
         },
@@ -181,7 +227,41 @@
                     apiMap.getAdress(aMap, param, namesBack)
                 }
                 apiMap.getLocation(api, nameBack)
-            }
+            },
+            infinite() {
+            },
+            getTodoList() {
+                this.myTodo = true
+                this.todayDo = false
+                this.historyRecord = false
+                this.showList = this.needList
+            },
+            getTodayList() {
+                this.myTodo = false
+                this.todayDo = true
+                this.historyRecord = false
+                this.showList = this.doneList
+            },
+            getHistoryList() {
+                this.myTodo = false
+                this.todayDo = false
+                this.historyRecord = true
+                this.showList = this.historyList
+            },
+            getproList() {
+                this.myTodo = true
+                this.todayDo = false
+                this.historyRecord = false
+                this.isLoading = true
+                let callback = (res) => {
+                     this.isLoading = false
+                    this.needList = res.data.needList
+                    this.doneList = res.data.doneList
+                    this.historyList = res.data.historyList
+                    this.showList = this.needList 
+                }
+                $http.getProjectList(api, callback)
+            },
         },
         components:{
             listContent,
@@ -294,5 +374,15 @@
     font-size:1rem;
     margin-right:0.2rem;
     color:#64ABFB;
+}
+.buttons-tab .button.active{
+    /* color:#fff; */
+    font-weight: bold;
+    border-color:#64ABFB;
+    padding: 0;
+    margin: 0 1rem;
+}
+.buttons-tab:after{
+    height: 0 !important;
 }
 </style>

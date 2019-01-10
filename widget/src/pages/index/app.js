@@ -53,11 +53,19 @@ window.apiready = function() {
             alert('操作失败!');
         }
     });
-    // api.addEventListener({name:'appintent'}, function(ret,err) {
-    //     alert('通知被点击，收到数据：\n' + JSON.stringify(ret));//监听通知被点击后收到的数据
-    //     if(ret && ret.appParam.ajpush){
-    //     }
-    //    })
+    api.addEventListener({name:'appintent'}, function(ret,err) {
+        alert('通知被点击，收到数据：\n' + JSON.stringify(ret));//监听通知被点击后收到的数据
+        // window.location.reload(); 
+    })
+    api.addEventListener({
+        name: 'pause'
+    }, function (ret, err) {
+    })
+
+    api.addEventListener({
+        name: 'resume'
+    }, function (ret, err) {
+    })
     // ajpush.setListener(
     //     function(ret) {
     //         alert(123456)

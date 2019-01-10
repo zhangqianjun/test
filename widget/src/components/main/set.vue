@@ -122,6 +122,7 @@ export default {
         outLogin() {
             let callback = (res) => {
                 Cookies.remove('token')
+                clearInterval(window.timer); 
                 router.push({ name: 'login' })
                 api.toast({
                     msg: '已退出登陆',
