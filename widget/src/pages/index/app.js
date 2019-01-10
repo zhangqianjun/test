@@ -58,13 +58,14 @@ window.apiready = function() {
     //     if(ret && ret.appParam.ajpush){
     //     }
     //    })
-    ajpush.setListener(
-        function(ret) {
-            alert(123456)
-            var id = ret.id;
-            var title = ret.title;
-            var content = ret.content;
-            var extra = ret.extra;
-        }
-    );
+    // ajpush.setListener(
+    //     function(ret) {
+    //         alert(123456)
+    //         var id = ret.id;
+    //         var title = ret.title;
+    //         var content = ret.content;
+    //         var extra = ret.extra;
+    //     }
+    // );
+    // api.notification();
 }
