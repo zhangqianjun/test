@@ -45,7 +45,7 @@ output/
 output.tar.gz
 
 # res/
-# src/
+src/
 #appnpm
 app/
 runtime/
