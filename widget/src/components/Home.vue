@@ -37,37 +37,74 @@ import apiMap from 'assets/js/map.js'
             }
             window.timer = setInterval(function() {
                 var aMap = api.require('aMap');
-                let data = {}
-                let openCallBack = (res) => {
-                    let nameBack = (ret) => {
-                        aMap.stopLocation();
-                        // aMap.close()
-                        let param = {
-                            lon: ret.lon,
-                            lat: ret.lat
-                        }
-                        this.lng = ret.lon
-                        this.lat = ret.lat
-                        let namesBack = (res) => {
-                            this.address = res.address
+                // let data = {}
+                // let openCallBack = (res) => {
+                    let isOpen = Cookies.get('isOpenMap')
+                    let isLocation = Cookies.get('isLocation')
+                    if (isOpen) {
+                        if (isLocation && isLocation.lon) {
                             let param = {
-                                lng: this.lng,
-                                lat: this.lat,
-                                address: this.address
+                                lon: isLocation.lon,
+                                lat: isLocation.lat
                             }
-                            let success = (res) => {
-                                console.log(res)
+                            this.lng = isLocation.lon
+                            this.lat = isLocation.lat
+                            let namesBack = (res) => {
+                                this.address = res.address
+                                let param = {
+                                    lng: this.lng,
+                                    lat: this.lat,
+                                    address: this.address
+                                }
+                                let success = (res) => {
+                                    console.log(res)
+                                }
+                                $http.postAddress(api, param, success)
                             }
-                            $http.postAddress(api, param, success)
+                            apiMap.getAdress(aMap, param, namesBack)
+                        } else {
+                            let nameBack = (ret) => {
+                                let param = {
+                                    lon: ret.lon,
+                                    lat: ret.lat
+                                }
+                                this.lng = ret.lon
+                                this.lat = ret.lat
+                                let namesBack = (res) => {
+                                    this.address = res.address
+                                    let param = {
+                                        lng: this.lng,
+                                        lat: this.lat,
+                                        address: this.address
+                                    }
+                                    let success = (res) => {
+                                        console.log(res)
+                                    }
+                                    $http.postAddress(api, param, success)
+                                }
+                                apiMap.getAdress(aMap, param, namesBack)
+                            }
+                            apiMap.getLocation(aMap, nameBack) 
                         }
-                        apiMap.getAdress(aMap, param, namesBack)
+                    } else {
+                        let data = {}
+                        let openCallBack = (res) => {
+                            Cookies.set('isOpenMap', true)
+                        }
+                        apiMap.openMap(api, aMap, data, openCallBack)
                     }
-                    apiMap.getLocation(aMap, nameBack)
-                }  
-                apiMap.openMap(api, aMap, data, openCallBack)
-            }, 60000)
+                    
+                // }  
+                // apiMap.openMap(api, aMap, data, openCallBack)
+            }, 30000)
         },
         methods: {
+            openMap() {
+                let openCallBack = (res) => {
+                    Cookies.set('isOpenMap', true)
+                }
+                apiMap.openMap(api, aMap, data, openCallBack)
+            },
             getapp() {
                 router.push({ name: 'entrance' })
             }

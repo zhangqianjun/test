@@ -6,7 +6,7 @@
       <button class="button pull-right" @click="postEvent()">
           提交
       </button>
-      <h1 v-if="isdeal" class="title">处理问题</h1>
+      <h1 v-if="isdeal" class="title">处理事件</h1>
       <h1 v-if="alldone" class="title">核查问题</h1>
     </header>
     <div class="content" style="padding-top: 25px;">
@@ -120,9 +120,22 @@
                 </div>
             </div>
           </li>
+          <li v-if="isdeal" class="item-content">
+            <div class="item-inner">
+              <span style="color: red;padding-right:5px;">* </span>
+              <div class="item-title label">处理结果</div>
+              <div class="item-input selectItem">
+                  <select v-model="eventState">
+                      <option value="1">已解决</option>
+                      <option value="2">未解决</option>
+                  </select>
+                  <span class="icon icon-right"></span>
+              </div>
+            </div>
+          </li>
           <li v-if="isdeal">
             <div class="address-content">
-                <div class="address-title"><span style="color: red;padding-right:5px;">* </span>处理结果说明</div>
+                <div class="address-title"><span style="color: red;padding-right:5px;">* </span>处理说明</div>
                 <div class="address-input">
                   <textarea v-model="result"></textarea>
                 </div>
@@ -174,7 +187,8 @@ export default {
       isLoading: false,
       bigImg: false,
       bigImgSrc: '',
-      eventfile: []
+      eventfile: [],
+      eventState: '1'
     }
   },
   created() {
@@ -224,7 +238,7 @@ export default {
       if (this.isdeal) {
         if (!(this.result.length > 0)) {
           api.toast({
-              msg: '请输入处理结果说明',
+              msg: '请输入处理说明',
               duration: 2000,
               location: 'middle'
             })
@@ -234,7 +248,8 @@ export default {
           info: {
             files: this.eventfile,
             eventId: this.$route.query.id,
-            result: this.result
+            result: this.result,
+            event_state:this.eventState
           }
         }
         let callback = (res) => {

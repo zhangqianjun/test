@@ -23,6 +23,7 @@
   </div>
 </template>
 <script>
+import apiMap from 'assets/js/map.js'
 export default {
   data() {
     return {
@@ -32,18 +33,6 @@ export default {
   },
   created() {
     var ajpush = api.require('ajpush');
-    // ajpush.init(function (ret, err) {
-    //   if (ret && ret.status) {
-    //     // alert('操作成功!');
-    //   } else {
-    //     alert('操作失败!');
-    //   }
-    // });
-    // api.addEventListener({name:'appintent'}, function(ret,err) {
-    //     alert('通知被点击，收到数据：\n' + JSON.stringify(ret));//监听通知被点击后收到的数据
-    //     if(ret && ret.appParam.ajpush){
-    //     }
-    //    })
     ajpush.setListener((ret) => {
       var isif = Cookies.get('ifFront')
       var sw = api.require('screenWake');
@@ -89,6 +78,12 @@ export default {
       });
       
     });
+    var aMap = api.require('aMap');
+    let data = {}
+    let openCallBack = (res) => {
+      Cookies.set('isOpenMap', true)
+    }
+    apiMap.openMap(api, aMap, data, openCallBack)
   }
 }
 </script>

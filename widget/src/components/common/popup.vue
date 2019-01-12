@@ -51,7 +51,7 @@ export default {
         },
         inline(type) {
             let param = {
-                state: type
+                line: type
             }
             let callback = (res) => {
                 if(res.code == 200) {

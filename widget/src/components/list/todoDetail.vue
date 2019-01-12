@@ -215,6 +215,7 @@ export default {
                  aMap.getLocation({
                       autoStop: false
                     },function(res, err) {
+                        Cookies.set('isLocation', {lon: res.lon,lat: res.lat})
                         if (res.status) {
                             if (firstAddress == 1) {
                               alert(firstAddress)
@@ -271,6 +272,7 @@ export default {
       var aMap = api.require('aMap');
       aMap.stopLocation();
       aMap.close();
+      Cookies.remove('isLocation')
       aMap.removeRoute({
         ids: [id]
       });
