@@ -227,6 +227,19 @@ import routes from "../../routes";
       })
     }
 
+    //grid
+    $http.gridList = function (api, data, success) {
+      this.ajax(api, {
+        url: '/api/app/getAllGrid',
+        method: 'get',
+        data: {
+          body: data
+        }
+      },function (res) {
+        success(res)
+      })
+    }
+
   
     // 封装ajax请求
     $http.ajax = function (api, opts, callback, errCallback) {

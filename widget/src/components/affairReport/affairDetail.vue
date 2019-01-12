@@ -9,9 +9,9 @@
             <h1 v-if="!openCas" class="title">事件上报</h1>
         </header>
         <div class="content" style="margin-top: 25px;">
-            <div class="list-block">
+            <div class="list-block"  v-if="!openCas">
                 <ul>
-                <li>
+                <!-- <li>
                     <div class="item-content">
                         <div class="item-inner">
                             <span style="color: red;padding-right:5px;">* </span>
@@ -25,7 +25,7 @@
                             </div>
                         </div>
                     </div>
-                </li>
+                </li> -->
                 <li>
                     <div class="item-content">
                         <div class="item-inner">
@@ -56,9 +56,24 @@
                         </div>
                     </div>
                 </li>
+                <li class="item-link">
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <span style="color: red;padding-right:5px;">* </span>
+                            <div class="right-selector" @click="openGridList()">
+                                <div class="item-title label">所属网格
+                                </div>
+                                <div class="right-content" style="position:relative;">
+                                    <span style="color:#000;text-align:right;margin-right:20px;">{{gridValue ? gridValue : '请选择'}}</span>
+                                    <span class="icon icon-right" style="position:absolute;right:0;top:0.2rem;text-align:center;"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
                 </ul>
             </div>
-            <div class="list-block">
+            <div class="list-block"  v-if="!openCas">
                 <ul>
                     <li>
                     <div class="address-content">
@@ -78,7 +93,7 @@
                 </li>
                 <li>
                     <div class="address-content">
-                        <div class="address-title">问题标题</div>
+                        <div class="address-title"><span style="color: red;padding-right:5px;">* </span>问题标题</div>
                         <div class="address-input">
                         <textarea v-model="requestTitle"></textarea>
                         </div>
@@ -86,7 +101,7 @@
                 </li>
                 <li class="align-top">
                     <div class="address-content">
-                        <div class="address-title">问题描述</div>
+                        <div class="address-title"><span style="color: red;padding-right:5px;">* </span>问题描述</div>
                         <div class="address-input">
                             <textarea v-model="requestDes"></textarea>
                         </div>
@@ -94,7 +109,7 @@
                 </li>
                 <li class="align-top">
                     <div class="address-content">
-                        <div class="address-title">附件</div>
+                        <div class="address-title"><span style="color: red;padding-right:5px;">* </span>附件</div>
                         <upload @inputFile="inputFile"></upload>
                         <!-- <div class="file-upload">+ -->
                             <!-- <upload @inputFile="inputFile"></upload> -->
@@ -107,6 +122,7 @@
             :list="pickerData"
             @changelist="changeList"
             @changeok="changeok"></cascader>
+
         </div>
         <!-- <cascader v-if="openCas"
         :list="pickerData"></cascader> -->
@@ -142,7 +158,10 @@
                     lat: ''
                 },
                 eventfile:[],
-                doublePic: false
+                doublePic: false,
+                casValue: '',
+                gridValue: '',
+                cas: ''
             }
         },
         created() {
@@ -158,27 +177,52 @@
         },
         methods: {
             getAdress() {
-                this.addressName = '定位中'
+                this.addressName = '定位中...'
                 var aMap = api.require('aMap');
-                let nameBack = (ret) => {
-                    let param = {
-                        lon: ret.longitude,
-                        lat: ret.latitude
-                    }
-                    this.lonAndLat = {
-                        lon: ret.longitude,
-                        lat: ret.latitude
-                    }
+                let data = {}
+                let openCallBack = (res) => {
                     let nameBack = (ret) => {
-                        console.log('ret'+ret)
-                        this.addressName = ret.address
+                        let param = {
+                            lon: ret.lon,
+                            lat: ret.lat
+                        }
+                        this.lonAndLat.lon = ret.lon
+                        this.lonAndLat.lat = ret.lat
+                        this.getGridList(ret.lon, ret.lat)
+                        aMap.close()
+                        aMap.stopLocation();
+                        let namesBack = (res) => {
+                            this.addressName = res.address
+                        }
+                        apiMap.getAdress(aMap, param, namesBack)
                     }
-                    apiMap.getAdress(aMap, param, nameBack)
+                    apiMap.getLocation(aMap, nameBack)
                 }
-                apiMap.getLocation(api, nameBack)
+                apiMap.openMap(api, aMap, data, openCallBack)
             },
             openlist() {
+                this.cas = 'event'
                 this.openCas = true
+                this.pickerData = this.contentList
+            },
+            getGridList(lon, lat) {
+                let param = {
+                    lng: lon,
+                    lat: lat
+                }
+                let callback = (res) => {
+                    if (res.data.grid) {
+                        this.gridValue = res.gridId.name
+                        this.grid = res.id
+                    }
+                    this.gridLists = res.data.list
+                }
+                $http.gridList(api, param, callback)
+            },
+            openGridList() {
+                this.cas = 'grid'
+                this.openCas = true;
+                this.pickerData = this.gridLists
             },
             // initPicker(data) {
             //     let curList = data
@@ -198,7 +242,11 @@
             goback() {
                 if (this.doublePic) {
                     this.doublePic = false
-                    this.pickerData = this.contentList
+                    if (this.cas == 'event') {
+                        this.pickerData = this.contentList
+                    } else if (this.cas == 'grid') {
+                        this.pickerData = this.gridLists
+                    }
                 } else if (this.openCas) {
                     this.openCas = false
                 } else {
@@ -209,7 +257,7 @@
             getTypeList() {
                 let callback = (res) => {
                     this.contentList = res.data
-                    this.pickerData = res.data
+                    // this.pickerData = res.data
                 }
                 $http.getTypeList(api, callback)
             },
@@ -218,16 +266,61 @@
                 this.doublePic = true
             },
             changeok(data) {
-                this.casValue = data.name
-                this.eventType = data.id
+                if (this.cas == 'event') {
+                    this.casValue = data.name
+                    this.eventType = data.id
+                } else if (this.cas == 'grid') {
+                    this.gridValue = data.name
+                    this.grid = data.id
+                }
                 this.openCas = false
             },
             inputFile(files) {
                 this.eventfile = files
             },
             postEvent() {
+                if (!this.eventType) {
+                    api.toast({
+                        msg: '请选择服务事项',
+                        duration: 2000,
+                        location: 'middle'
+                    })
+                    return
+                }
+                if (!this.grid) {
+                    api.toast({
+                        msg: '请选择所属网格',
+                        duration: 2000,
+                        location: 'middle'
+                    })
+                    return
+                }
+                if (!this.requestTitle) {
+                    api.toast({
+                        msg: '请输入问题标题',
+                        duration: 2000,
+                        location: 'middle'
+                    })
+                    return
+                }
+                if (!this.requestDes) {
+                    api.toast({
+                        msg: '请输入问题描述',
+                        duration: 2000,
+                        location: 'middle'
+                    })
+                    return
+                }
+                if (this.eventfile.length == 0) {
+                    api.toast({
+                        msg: '请上传附件',
+                        duration: 2000,
+                        location: 'middle'
+                    })
+                    return
+                }
                 let info = {
-                    level: this.eventLevel,
+                    // level: this.eventLevel,
                     type: this.eventType,
                     need_scheduling: this.eventIf,
                     title: this.requestTitle,
@@ -235,7 +328,8 @@
                     address: this.addressName,
                     lng: this.lonAndLat.lon,
                     lat: this.lonAndLat.lat,
-                    files: this.eventfile
+                    files: this.eventfile,
+                    grid: this.grid
                 }
                 let param ={
                     info: info
@@ -271,8 +365,8 @@
     background:#FAFAFA;
 }
 .affairDetail .bar .button{
-    border:0;
-    color: #333;
+    /* border:0; */
+    /* color: #333; */
 }
 .affairDetail .content .list-block{
     margin:0.5rem 0;

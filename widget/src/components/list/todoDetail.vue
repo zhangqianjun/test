@@ -109,33 +109,37 @@ export default {
   methods: {
     getArrive() {
       this.isLoading = true
-      let nameBack = (ret) => {
-          let param = {
-            id: this.$route.query.id,
-            lng: ret.longitude,
-            lat: ret.latitude
+      var aMap = api.require('aMap');
+      let data = {}
+      let openCallBack = (res) => {
+          let nameBack = (ret) => {
+              let param = {
+                id: this.$route.query.id,
+                lng: ret.lon,
+                lat: ret.lat
+              }
+              let callback = (res) => {
+                this.isLoading = false
+                if (res.data == 1) {
+                  api.toast({
+                    msg: '签到成功',
+                    duration: 2000,
+                    location: 'middle'
+                  })
+                  router.push({ name: 'entrance'})
+                } else {
+                  api.toast({
+                    msg: '签到失败',
+                    duration: 2000,
+                    location: 'middle'
+                  })
+                }
+              }
+              $http.postDispatch(api, param, callback)
           }
-          let callback = (res) => {
-            this.isLoading = false
-            if (res.data == 1) {
-              api.toast({
-                msg: '签到成功',
-                duration: 2000,
-                location: 'middle'
-              })
-              router.push({ name: 'entrance'})
-            } else {
-              api.toast({
-                msg: '签到失败',
-                duration: 2000,
-                location: 'middle'
-              })
-            }
-            
-          }
-          $http.postDispatch(api, param, callback)
-        }
-        apiMap.getLocation(api, nameBack)
+          apiMap.getLocation(aMap, nameBack)
+      }
+      apiMap.openMap(api, aMap, data, openCallBack)
     },
     getEventDetail() {
       this.isLoading = true
@@ -187,65 +191,90 @@ export default {
       map.add(marker);//添加到地图
     },
     getLine(id) {
-      this.isLoading = true
+      this.openMap = true
+      // this.isLoading = true
       var aMap = api.require('aMap');
-      let param = {
-        width: 'auto',
-        height: 'auto',
-        lon: this.dispatchDetail.lng,
-        lat: this.dispatchDetail.lat
-      }
-      let nowlon = ''
-      let nowlat = ''
-        let nameBack = (ret) => {
-          nowlon = ret.longitude
-          nowlat = ret.latitude
-          let param = {
-            start: {
-              lon: ret.longitude,
-              lat: ret.latitude
-            },
-            end: {
-              lon: this.dispatchDetail.lng,
-              lat: this.dispatchDetail.lat
-            }
+      aMap.convertCoordinate({
+          type:'google',
+          location:{
+            lat: this.dispatchDetail.lat,
+            lon: this.dispatchDetail.lng
           }
-          let LineCallback = (res) => {
-            let openCallback = (res) => {
-              this.openMap = true
-              this.isLoading = false
-              aMap.drawRoute({
-                id: id,
-                autoresizing: true,
-                index: 0,
-                styles: {
-                    walkLine: {
-                        width: 3,
-                        color: '#698B22',
-                        lineDash: false,
-                        strokeImg: ''
-                    },
-                    icons: {
-                        start: '',
-                        end: '',
-                        bus: '',
-                        car: '',
-                        man: ''
-                    }
-                }
-            });
-            }
-            let param = {
+        },function(ret){
+          let param = {
               width: 'auto',
               height: 'auto',
-              lon: nowlon,
-              lat: nowlat
+              lon: ret.lon,
+              lat: ret.lat
+            }
+            // alert(this.dispatchDetail.lng)
+            let openCallback = () => {
+              // this.openMap = true
+              // let locationCallback = (res) => {
+                 aMap.getLocation({
+                      autoStop: false
+                    },function(res, err) {
+                        if (res.status) {
+                            // alert(JSON.stringify(ret));
+                    //     } else {
+                    //         alert(JSON.stringify(err));
+                    //     }
+                    // });
+                let param = {
+                  start: {
+                    lon: res.lon,
+                    lat: res.lat
+                  },
+                  end: {
+                    lon: ret.lon,
+                    lat: ret.lat
+                  }
+                }
+              let LineCallback = (res) => {
+                // this.isLoading = false
+                aMap.removeRoute({
+                  ids: [id]
+                });
+                  aMap.drawRoute({
+                    id: id,
+                    autoresizing: true,
+                    index: 0,
+                    styles: {
+                        walkLine: {
+                            width: 3,
+                            color: '#698B22',
+                            lineDash: false,
+                            strokeImg: ''
+                        },
+                        icons: {
+                            start: '',
+                            end: '',
+                            bus: '',
+                            car: '',
+                            man: ''
+                        }
+                    }
+                   });
+                  //  aMap.getLocation({
+                  //     autoStop: false
+                  //   },function(ret, err) {
+                  //       if (ret.status) {
+                  //           // alert(JSON.stringify(ret));
+                  //       } else {
+                  //           alert(JSON.stringify(err));
+                  //       }
+                  //   });
+              }
+              apiMap.getLine(aMap, id, param.start, param.end, LineCallback)
+              } else {
+                            alert(JSON.stringify(err));
+                        }
+                    });
+              // }
+              // apiMap.getLocation(aMap, locationCallback)
             }
             apiMap.openMap(api, aMap, param, openCallback)
-          }
-          apiMap.getLine(aMap, id, param.start, param.end, LineCallback)
-        }
-        apiMap.getLocation(api, nameBack)
+        });
     },
     outMap() {
       let id = this.$route.query.id

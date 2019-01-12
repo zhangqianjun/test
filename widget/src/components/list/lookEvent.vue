@@ -27,25 +27,25 @@
           <li class="item-content">
             <div class="todo-content">
               <div class="item-title">上报地址</div>
-              <div class="item-after">{{dataDetail.address}}</div>
+              <div style="color:#888">{{dataDetail.address}}</div>
             </div>
           </li>
           <li class="item-content">
             <div class="todo-content">
               <div class="item-title">问题标题</div>
-              <div class="item-after">{{dataDetail.title}}</div>
+              <div style="color:#888">{{dataDetail.title}}</div>
             </div>
           </li>
           <li class="item-content">
             <div class="todo-content">
               <div class="item-title">问题描述</div>
-              <div class="item-after">{{dataDetail.description}}</div>
+              <div style="color:#888">{{dataDetail.description}}</div>
             </div>
           </li>
           <li class="item-content" v-if="!undone">
             <div class="todo-content">
               <div class="item-title">办案结果</div>
-              <div class="item-after">{{dataDetail.handle}}</div>
+              <div style="color:#888">{{dataDetail.handle}}</div>
             </div>
           </li>
         </ul>
@@ -55,7 +55,7 @@
           <li class="item-content">
             <div class="item-inner">
               <div class="item-title">核查结果</div>
-              <div class="item-after">{{dataDetail.results == 1 ? '结案' : '未解决'}}</div>
+              <div style="color:#888">{{dataDetail.results == 1 ? '结案' : '未解决'}}</div>
             </div>
           </li>
           <li class="item-content">
@@ -83,6 +83,18 @@
                 </div>
             </div>
           </li>
+          <li class="align-top">
+              <div class="address-content">
+                  <div class="address-title">附件</div>
+                  <div class="inner-img">
+                    <div class="img-border-file" v-for="(item, index) in dataDetail.files" :key="index" @click="openImg(item)">
+                      <img :src="`${HOST}${item}`"/>
+                    </div>
+                  </div>
+                  <!-- <div class="file-upload">+
+                  </div> -->
+              </div>
+          </li>
           <li class="look-record" @click="pushRecordPage()">
             <span>
               <svg class="icon" aria-hidden="true">
@@ -91,20 +103,13 @@
             </span>
             <span>查看处理记录</span>
           </li>
-          <li class="align-top">
-              <div class="address-content">
-                  <div class="address-title">附件</div>
-                  <div>
-                    <img v-for="(item, index) in dataDetail.files" :key="index" :src="`${HOST}${item}`"/>
-                  </div>
-                  <!-- <div class="file-upload">+
-                  </div> -->
-              </div>
-          </li>
         </ul>
       </div>
     </div>
     <div v-if="isLoading" style="position:fixed;top:0;left:0;width:100%;height:100%;background:#000;opacity:0.2;z-index:999;padding-top:100px;"><loading></loading></div>
+    <div v-if="hasBigImg" class="bigImgBorder" @click="closeImg()">
+        <img class="bigImg" :src="`${HOST}${bigImgSrc}`"/>
+    </div>
   </div>
 </template>
 
@@ -118,7 +123,9 @@ export default {
       undone: true,
       hasDone: false,
       HOST: window.HOST,
-      isLoading: false
+      isLoading: false,
+      bigImgSrc: '',
+      hasBigImg: false
     }
   },
   created() {
@@ -130,6 +137,13 @@ export default {
   mounted() {
   },
   methods: {
+    openImg(src) {
+      this.bigImgSrc = src
+      this.hasBigImg = true
+    },
+    closeImg() {
+      this.hasBigImg = false
+    },
     getEventDetail() {
       this.isLoading = true
       let id = this.$route.query.id
@@ -232,5 +246,35 @@ export default {
   padding-left: 1rem !important;
   font-size:0.7rem;
   color:#64ABFB;
+  padding-bottom: 1rem !important;
+}
+.img-border-file{
+  width:30%;
+  margin:3px;
+  max-height:150px;
+  overflow:hidden;
+  display:inline-block;
+}
+.img-border-file img{
+  width:100%;
+}
+.bigImgBorder{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    z-index:20;
+    background:#000;
+}
+.bigImgBorder img {
+    width:100%;
+    max-height:100%;
+    position:absolute;
+    top:0;
+    left:0;
+    bottom:0;
+    right:0;
+    margin:auto;
 }
 </style>

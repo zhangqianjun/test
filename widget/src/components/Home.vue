@@ -37,28 +37,34 @@ import apiMap from 'assets/js/map.js'
             }
             window.timer = setInterval(function() {
                 var aMap = api.require('aMap');
-                let nameBack = (ret) => {
-                    let param = {
-                        lon: ret.longitude,
-                        lat: ret.latitude
-                    }
-                    this.lng = ret.longitude
-                    this.lat = ret.latitude
-                    let namesBack = (res) => {
-                        this.address = res.address
+                let data = {}
+                let openCallBack = (res) => {
+                    let nameBack = (ret) => {
+                        aMap.stopLocation();
+                        // aMap.close()
                         let param = {
-                            lng: this.lng,
-                            lat: this.lat,
-                            address: this.address
+                            lon: ret.lon,
+                            lat: ret.lat
                         }
-                        let success = (res) => {
-                            console.log(res)
+                        this.lng = ret.lon
+                        this.lat = ret.lat
+                        let namesBack = (res) => {
+                            this.address = res.address
+                            let param = {
+                                lng: this.lng,
+                                lat: this.lat,
+                                address: this.address
+                            }
+                            let success = (res) => {
+                                console.log(res)
+                            }
+                            $http.postAddress(api, param, success)
                         }
-                        $http.postAddress(api, param, success)
+                        apiMap.getAdress(aMap, param, namesBack)
                     }
-                    apiMap.getAdress(aMap, param, namesBack)
-                }
-                apiMap.getLocation(api, nameBack)
+                    apiMap.getLocation(aMap, nameBack)
+                }  
+                apiMap.openMap(api, aMap, data, openCallBack)
             }, 60000)
         },
         methods: {

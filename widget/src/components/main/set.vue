@@ -17,7 +17,8 @@
             @change="uploadFile($event)" />
             <div class="item-inner">
             <div class="item-title">修改头像</div>
-            <img :src="`${HOST}${userImg}`"/>
+            <img v-if="userImg" :src="`${HOST}${userImg}`"/>
+            <img v-if="!userImg" :src="`/res/images/user.png`" />
             </div>
         </li>
         <li class="item-content item-link" @click="goPassChangeToast()">

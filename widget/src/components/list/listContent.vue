@@ -22,7 +22,7 @@
     import listTab from './listTab'
     import listItem from './listItem'
     export default {
-        props: ['showList'],
+        props: ['showList', 'ifRecord'],
         data() {
             return {
                 myTodo: true,
@@ -31,6 +31,7 @@
                 needList: [],
                 doneList: [],
                 historyList: [],
+
                 // showList: []
             }
         },
@@ -39,7 +40,7 @@
         },
         methods: {
             goFlowInfo(item, index) {
-                if (this.myTodo) {
+                if (this.ifRecord == 1) {
                     if (item.eventType == 1) {
                         router.push({ name: 'todoDetails', params: {id: item.id} ,query: {id: item.id}})
                     } else if (item.eventType == 2) {

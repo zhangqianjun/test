@@ -6,8 +6,8 @@ const mapApi = {
             rect: {
                 x: 0,
                 y: 65,
-                w: param.width,
-                h: param.height
+                w: param.width || 0,
+                h: param.height || 0
             },
             showUserLocation: true,
             zoomLevel: 11,
@@ -26,16 +26,16 @@ const mapApi = {
         });
     },
     // 获取当前位置得经纬度
-    // getlocation(obj, callback) {
-    //     obj.getLocation(function(ret, err) {
-    //         if (ret.status) {
-    //             callback(ret)
-    //         } else {
-    //             alert(JSON.stringify(err));
-    //         }
-    //     });
-    // },
     getLocation(obj, callback) {
+        obj.getLocation(function(ret, err) {
+            if (ret.status) {
+                callback(ret)
+            } else {
+                alert(JSON.stringify(err));
+            }
+        });
+    },
+    getApiLocation(obj, callback) {
             obj.getLocation(function(ret, err) {
                 if (ret.status) {
                     callback(ret)

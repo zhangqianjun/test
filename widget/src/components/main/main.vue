@@ -17,7 +17,8 @@
                     </p>
                 </div>
                 <div class="person-title">
-                    <img :src="`${HOST}${userInfo.photo}`" />
+                    <img v-if="userInfo.photo" :src="`${HOST}${userInfo.photo}`" />
+                    <img v-if="!userInfo.photo" src="`/res/images/user.png`" />
                     <div class="person-name">
                         <div class="person-line">
                             <span class="name">{{userInfo.name}}</span>
@@ -83,7 +84,7 @@
             :class="historyRecord ? 'active' : ''"
             @click="getHistoryList()">历史记录</a>
         </div>
-        <list-content v-if="!isLoading" :showList="showList">
+        <list-content v-if="!isLoading" :showList="showList" :ifRecord="ifRecord">
         </list-content>
         <popup v-if="selectLine" @ifopen="ifopen()" @changeState="changeState()"></popup>
         <loading v-if="isLoading"></loading>
@@ -110,10 +111,13 @@
                 needList: [],
                 doneList: [],
                 historyList: [],
-                showList: []
+                showList: [],
+                ifRecord: 1
             }
         },
         created() {
+            this.ifRecord = 1
+            this.showList = []
             api.setStatusBarStyle({
                 style: 'light'
             });
@@ -212,21 +216,27 @@
             getAdress(callback) {
                 this.addressName = '定位中...'
                 var aMap = api.require('aMap');
-                let nameBack = (ret) => {
-                    let param = {
-                        lon: ret.longitude,
-                        lat: ret.latitude
-                    }
-                    let namesBack = (res) => {
-                        this.addressName = res.district + res.building
-                        if (callback) {
-                            callback(res.district + res.building)
+                let data = {}
+                let openCallBack = (res) => {
+                    let nameBack = (ret) => {
+                        let param = {
+                            lon: ret.lon,
+                            lat: ret.lat
                         }
-                        
+                        aMap.close()
+                        aMap.stopLocation();
+                        let namesBack = (res) => {
+                            this.addressName = res.district + res.street
+                            if (callback) {
+                                callback(res.district + res.building)
+                            }
+                            
+                        }
+                        apiMap.getAdress(aMap, param, namesBack)
                     }
-                    apiMap.getAdress(aMap, param, namesBack)
+                    apiMap.getLocation(aMap, nameBack)
                 }
-                apiMap.getLocation(api, nameBack)
+                apiMap.openMap(api, aMap, data, openCallBack)
             },
             infinite() {
             },
@@ -235,18 +245,21 @@
                 this.todayDo = false
                 this.historyRecord = false
                 this.showList = this.needList
+                this.ifRecord = 1
             },
             getTodayList() {
                 this.myTodo = false
                 this.todayDo = true
                 this.historyRecord = false
                 this.showList = this.doneList
+                this.ifRecord = 2
             },
             getHistoryList() {
                 this.myTodo = false
                 this.todayDo = false
                 this.historyRecord = true
                 this.showList = this.historyList
+                this.ifRecord = 3
             },
             getproList() {
                 this.myTodo = true

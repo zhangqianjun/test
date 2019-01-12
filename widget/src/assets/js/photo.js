@@ -15,7 +15,7 @@ const photoApi = {
                 if (ret.data) {
                     callback(ret)
                 } else {
-                    alert(JSON.stringify(err));
+                    // alert(JSON.stringify(err));
                 }
             });
     },
@@ -43,7 +43,7 @@ const photoApi = {
             if (ret.status) {
                 callback(ret)
             } else {
-                alert(JSON.stringify(err));
+                // alert(JSON.stringify(err));
             }
         })
     },

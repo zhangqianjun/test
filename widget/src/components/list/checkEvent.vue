@@ -51,12 +51,24 @@
               <div class="item-content-line">{{dataDetail.handle}}</div>
             </div>
           </li>
+          <li class="align-top">
+              <div class="address-content">
+                  <div class="address-title">图片信息</div>
+                  <div class="imgBorder">
+                    <!-- <div style="width:100%;height:50px;" v-if="dataDetail.files.length == 0">无</div> -->
+                    <div v-for="(item, index) in dataDetail.files" :key="index" @click="getBigImg(item)">
+                      <img class="imgSize" :src="`${HOST}${item}`"/>
+                    </div>
+                  </div>
+              </div>
+          </li>
         </ul>
       </div>
       <div class="list-block" v-if="alldone">
         <ul>
           <li class="item-content">
             <div class="item-inner">
+              <span style="color: red;padding-right:5px;">* </span>
               <div class="item-title label">核查结果</div>
               <div class="item-input selectItem">
                   <select v-model="results">
@@ -69,6 +81,7 @@
           </li>
           <li class="item-content">
             <div class="item-inner">
+              <span style="color: red;padding-right:5px;">* </span>
               <div class="item-title label">群众满意度</div>
                     <div class="item-input selectItem">
                         <select v-model="mass">
@@ -83,6 +96,7 @@
             <div class="item-inner">
               <!-- <div class="item-title">结果评价</div> -->
               <!-- <div class="item-after">合格</div> -->
+              <span style="color: red;padding-right:5px;">* </span>
               <div class="item-title label">结果评价</div>
                     <div class="item-input selectItem">
                         <select dir="rtl" v-model="evaluation">
@@ -99,7 +113,7 @@
         <ul>
           <li v-if="alldone">
             <div class="address-content">
-                <div class="address-title">结案意见</div>
+                <div class="address-title"><span style="color: red;padding-right:5px;">* </span>结案意见</div>
                 <div class="address-input">
                   <textarea v-model="opinion"></textarea>
                 </div>
@@ -107,11 +121,20 @@
           </li>
           <li v-if="isdeal">
             <div class="address-content">
-                <div class="address-title">处理结果说明</div>
+                <div class="address-title"><span style="color: red;padding-right:5px;">* </span>处理结果说明</div>
                 <div class="address-input">
                   <textarea v-model="result"></textarea>
                 </div>
             </div>
+          </li>
+          <li class="align-top">
+              <div class="address-content">
+                  <div class="address-title"><span v-if="!isdeal"  style="color: red;padding-right:5px;">* </span>附件</div>
+                  <upload @inputFile="inputFile"></upload>
+                  <!-- <div class="file-upload">+ -->
+                      <!-- <upload @inputFile="inputFile"></upload> -->
+                  <!-- </div> -->
+              </div>
           </li>
           <li class="look-record" @click="pushRecordPage()">
             <span>
@@ -120,16 +143,6 @@
               </svg>
             </span>
             <span>查看处理记录</span>
-          </li>
-          <li class="align-top">
-              <div class="address-content">
-                  <div class="address-title">附件</div>
-                  <div class="imgBorder">
-                    <div v-for="(item, index) in dataDetail.files" :key="index" @click="getBigImg(item)">
-                      <img class="imgSize" :src="`${HOST}${item}`"/>
-                    </div>
-                  </div>
-              </div>
           </li>
         </ul>
       </div>
@@ -144,21 +157,23 @@
 <script>
 import apiMap from 'assets/js/map.js'
 import loading from '../common/loading.vue'
+import upload from 'components/form/upload.vue'
 export default {
   data() {
     return {
       dataDetail: [],
       result:'',
-      results: '',
-      mass: '',
-      evaluation: '',
+      results: '1',
+      mass: '1',
+      evaluation: '1',
       opinion: '',
       alldone: false,
       isdeal: false,
       HOST: window.HOST,
       isLoading: false,
       bigImg: false,
-      bigImgSrc: ''
+      bigImgSrc: '',
+      eventfile: []
     }
   },
   created() {
@@ -170,6 +185,9 @@ export default {
   mounted() {
   },
   methods: {
+    inputFile(files) {
+      this.eventfile = files
+    },
     closeBigImg() {
       this.bigImg = false
     },
@@ -184,7 +202,6 @@ export default {
         eventId: id
       }
       let callback = (res) => {
-        console.log(res.data)
         this.isLoading = false
         this.dataDetail = res.data
         let status = this.dataDetail.state
@@ -204,9 +221,20 @@ export default {
     },
     postEvent() {
       if (this.isdeal) {
+        if (!(this.result.length > 0)) {
+          api.toast({
+              msg: '请输入处理结果说明',
+              duration: 2000,
+              location: 'middle'
+            })
+            return
+        }
         let param = {
-          eventId: this.$route.query.id,
-          result: this.result
+          info: {
+            files: this.eventfile,
+            eventId: this.$route.query.id,
+            result: this.result
+          }
         }
         let callback = (res) => {
           api.toast({
@@ -218,8 +246,25 @@ export default {
         }
         $http.dealEvent(api, param, callback)
       } else if (this.alldone) {
+        if (!(this.opinion.length>0)) {
+          api.toast({
+              msg: '请输入结案意见',
+              duration: 2000,
+              location: 'middle'
+            })
+            return
+        }
+        if (!(this.eventfile.length > 0)) {
+          api.toast({
+              msg: '请上传附件',
+              duration: 2000,
+              location: 'middle'
+            })
+            return
+        }
         let param = {
           info: {
+            files: this.eventfile,
             eventId: this.$route.query.id,
             results: this.results,
             mass: this.mass,
@@ -247,7 +292,8 @@ export default {
     }
   },
   components: {
-    loading
+    loading,
+    upload
   }
 }
 </script>
