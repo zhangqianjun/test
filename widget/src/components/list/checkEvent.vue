@@ -6,7 +6,8 @@
       <button class="button pull-right" @click="postEvent()">
           提交
       </button>
-      <h1 class="title">核查问题</h1>
+      <h1 v-if="isdeal" class="title">处理问题</h1>
+      <h1 v-if="alldone" class="title">核查问题</h1>
     </header>
     <div class="content" style="padding-top: 25px;">
       <div class="list-block">

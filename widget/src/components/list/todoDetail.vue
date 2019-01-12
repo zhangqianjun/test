@@ -207,6 +207,7 @@ export default {
               lon: ret.lon,
               lat: ret.lat
             }
+            let firstAddress = 1
             // alert(this.dispatchDetail.lng)
             let openCallback = () => {
               // this.openMap = true
@@ -215,63 +216,51 @@ export default {
                       autoStop: false
                     },function(res, err) {
                         if (res.status) {
-                            // alert(JSON.stringify(ret));
-                    //     } else {
-                    //         alert(JSON.stringify(err));
-                    //     }
-                    // });
-                let param = {
-                  start: {
-                    lon: res.lon,
-                    lat: res.lat
-                  },
-                  end: {
-                    lon: ret.lon,
-                    lat: ret.lat
-                  }
-                }
-              let LineCallback = (res) => {
-                // this.isLoading = false
-                aMap.removeRoute({
-                  ids: [id]
-                });
-                  aMap.drawRoute({
-                    id: id,
-                    autoresizing: true,
-                    index: 0,
-                    styles: {
-                        walkLine: {
-                            width: 3,
-                            color: '#698B22',
-                            lineDash: false,
-                            strokeImg: ''
-                        },
-                        icons: {
-                            start: '',
-                            end: '',
-                            bus: '',
-                            car: '',
-                            man: ''
-                        }
-                    }
-                   });
-                  //  aMap.getLocation({
-                  //     autoStop: false
-                  //   },function(ret, err) {
-                  //       if (ret.status) {
-                  //           // alert(JSON.stringify(ret));
-                  //       } else {
-                  //           alert(JSON.stringify(err));
-                  //       }
-                  //   });
-              }
-              apiMap.getLine(aMap, id, param.start, param.end, LineCallback)
-              } else {
+                            if (firstAddress == 1) {
+                              alert(firstAddress)
+                              firstAddress ++
+                              let param = {
+                                start: {
+                                  lon: res.lon,
+                                  lat: res.lat
+                                },
+                                end: {
+                                  lon: ret.lon,
+                                  lat: ret.lat
+                                }
+                              }
+                              let LineCallback = (res) => {
+                                  aMap.drawRoute({
+                                    id: id,
+                                    autoresizing: true,
+                                    index: 0,
+                                    styles: {
+                                        walkLine: {
+                                            width: 3,
+                                            color: '#698B22',
+                                            lineDash: false,
+                                            strokeImg: ''
+                                        },
+                                        icons: {
+                                            start: '',
+                                            end: '',
+                                            bus: '',
+                                            car: '',
+                                            man: ''
+                                        }
+                                    }
+                                  });
+                              }
+                              apiMap.getLine(aMap, id, param.start, param.end, LineCallback)
+                            } else {
+                              aMap.showUserLocation({
+                                  isShow: true
+                              });
+                            }
+                        } else {
                             alert(JSON.stringify(err));
                         }
                     });
-              // }
-              // apiMap.getLocation(aMap, locationCallback)
             }
             apiMap.openMap(api, aMap, param, openCallback)
         });
@@ -280,6 +269,7 @@ export default {
       let id = this.$route.query.id
       this.openMap = false
       var aMap = api.require('aMap');
+      aMap.stopLocation();
       aMap.close();
       aMap.removeRoute({
         ids: [id]
