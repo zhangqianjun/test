@@ -43,7 +43,13 @@
                 vScrollBarEnabled: true,
                 hScrollBarEnabled: true
             });
-
+            api.addEventListener({
+                name: 'keyback'
+            }, function (ret, err) {
+                api.sendEvent({
+                    name: 'selfKeyBack'
+                })
+            });
         };
     </script>
 </body>
